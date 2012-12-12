@@ -17,7 +17,7 @@ public abstract class Versionable {
 	public Versionable() {
 		setId(null);
 		setActive(true);
-		Date date = DateHelper.generateCurrentDate();
+		final Date date = DateHelper.generateCurrentDate();
 		setUpdatedDate(date);
 	}
 
@@ -25,7 +25,7 @@ public abstract class Versionable {
 		this.id = id;
 	}
 
-	public String getId() {
+	public final String getId() {
 		return this.id;
 	}
 
@@ -33,12 +33,12 @@ public abstract class Versionable {
 		this.active = active;
 	}
 
-	public Boolean getActive() {
+	public final Boolean getActive() {
 		return this.active;
 	}
 
 	@JsonIgnore
-	public Date getUpdatedDate() {
+	public final Date getUpdatedDate() {
 		return this.updatedDate;
 	}
 
@@ -47,7 +47,7 @@ public abstract class Versionable {
 		this.updatedDate = updatedDate;
 	}
 
-	public Date getMeasurementDate() {
+	public final Date getMeasurementDate() {
 		return this.measurementDate;
 	}
 
@@ -55,11 +55,11 @@ public abstract class Versionable {
 		this.measurementDate = measurementDate;
 	}
 
-	public Integer getVersion() {
+	public final Integer getVersion() {
 		return this.version;
 	}
 
-	public void setVersion(Integer version) {
+	public void setVersion(final Integer version) {
 		this.version = version;
 	}
 }

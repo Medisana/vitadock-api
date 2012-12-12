@@ -7,35 +7,35 @@ public class Application {
 	private String applicationToken;
 	private String applicationSecret;
 
-	public String getUuid() {
+	public final String getUuid() {
 		return this.uuid;
 	}
 
-	public void setUuid(String id) {
+	public void setUuid(final String id) {
 		this.uuid = id;
 	}
 
-	public String getName() {
+	public final String getName() {
 		return this.name;
 	}
 
-	public void setName(String name) {
+	public void setName(final String name) {
 		this.name = name;
 	}
 
-	public String getApplicationToken() {
+	public final String getApplicationToken() {
 		return this.applicationToken;
 	}
 
-	public void setApplicationToken(String applicationToken) {
+	public void setApplicationToken(final String applicationToken) {
 		this.applicationToken = applicationToken;
 	}
 
-	public String getApplicationSecret() {
+	public final String getApplicationSecret() {
 		return this.applicationSecret;
 	}
 
-	public void setApplicationSecret(String applicationSecret) {
+	public void setApplicationSecret(final String applicationSecret) {
 		this.applicationSecret = applicationSecret;
 	}
 

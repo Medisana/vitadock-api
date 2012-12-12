@@ -11,11 +11,11 @@ public abstract class Token {
 		setToken(RandomStringUtils.randomAlphanumeric(TOKEN_LENGTH));
 	}
 
-	public String getToken() {
+	public final String getToken() {
 		return this.token;
 	}
 
-	public void setToken(String id) {
+	public void setToken(final String id) {
 		this.token = id;
 	}
 }

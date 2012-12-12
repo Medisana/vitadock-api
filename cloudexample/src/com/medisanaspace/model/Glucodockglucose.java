@@ -27,8 +27,8 @@ public class Glucodockglucose extends BaseModel {
 	private Integer bloodGlucoseTargetMax;
 	private String moduleSerialId;
 
-	public static com.medisanaspace.model.Glucodockglucose generateRandomEntry() {
-		Glucodockglucose glucodockglucose = new Glucodockglucose();
+	public static final Glucodockglucose generateRandomEntry() {
+		final Glucodockglucose glucodockglucose = new Glucodockglucose();
 		glucodockglucose.setBloodGlucose(RandomHelper.generateInt(
 				MIN_BLOOD_GLUCOSE, MAX_BLOOD_GLUCOSE));
 		glucodockglucose.setBloodGlucoseTargetMin(RandomHelper.generateInt(
@@ -45,57 +45,59 @@ public class Glucodockglucose extends BaseModel {
 		return glucodockglucose;
 	}
 
-	public Integer getBloodGlucose() {
+	public final Integer getBloodGlucose() {
 		return this.bloodGlucose;
 	}
 
-	public void setBloodGlucose(Integer bloodGlucose) {
+	public void setBloodGlucose(final Integer bloodGlucose) {
 		this.bloodGlucose = bloodGlucose;
 	}
 
-	public Integer getBloodGlucoseTargetMin() {
+	public final Integer getBloodGlucoseTargetMin() {
 		return this.bloodGlucoseTargetMin;
 	}
 
-	public void setBloodGlucoseTargetMin(Integer bloodGlucoseTargetMin) {
+	public void setBloodGlucoseTargetMin(final Integer bloodGlucoseTargetMin) {
 		this.bloodGlucoseTargetMin = bloodGlucoseTargetMin;
 	}
 
-	public Integer getBloodGlucoseTargetMax() {
+	public final Integer getBloodGlucoseTargetMax() {
 		return this.bloodGlucoseTargetMax;
 	}
 
-	public void setBloodGlucoseTargetMax(Integer bloodGlucoseTargetMax) {
+	public void setBloodGlucoseTargetMax(final Integer bloodGlucoseTargetMax) {
 		this.bloodGlucoseTargetMax = bloodGlucoseTargetMax;
 	}
 
-	public String toJson() {
+	public final String toJson() {
 		return new JSONSerializer().exclude("*.class").serialize(this);
 	}
 
-	public static Glucodockglucose fromJsonToGlucodockglucose(String json) {
+	public static final Glucodockglucose fromJsonToGlucodockglucose(
+			final String json) {
 		return new JSONDeserializer<Glucodockglucose>().use(null,
 				Glucodockglucose.class).deserialize(json);
 	}
 
-	public static String toJsonArray(Collection<Glucodockglucose> collection) {
+	public static final String toJsonArray(
+			final Collection<Glucodockglucose> collection) {
 		return new JSONSerializer().exclude("*.class").exclude("active")
 				.exclude("updatedDate").exclude("version")
 				.serialize(collection);
 	}
 
-	public static Collection<Glucodockglucose> fromJsonArrayToGlucodockglucoses(
-			String json) {
+	public static final Collection<Glucodockglucose> fromJsonArrayToGlucodockglucoses(
+			final String json) {
 		return new JSONDeserializer<List<Glucodockglucose>>()
 				.use(null, ArrayList.class)
 				.use("values", Glucodockglucose.class).deserialize(json);
 	}
 
-	public String getModuleSerialId() {
+	public final String getModuleSerialId() {
 		return this.moduleSerialId;
 	}
 
-	public void setModuleSerialId(String moduleSerialId) {
+	public void setModuleSerialId(final String moduleSerialId) {
 		this.moduleSerialId = moduleSerialId;
 	}
 }

@@ -11,9 +11,9 @@ import java.util.Date;
  */
 public class GlucodockmealFixture {
 
-	private Glucodockmeal glucodockMeal = null;
-	private Date expectedMeasurementDate;
-	private Integer expectedCarbohydrates;
+	private final Glucodockmeal glucodockMeal;
+	private final Date expectedMeasurementDate;
+	private final Integer expectedCarbohydrates;
 
 	public GlucodockmealFixture(final int index) {
 		this.glucodockMeal = new Glucodockmeal();
@@ -21,7 +21,7 @@ public class GlucodockmealFixture {
 		this.expectedMeasurementDate = new Date(new Date().getTime()
 				- (long) index * 3600L * 24L * 1000L);
 
-		this.expectedCarbohydrates = RandomHelper.generateLong(
+		this.expectedCarbohydrates = RandomHelper.generateInt(
 				Glucodockmeal.MIN_CARBOHYDRATES,
 				Glucodockmeal.MAX_CARBOHYDRATES);
 

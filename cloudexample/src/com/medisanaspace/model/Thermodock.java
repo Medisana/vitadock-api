@@ -27,8 +27,8 @@ public class Thermodock extends BaseModelWithoutMeal {
 	private Float bodyTemperatureTargetMax;
 	private String moduleSerialId;
 
-	public static com.medisanaspace.model.Thermodock generateRandomEntry() {
-		Thermodock thermodock = new Thermodock();
+	public static final Thermodock generateRandomEntry() {
+		final Thermodock thermodock = new Thermodock();
 		thermodock.setBodyTemperature(RandomHelper.generateFloat(
 				MIN_BODY_TEMPERATURE, MAX_BODY_TEMPERATURE));
 		thermodock.setBodyTemperatureTargetMin(RandomHelper.generateFloat(
@@ -49,52 +49,54 @@ public class Thermodock extends BaseModelWithoutMeal {
 		return this.bodyTemperature;
 	}
 
-	public void setBodyTemperature(Float bodyTemperature) {
+	public void setBodyTemperature(final Float bodyTemperature) {
 		this.bodyTemperature = bodyTemperature;
 	}
 
-	public Float getBodyTemperatureTargetMin() {
+	public final Float getBodyTemperatureTargetMin() {
 		return this.bodyTemperatureTargetMin;
 	}
 
-	public void setBodyTemperatureTargetMin(Float bodyTemperatureTargetMin) {
+	public void setBodyTemperatureTargetMin(final Float bodyTemperatureTargetMin) {
 		this.bodyTemperatureTargetMin = bodyTemperatureTargetMin;
 	}
 
-	public Float getBodyTemperatureTargetMax() {
+	public final Float getBodyTemperatureTargetMax() {
 		return this.bodyTemperatureTargetMax;
 	}
 
-	public void setBodyTemperatureTargetMax(Float bodyTemperatureTargetMax) {
+	public void setBodyTemperatureTargetMax(final Float bodyTemperatureTargetMax) {
 		this.bodyTemperatureTargetMax = bodyTemperatureTargetMax;
 	}
 
-	public String toJson() {
+	public final String toJson() {
 		return new JSONSerializer().exclude("*.class").serialize(this);
 	}
 
-	public static Thermodock fromJsonToThermodock(String json) {
+	public static final Thermodock fromJsonToThermodock(final String json) {
 		return new JSONDeserializer<Thermodock>().use(null, Thermodock.class)
 				.deserialize(json);
 	}
 
-	public static String toJsonArray(Collection<Thermodock> collection) {
+	public static final String toJsonArray(
+			final Collection<Thermodock> collection) {
 		return new JSONSerializer().exclude("*.class").exclude("active")
 				.exclude("updatedDate").exclude("version")
 				.serialize(collection);
 	}
 
-	public static Collection<Thermodock> fromJsonArrayToThermodocks(String json) {
+	public static final Collection<Thermodock> fromJsonArrayToThermodocks(
+			final String json) {
 		return new JSONDeserializer<List<Thermodock>>()
 				.use(null, ArrayList.class).use("values", Thermodock.class)
 				.deserialize(json);
 	}
 
-	public String getModuleSerialId() {
+	public final String getModuleSerialId() {
 		return this.moduleSerialId;
 	}
 
-	public void setModuleSerialId(String moduleSerialId) {
+	public void setModuleSerialId(final String moduleSerialId) {
 		this.moduleSerialId = moduleSerialId;
 	}
 }

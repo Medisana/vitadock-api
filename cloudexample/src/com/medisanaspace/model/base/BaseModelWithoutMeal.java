@@ -11,7 +11,7 @@ public abstract class BaseModelWithoutMeal extends Versionable {
 	private Integer mood;
 	private String note;
 
-	public Integer getActivityStatus() {
+	public final Integer getActivityStatus() {
 		return this.activityStatus;
 	}
 
@@ -19,7 +19,7 @@ public abstract class BaseModelWithoutMeal extends Versionable {
 		this.activityStatus = activityStatus;
 	}
 
-	public Integer getMood() {
+	public final Integer getMood() {
 		return this.mood;
 	}
 
@@ -27,7 +27,7 @@ public abstract class BaseModelWithoutMeal extends Versionable {
 		this.mood = mood;
 	}
 
-	public String getNote() {
+	public final String getNote() {
 		return this.note;
 	}
 

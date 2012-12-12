@@ -12,11 +12,11 @@ import java.util.Date;
  */
 public class GlucodockinsulinFixture {
 
-	private Glucodockinsulin glucodockInsulin = null;
-	private Date expectedMeasurementDate;
-	private Float expectedInsulin;
-	private Integer expectedInsulinTypeIndex;
-	private String expectedInsulinTypeName;
+	private final Glucodockinsulin glucodockInsulin;
+	private final Date expectedMeasurementDate;
+	private final Float expectedInsulin;
+	private final Integer expectedInsulinTypeIndex;
+	private final String expectedInsulinTypeName;
 
 	public GlucodockinsulinFixture(final int index) {
 		this.glucodockInsulin = new Glucodockinsulin();
@@ -26,18 +26,18 @@ public class GlucodockinsulinFixture {
 
 		this.expectedInsulin = RandomHelper.generateFloat(
 				Glucodockinsulin.MIN_INSULIN, Glucodockinsulin.MAX_INSULIN);
-		this.expectedInsulinTypeIndex = RandomHelper.generateLong(
+		this.expectedInsulinTypeIndex = RandomHelper.generateInt(
 				Glucodockinsulin.MIN_INSULIN_TYPE_INDEX,
 				Glucodockinsulin.MAX_INSULIN_TYPE_INDEX);
 		switch (this.expectedInsulinTypeIndex) {
-		case 0:
-			this.expectedInsulinTypeName = "Insulinaspart";
-			break;
 		case 1:
 			this.expectedInsulinTypeName = "Insulin glulisin";
 			break;
 		case 2:
 			this.expectedInsulinTypeName = "Insulin detemir";
+			break;
+		default:
+			this.expectedInsulinTypeName = "Insulinaspart";
 			break;
 		}
 

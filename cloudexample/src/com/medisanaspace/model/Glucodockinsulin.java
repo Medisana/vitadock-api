@@ -29,7 +29,7 @@ public class Glucodockinsulin extends Versionable {
 	private String insulinTypeName3;
 
 	public static com.medisanaspace.model.Glucodockinsulin generateRandomEntry() {
-		Glucodockinsulin glucodockinsulin = new Glucodockinsulin();
+		final Glucodockinsulin glucodockinsulin = new Glucodockinsulin();
 		glucodockinsulin.setInsulin(RandomHelper.generateFloat(MIN_INSULIN,
 				MAX_INSULIN));
 		glucodockinsulin.setInsulinTypeIndex(RandomHelper.generateInt(
@@ -43,69 +43,70 @@ public class Glucodockinsulin extends Versionable {
 		return new JSONSerializer().exclude("*.class").serialize(this);
 	}
 
-	public static Glucodockinsulin fromJsonToGlucodockinsulin(String json) {
+	public static Glucodockinsulin fromJsonToGlucodockinsulin(final String json) {
 		return new JSONDeserializer<Glucodockinsulin>().use(null,
 				Glucodockinsulin.class).deserialize(json);
 	}
 
-	public static String toJsonArray(Collection<Glucodockinsulin> collection) {
+	public static String toJsonArray(
+			final Collection<Glucodockinsulin> collection) {
 		return new JSONSerializer().exclude("*.class").exclude("active")
 				.exclude("updatedDate").exclude("version")
 				.serialize(collection);
 	}
 
 	public static Collection<Glucodockinsulin> fromJsonArrayToGlucodockinsulins(
-			String json) {
+			final String json) {
 		return new JSONDeserializer<List<Glucodockinsulin>>()
 				.use(null, ArrayList.class)
 				.use("values", Glucodockinsulin.class).deserialize(json);
 	}
 
-	public String getModuleSerialId() {
+	public final String getModuleSerialId() {
 		return this.moduleSerialId;
 	}
 
-	public void setModuleSerialId(String moduleSerialId) {
+	public void setModuleSerialId(final String moduleSerialId) {
 		this.moduleSerialId = moduleSerialId;
 	}
 
-	public String getInsulinTypeName2() {
+	public final String getInsulinTypeName2() {
 		return this.insulinTypeName2;
 	}
 
-	public void setInsulinTypeName2(String insulinTypeName2) {
+	public void setInsulinTypeName2(final String insulinTypeName2) {
 		this.insulinTypeName2 = insulinTypeName2;
 	}
 
-	public String getInsulinTypeName3() {
+	public final String getInsulinTypeName3() {
 		return this.insulinTypeName3;
 	}
 
-	public void setInsulinTypeName3(String insulinTypeName3) {
+	public void setInsulinTypeName3(final String insulinTypeName3) {
 		this.insulinTypeName3 = insulinTypeName3;
 	}
 
-	public Float getInsulin() {
+	public final Float getInsulin() {
 		return this.insulin;
 	}
 
-	public void setInsulin(Float insulin) {
+	public void setInsulin(final Float insulin) {
 		this.insulin = insulin;
 	}
 
-	public Integer getInsulinTypeIndex() {
+	public final Integer getInsulinTypeIndex() {
 		return this.insulinTypeIndex;
 	}
 
-	public void setInsulinTypeIndex(Integer insulinTypeIndex) {
+	public void setInsulinTypeIndex(final Integer insulinTypeIndex) {
 		this.insulinTypeIndex = insulinTypeIndex;
 	}
 
-	public String getInsulinTypeName() {
+	public final String getInsulinTypeName() {
 		return this.insulinTypeName;
 	}
 
-	public void setInsulinTypeName(String insulinTypeName) {
+	public void setInsulinTypeName(final String insulinTypeName) {
 		this.insulinTypeName = insulinTypeName;
 	}
 }

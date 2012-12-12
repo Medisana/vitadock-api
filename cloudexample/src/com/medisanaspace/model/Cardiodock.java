@@ -67,8 +67,8 @@ public class Cardiodock extends BaseModelWithoutMeal {
 	private Integer arrhythmic;
 	private String moduleSerialId;
 
-	public static com.medisanaspace.model.Cardiodock generateRandomEntry() {
-		Cardiodock cardiodock = new Cardiodock();
+	public static final Cardiodock generateRandomEntry() {
+		final Cardiodock cardiodock = new Cardiodock();
 		cardiodock.setSystoleTargetMin(RandomHelper.generateInt(
 				MIN_SYSTOLE_TARGET_MIN, MAX_SYSTOLE_TARGET_MIN));
 		cardiodock.setSystoleTargetMax(RandomHelper.generateInt(
@@ -97,120 +97,122 @@ public class Cardiodock extends BaseModelWithoutMeal {
 		return cardiodock;
 	}
 
-	public String toJson() {
+	public final String toJson() {
 		return new JSONSerializer().exclude("*.class").serialize(this);
 	}
 
-	public static Cardiodock fromJsonToCardiodock(String json) {
+	public static final Cardiodock fromJsonToCardiodock(final String json) {
 		return new JSONDeserializer<Cardiodock>().use(null, Cardiodock.class)
 				.deserialize(json);
 	}
 
-	public static String toJsonArray(Collection<Cardiodock> collection) {
+	public static final String toJsonArray(
+			final Collection<Cardiodock> collection) {
 		return new JSONSerializer().exclude("*.class").exclude("active")
 				.exclude("updatedDate").exclude("version").exclude("id")
 				.serialize(collection);
 	}
 
-	public static Collection<Cardiodock> fromJsonArrayToCardiodocks(String json) {
+	public static final Collection<Cardiodock> fromJsonArrayToCardiodocks(
+			final String json) {
 		return new JSONDeserializer<List<Cardiodock>>()
 				.use(null, ArrayList.class).use("values", Cardiodock.class)
 				.deserialize(json);
 	}
 
-	public Integer getSystole() {
+	public final Integer getSystole() {
 		return this.systole;
 	}
 
-	public void setSystole(Integer systole) {
+	public void setSystole(final Integer systole) {
 		this.systole = systole;
 	}
 
-	public Integer getDiastole() {
+	public final Integer getDiastole() {
 		return this.diastole;
 	}
 
-	public void setDiastole(Integer diastole) {
+	public void setDiastole(final Integer diastole) {
 		this.diastole = diastole;
 	}
 
-	public Integer getPulse() {
+	public final Integer getPulse() {
 		return this.pulse;
 	}
 
-	public void setPulse(Integer pulse) {
+	public void setPulse(final Integer pulse) {
 		this.pulse = pulse;
 	}
 
-	public Integer getSystoleTargetMin() {
+	public final Integer getSystoleTargetMin() {
 		return this.systoleTargetMin;
 	}
 
-	public void setSystoleTargetMin(Integer systoleTargetMin) {
+	public void setSystoleTargetMin(final Integer systoleTargetMin) {
 		this.systoleTargetMin = systoleTargetMin;
 	}
 
-	public Integer getSystoleTargetMax() {
+	public final Integer getSystoleTargetMax() {
 		return this.systoleTargetMax;
 	}
 
-	public void setSystoleTargetMax(Integer systoleTargetMax) {
+	public void setSystoleTargetMax(final Integer systoleTargetMax) {
 		this.systoleTargetMax = systoleTargetMax;
 	}
 
-	public Integer getDiastoleTargetMin() {
+	public final Integer getDiastoleTargetMin() {
 		return this.diastoleTargetMin;
 	}
 
-	public void setDiastoleTargetMin(Integer diastoleTargetMin) {
+	public void setDiastoleTargetMin(final Integer diastoleTargetMin) {
 		this.diastoleTargetMin = diastoleTargetMin;
 	}
 
-	public Integer getDiastoleTargetMax() {
+	public final Integer getDiastoleTargetMax() {
 		return this.diastoleTargetMax;
 	}
 
-	public void setDiastoleTargetMax(Integer diastoleTargetMax) {
+	public void setDiastoleTargetMax(final Integer diastoleTargetMax) {
 		this.diastoleTargetMax = diastoleTargetMax;
 	}
 
-	public Integer getPulseTargetMin() {
+	public final Integer getPulseTargetMin() {
 		return this.pulseTargetMin;
 	}
 
-	public void setPulseTargetMin(Integer pulseTargetMin) {
+	public void setPulseTargetMin(final Integer pulseTargetMin) {
 		this.pulseTargetMin = pulseTargetMin;
 	}
 
-	public Integer getPulseTargetMax() {
+	public final Integer getPulseTargetMax() {
 		return this.pulseTargetMax;
 	}
 
-	public void setPulseTargetMax(Integer pulseTargetMax) {
+	public void setPulseTargetMax(final Integer pulseTargetMax) {
 		this.pulseTargetMax = pulseTargetMax;
 	}
 
-	public Integer getType() {
+	public final Integer getType() {
 		return this.type;
 	}
 
-	public void setType(Integer type) {
+	public void setType(final Integer type) {
 		this.type = type;
 	}
 
-	public Integer getArrhythmic() {
+	public final Integer getArrhythmic() {
 		return this.arrhythmic;
 	}
 
-	public void setArrhythmic(Integer arrhythmic) {
+	public void setArrhythmic(final Integer arrhythmic) {
 		this.arrhythmic = arrhythmic;
 	}
 
-	public String getModuleSerialId() {
+	public final String getModuleSerialId() {
 		return this.moduleSerialId;
 	}
 
-	public void setModuleSerialId(String moduleSerialId) {
+	public void setModuleSerialId(final String moduleSerialId) {
 		this.moduleSerialId = moduleSerialId;
 	}
 }

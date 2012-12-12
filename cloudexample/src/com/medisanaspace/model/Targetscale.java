@@ -57,8 +57,8 @@ public class Targetscale extends BaseModel {
 	private Integer athletic;
 	private String moduleSerialId;
 
-	public static com.medisanaspace.model.Targetscale generateRandomEntry() {
-		Targetscale targetscale = new Targetscale();
+	public static Targetscale generateRandomEntry() {
+		final Targetscale targetscale = new Targetscale();
 		targetscale.setBodyWeight(RandomHelper.generateFloat(MIN_BODY_WEIGHT,
 				MAX_BODY_WEIGHT));
 		targetscale.setBodyFat(RandomHelper.generateFloat(MIN_BODY_FAT,
@@ -83,105 +83,106 @@ public class Targetscale extends BaseModel {
 		return targetscale;
 	}
 
-	public String toJson() {
+	public final String toJson() {
 		return new JSONSerializer().exclude("*.class").serialize(this);
 	}
 
-	public static Targetscale fromJsonToTargetscale(String json) {
+	public static final Targetscale fromJsonToTargetscale(final String json) {
 		return new JSONDeserializer<Targetscale>().use(null, Targetscale.class)
 				.deserialize(json);
 	}
 
-	public static String toJsonArray(Collection<Targetscale> collection) {
+	public static final String toJsonArray(
+			final Collection<Targetscale> collection) {
 		return new JSONSerializer().exclude("*.class").exclude("active")
 				.exclude("updatedDate").exclude("version")
 				.serialize(collection);
 	}
 
-	public static Collection<Targetscale> fromJsonArrayToTargetscales(
-			String json) {
+	public static final Collection<Targetscale> fromJsonArrayToTargetscales(
+			final String json) {
 		return new JSONDeserializer<List<Targetscale>>()
 				.use(null, ArrayList.class).use("values", Targetscale.class)
 				.deserialize(json);
 	}
 
-	public String getModuleSerialId() {
+	public final String getModuleSerialId() {
 		return this.moduleSerialId;
 	}
 
-	public void setModuleSerialId(String moduleSerialId) {
+	public void setModuleSerialId(final String moduleSerialId) {
 		this.moduleSerialId = moduleSerialId;
 	}
 
-	public Float getBodyWeight() {
+	public final Float getBodyWeight() {
 		return this.bodyWeight;
 	}
 
-	public void setBodyWeight(Float bodyWeight) {
+	public void setBodyWeight(final Float bodyWeight) {
 		this.bodyWeight = bodyWeight;
 	}
 
-	public Float getBodyFat() {
+	public final Float getBodyFat() {
 		return this.bodyFat;
 	}
 
-	public void setBodyFat(Float bodyFat) {
+	public void setBodyFat(final Float bodyFat) {
 		this.bodyFat = bodyFat;
 	}
 
-	public Float getBmi() {
+	public final Float getBmi() {
 		return this.bmi;
 	}
 
-	public void setBmi(Float bmi) {
+	public void setBmi(final Float bmi) {
 		this.bmi = bmi;
 	}
 
-	public Float getMuscleMass() {
+	public final Float getMuscleMass() {
 		return this.muscleMass;
 	}
 
-	public void setMuscleMass(Float muscleMass) {
+	public void setMuscleMass(final Float muscleMass) {
 		this.muscleMass = muscleMass;
 	}
 
-	public Float getBoneMass() {
+	public final Float getBoneMass() {
 		return this.boneMass;
 	}
 
-	public void setBoneMass(Float boneMass) {
+	public void setBoneMass(final Float boneMass) {
 		this.boneMass = boneMass;
 	}
 
-	public Float getBodyWater() {
+	public final Float getBodyWater() {
 		return this.bodyWater;
 	}
 
-	public void setBodyWater(Float bodyWater) {
+	public void setBodyWater(final Float bodyWater) {
 		this.bodyWater = bodyWater;
 	}
 
-	public Integer getKcal() {
+	public final Integer getKcal() {
 		return this.kcal;
 	}
 
-	public void setKcal(Integer kcal) {
+	public void setKcal(final Integer kcal) {
 		this.kcal = kcal;
 	}
 
-	public Float getTargetWeight() {
+	public final Float getTargetWeight() {
 		return this.targetWeight;
 	}
 
-	public void setTargetWeight(Float targetWeight) {
+	public void setTargetWeight(final Float targetWeight) {
 		this.targetWeight = targetWeight;
 	}
 
-	public Integer getAthletic() {
+	public final Integer getAthletic() {
 		return this.athletic;
 	}
 
-	public void setAthletic(Integer athletic) {
+	public void setAthletic(final Integer athletic) {
 		this.athletic = athletic;
 	}
 }

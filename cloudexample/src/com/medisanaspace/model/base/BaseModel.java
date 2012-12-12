@@ -6,7 +6,7 @@ public abstract class BaseModel extends BaseModelWithoutMeal {
 
 	private Integer mealStatus;
 
-	public Integer getMealStatus() {
+	public final Integer getMealStatus() {
 		return this.mealStatus;
 	}
 

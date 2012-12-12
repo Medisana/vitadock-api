@@ -11,7 +11,7 @@ import org.apache.http.client.methods.HttpRequestBase;
  * 
  */
 public class HeaderPrinter {
-	public static void printPost(HttpRequestBase httppost) {
+	public static void printPost(final HttpRequestBase httppost) {
 		System.out.println("Request " + httppost.getMethod() + " URL:"
 				+ httppost.getURI());
 		for (Header header : httppost.getAllHeaders()) {

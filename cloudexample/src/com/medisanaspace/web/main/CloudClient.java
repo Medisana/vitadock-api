@@ -27,17 +27,17 @@ public class CloudClient {
 
 	/*
 	 * These are test applications on the test server and productive server
-	 * (localhost only works if deployed on the test server). Note to also
-	 * switch the server URLs in VitaDockServer.
+	 * (localhost only works if deployed on the test server, you can ignore that
+	 * one). Note to also switch the server URLs (see VitaDockServer.java).
 	 */
-	private static final String APPLICATION_TOKEN = "kpVxi8aRrPB9RphDLixM5uacLU99UZ2g8gEtiwWEfRr7BY99D9ifTmhnLmTLKbEM";
+	private static final String APPLICATION_TOKEN = "5bS2TiPfe6oRo5ihqwgDwwTmyGWZFyqvKGAmjUDayw1xS4vyVB9KJU9EC9lebxwV";
 	// cloud.vitadock.com
 	// "wqR6Tu245t1VVPViJTJGvcf2AkW3G06niYsn655AG3umZS3s6E6fAXvSkiEhrYTm"
 	// localhost
 	// "kpVxi8aRrPB9RphDLixM5uacLU99UZ2g8gEtiwWEfRr7BY99D9ifTmhnLmTLKbEM";
 	// vitacloud.medisanaspace.com
 	// "5bS2TiPfe6oRo5ihqwgDwwTmyGWZFyqvKGAmjUDayw1xS4vyVB9KJU9EC9lebxwV";
-	private static final String APPLICATION_SECRET = "Pwb81Dc7lR4F6FWejDBmkNrLJfFxeXlc3GmFlBm41nJL9x5pDG0kGovdSdiZWPJc";
+	private static final String APPLICATION_SECRET = "F4MffyvaMAXJCMghbAjbry2wk66FgbKK9iTfh5WzntoaM1aYyev3ujyT1LSZbpfh";
 
 	// cloud.vitadock.com
 	// "WSc3hplyunPa4SgLncJFKthZWZTdsJy4uZFXEgJ308GCnZq3eY1xGeJVJWUePGhp"
@@ -51,7 +51,7 @@ public class CloudClient {
 		DefaultHttpClient httpClient = new DefaultHttpClient();
 		HttpPost httppost = null;
 		String str = null;
-		BufferedReader br = null;
+		BufferedReader bufferReader = null;
 		HttpResponse response = null;
 
 		String oauthToken = "";
@@ -68,13 +68,13 @@ public class CloudClient {
 		 * exchanges the application token with the device token.
 		 */
 
-		boolean mobile = false;
+		final boolean mobile = false;
 
 		if (mobile) {
-			String uriDeviceRequest = VitaDockServer.HTTPS_AUTH_URL
+			final String uriDeviceRequest = VitaDockServer.HTTPS_AUTH_URL
 					+ "/devices";
 			httppost = new HttpPost(uriDeviceRequest);
-			String authorization = AuthorizationBuilder
+			final String authorization = AuthorizationBuilder
 					.createUnauthorizedAccessRequestAuthorizationHeader(
 							uriDeviceRequest, APPLICATION_TOKEN,
 							APPLICATION_SECRET);
@@ -84,10 +84,10 @@ public class CloudClient {
 
 			response = httpClient.execute(httppost);
 			try {
-				br = new BufferedReader(new InputStreamReader(response
+				bufferReader = new BufferedReader(new InputStreamReader(response
 						.getEntity().getContent()));
-				StringBuffer strBuffer = new StringBuffer();
-				while ((str = br.readLine()) != null) {
+				final StringBuffer strBuffer = new StringBuffer();
+				while ((str = bufferReader.readLine()) != null) {
 					strBuffer.append(str);
 				}
 
@@ -99,8 +99,8 @@ public class CloudClient {
 				deviceToken = str.split("&")[0].split("=")[1];
 				deviceSecret = str.split("&")[1].split("=")[1];
 			} finally {
-				if (br != null) {
-					br.close();
+				if (bufferReader != null) {
+					bufferReader.close();
 				}
 				httpClient.getConnectionManager().shutdown();
 			}
@@ -125,10 +125,10 @@ public class CloudClient {
 		response = httpClient.execute(httppost);
 
 		try {
-			br = new BufferedReader(new InputStreamReader(response.getEntity()
+			bufferReader = new BufferedReader(new InputStreamReader(response.getEntity()
 					.getContent()));
-			StringBuffer strBuffer = new StringBuffer();
-			while ((str = br.readLine()) != null) {
+			final StringBuffer strBuffer = new StringBuffer();
+			while ((str = bufferReader.readLine()) != null) {
 				strBuffer.append(str);
 			}
 
@@ -140,8 +140,8 @@ public class CloudClient {
 			oauthToken = str.split("&")[0].split("=")[1];
 			oauthSecret = str.split("&")[1].split("=")[1];
 		} finally {
-			if (br != null) {
-				br.close();
+			if (bufferReader != null) {
+				bufferReader.close();
 			}
 			httpClient.getConnectionManager().shutdown();
 		}
@@ -169,7 +169,7 @@ public class CloudClient {
 		// --- Check Verifier Token ---
 		uriOauthRequest = VitaDockServer.HTTPS_AUTH_URL + "/accesses/verify";
 		httpClient = new DefaultHttpClient();
-		br = null;
+		bufferReader = null;
 		try {
 			authorization = AuthorizationBuilder
 					.createAccessRequestAuthorizationHeader(deviceToken,
@@ -183,10 +183,10 @@ public class CloudClient {
 
 			response = httpClient.execute(httppost);
 			str = null;
-			br = new BufferedReader(new InputStreamReader(response.getEntity()
+			bufferReader = new BufferedReader(new InputStreamReader(response.getEntity()
 					.getContent()));
 			try {
-				while ((str = br.readLine()) != null) {
+				while ((str = bufferReader.readLine()) != null) {
 					System.out.println("    Response: " + str
 							+ "\n--------------");
 					accessToken = str.split("&")[0].split("=")[1];
@@ -198,13 +198,13 @@ public class CloudClient {
 				throw e;
 			}
 		} finally {
-			if (br != null) {
-				br.close();
+			if (bufferReader != null) {
+				bufferReader.close();
 			}
 			httpClient.getConnectionManager().shutdown();
 		}
 
-		// --- Execute deletion of all data (works only for the test server) ---
+		// --- Execute deletion of all data (note: works only for the test server) ---
 		/**
 		 * TestTask.deleteAllData(deviceToken, deviceSecret,
 		 * AuthorizationBuilder.CARDIODOCK_MODULE_ID, accessToken,
@@ -230,14 +230,14 @@ public class CloudClient {
 	}
 
 	private static String readLine() {
-		String s = "";
+		String string = "";
 		try {
 			InputStreamReader converter = new InputStreamReader(System.in);
 			BufferedReader in = new BufferedReader(converter);
-			s = in.readLine();
+			string = in.readLine();
 		} catch (Exception e) {
 			System.out.println("Error! Exception: " + e);
 		}
-		return s;
+		return string;
 	}
 }
