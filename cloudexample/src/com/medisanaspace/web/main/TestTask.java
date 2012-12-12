@@ -29,11 +29,20 @@ import com.medisanaspace.model.fixture.ThermodockFixture;
 import com.medisanaspace.web.library.AuthorizationBuilder;
 import com.medisanaspace.web.library.HeaderPrinter;
 
+/**
+ * Worker task that uploads, retrieves and deletes data on the server.
+ * 
+ * @author Clemens Lode (c) Medisana Space Technologies GmbH, 2012
+ *         clemens.lode@medisanaspace.com
+ * 
+ */
 public class TestTask {
 
 	public static final int DELETE_TIME_ID = 0;
 	public static final int SYNC_TIME_ID = 1;
 	public static final int SAVE_TIME_ID = 2;
+
+	private static final String ENCODING = "UTF-8";
 
 	private long maxEntries = 100;
 	private static final String AUTHORIZATION_STRING = "Authorization";
@@ -54,13 +63,14 @@ public class TestTask {
 	}
 
 	public void run() throws Exception {
-		List<Cardiodock> cardiodockList = new ArrayList<Cardiodock>();
-		List<Glucodockglucose> glucodockglucoseList = new ArrayList<Glucodockglucose>();
-		List<Glucodockinsulin> glucodockinsulinList = new ArrayList<Glucodockinsulin>();
-		List<Glucodockmeal> glucodockmealList = new ArrayList<Glucodockmeal>();
-		List<Targetscale> targetscaleList = new ArrayList<Targetscale>();
-		List<Thermodock> thermodockList = new ArrayList<Thermodock>();
+		final List<Cardiodock> cardiodockList = new ArrayList<Cardiodock>();
+		final List<Glucodockglucose> glucodockglucoseList = new ArrayList<Glucodockglucose>();
+		final List<Glucodockinsulin> glucodockinsulinList = new ArrayList<Glucodockinsulin>();
+		final List<Glucodockmeal> glucodockmealList = new ArrayList<Glucodockmeal>();
+		final List<Targetscale> targetscaleList = new ArrayList<Targetscale>();
+		final List<Thermodock> thermodockList = new ArrayList<Thermodock>();
 
+		// fill the lists with generated random entries
 		int index = 0;
 		for (int i = 0; i < this.maxEntries; i++) {
 			if (RandomHelper.generateBoolean()
@@ -152,17 +162,16 @@ public class TestTask {
 			}
 		}
 
+		// upload generated data to the server
 		String responseCardiodock = saveRandomArrayJSONData(this.deviceToken,
 				this.deviceSecret, Cardiodock.toJsonArray(cardiodockList),
 				AuthorizationBuilder.CARDIODOCK_MODULE_ID, this.accessToken,
 				this.accessSecret);
-
 		String responseGlucodockglucose = saveRandomArrayJSONData(
 				this.deviceToken, this.deviceSecret,
 				Glucodockglucose.toJsonArray(glucodockglucoseList),
 				AuthorizationBuilder.GLUCODOCK_GLUCOSE_MODULE_ID,
 				this.accessToken, this.accessSecret);
-
 		String responseGlucodockinsulin = saveRandomArrayJSONData(
 				this.deviceToken, this.deviceSecret,
 				Glucodockinsulin.toJsonArray(glucodockinsulinList),
@@ -173,48 +182,53 @@ public class TestTask {
 				Glucodockmeal.toJsonArray(glucodockmealList),
 				AuthorizationBuilder.GLUCODOCK_MEAL_MODULE_ID,
 				this.accessToken, this.accessSecret);
-
 		String responseTargetscale = saveRandomArrayJSONData(this.deviceToken,
 				this.deviceSecret, Targetscale.toJsonArray(targetscaleList),
 				AuthorizationBuilder.TARGETSCALE_MODULE_ID, this.accessToken,
 				this.accessSecret);
-
 		String responseThermodock = saveRandomArrayJSONData(this.deviceToken,
 				this.deviceSecret, Thermodock.toJsonArray(thermodockList),
 				AuthorizationBuilder.THERMODOCK_MODULE_ID, this.accessToken,
 				this.accessSecret);
+
+		// retrieve the ids from the response
+		Collection<String> idCardiodockList = StringUtil
+				.fromJsonArrayToStrings(responseCardiodock);
+		Collection<String> idGlucodockglucoseList = StringUtil
+				.fromJsonArrayToStrings(responseGlucodockglucose);
+		Collection<String> idGlucodockinsulinList = StringUtil
+				.fromJsonArrayToStrings(responseGlucodockinsulin);
+		Collection<String> idGlucodockmealList = StringUtil
+				.fromJsonArrayToStrings(responseGlucodockmeal);
+		Collection<String> idTargetscaleList = StringUtil
+				.fromJsonArrayToStrings(responseTargetscale);
+		Collection<String> idThermodockList = StringUtil
+				.fromJsonArrayToStrings(responseThermodock);
+
+		// count the data
+		int countCardiodock = countData(this.deviceToken, this.deviceSecret,
+				AuthorizationBuilder.CARDIODOCK_MODULE_ID, this.accessToken,
+				this.accessSecret);
+		int countGlucodockglucose = countData(this.deviceToken,
+				this.deviceSecret,
+				AuthorizationBuilder.GLUCODOCK_GLUCOSE_MODULE_ID,
+				this.accessToken, this.accessSecret);
+		int countGlucodockinsulin = countData(this.deviceToken,
+				this.deviceSecret,
+				AuthorizationBuilder.GLUCODOCK_INSULIN_MODULE_ID,
+				this.accessToken, this.accessSecret);
+		int countGlucodockmeal = countData(this.deviceToken, this.deviceSecret,
+				AuthorizationBuilder.GLUCODOCK_MEAL_MODULE_ID,
+				this.accessToken, this.accessSecret);
+		int countTargetscale = countData(this.deviceToken, this.deviceSecret,
+				AuthorizationBuilder.TARGETSCALE_MODULE_ID, this.accessToken,
+				this.accessSecret);
+		int countThermodock = countData(this.deviceToken, this.deviceSecret,
+				AuthorizationBuilder.THERMODOCK_MODULE_ID, this.accessToken,
+				this.accessSecret);
+
+		// delete the data from the server
 		/*
-		 * int countCardiodock = countData(this.deviceToken, this.deviceSecret,
-		 * AuthorizationBuilder.CARDIODOCK_MODULE_ID, this.accessToken,
-		 * this.accessSecret); int countGlucodockglucose =
-		 * countData(this.deviceToken, this.deviceSecret,
-		 * AuthorizationBuilder.GLUCODOCK_GLUCOSE_MODULE_ID, this.accessToken,
-		 * this.accessSecret); int countGlucodockinsulin =
-		 * countData(this.deviceToken, this.deviceSecret,
-		 * AuthorizationBuilder.GLUCODOCK_INSULIN_MODULE_ID, this.accessToken,
-		 * this.accessSecret); int countGlucodockmeal =
-		 * countData(this.deviceToken, this.deviceSecret,
-		 * AuthorizationBuilder.GLUCODOCK_MEAL_MODULE_ID, this.accessToken,
-		 * this.accessSecret); int countTargetscale =
-		 * countData(this.deviceToken, this.deviceSecret,
-		 * AuthorizationBuilder.TARGETSCALE_MODULE_ID, this.accessToken,
-		 * this.accessSecret); int countThermodock = countData(this.deviceToken,
-		 * this.deviceSecret, AuthorizationBuilder.THERMODOCK_MODULE_ID,
-		 * this.accessToken, this.accessSecret);
-		 * 
-		 * Collection<String> idCardiodockList = StringUtil
-		 * .fromJsonArrayToStrings(responseCardiodock); Collection<String>
-		 * idGlucodockglucoseList = StringUtil
-		 * .fromJsonArrayToStrings(responseGlucodockglucose); Collection<String>
-		 * idGlucodockinsulinList = StringUtil
-		 * .fromJsonArrayToStrings(responseGlucodockinsulin); Collection<String>
-		 * idGlucodockmealList = StringUtil
-		 * .fromJsonArrayToStrings(responseGlucodockmeal); Collection<String>
-		 * idTargetscaleList = StringUtil
-		 * .fromJsonArrayToStrings(responseTargetscale); Collection<String>
-		 * idThermodockList = StringUtil
-		 * .fromJsonArrayToStrings(responseThermodock);
-		 * 
 		 * deleteJSONData(this.deviceToken, this.deviceSecret,
 		 * AuthorizationBuilder.CARDIODOCK_MODULE_ID, this.accessToken,
 		 * this.accessSecret, idCardiodockList);
@@ -233,33 +247,50 @@ public class TestTask {
 		 * deleteJSONData(this.deviceToken, this.deviceSecret,
 		 * AuthorizationBuilder.THERMODOCK_MODULE_ID, this.accessToken,
 		 * this.accessSecret, idThermodockList);
-		 * 
-		 * responseCardiodock = syncData(this.deviceToken, this.deviceSecret,
-		 * AuthorizationBuilder.CARDIODOCK_MODULE_ID, this.accessToken,
-		 * this.accessSecret);
-		 * 
-		 * responseGlucodockglucose = syncData(this.deviceToken,
-		 * this.deviceSecret, AuthorizationBuilder.GLUCODOCK_GLUCOSE_MODULE_ID,
-		 * this.accessToken, this.accessSecret);
-		 * 
-		 * responseGlucodockinsulin = syncData(this.deviceToken,
-		 * this.deviceSecret, AuthorizationBuilder.GLUCODOCK_INSULIN_MODULE_ID,
-		 * this.accessToken, this.accessSecret);
-		 * 
-		 * responseGlucodockmeal = syncData(this.deviceToken, this.deviceSecret,
-		 * AuthorizationBuilder.GLUCODOCK_MEAL_MODULE_ID, this.accessToken,
-		 * this.accessSecret);
-		 * 
-		 * responseTargetscale = syncData(this.deviceToken, this.deviceSecret,
-		 * AuthorizationBuilder.TARGETSCALE_MODULE_ID, this.accessToken,
-		 * this.accessSecret);
-		 * 
-		 * responseThermodock = syncData(this.deviceToken, this.deviceSecret,
-		 * AuthorizationBuilder.THERMODOCK_MODULE_ID, this.accessToken,
-		 * this.accessSecret);
 		 */
+
+		// retrieve the data back from the server (note that the active flag is
+		// set to zero if you uncomment the deletion process above)
+		responseCardiodock = syncData(this.deviceToken, this.deviceSecret,
+				AuthorizationBuilder.CARDIODOCK_MODULE_ID, this.accessToken,
+				this.accessSecret);
+		responseGlucodockglucose = syncData(this.deviceToken,
+				this.deviceSecret,
+				AuthorizationBuilder.GLUCODOCK_GLUCOSE_MODULE_ID,
+				this.accessToken, this.accessSecret);
+		responseGlucodockinsulin = syncData(this.deviceToken,
+				this.deviceSecret,
+				AuthorizationBuilder.GLUCODOCK_INSULIN_MODULE_ID,
+				this.accessToken, this.accessSecret);
+		responseGlucodockmeal = syncData(this.deviceToken, this.deviceSecret,
+				AuthorizationBuilder.GLUCODOCK_MEAL_MODULE_ID,
+				this.accessToken, this.accessSecret);
+		responseTargetscale = syncData(this.deviceToken, this.deviceSecret,
+				AuthorizationBuilder.TARGETSCALE_MODULE_ID, this.accessToken,
+				this.accessSecret);
+		responseThermodock = syncData(this.deviceToken, this.deviceSecret,
+				AuthorizationBuilder.THERMODOCK_MODULE_ID, this.accessToken,
+				this.accessSecret);
 	}
 
+	/**
+	 * Count the number of entries for this module.
+	 * 
+	 * @param token
+	 *            The application/device token
+	 * @param secret
+	 *            The application/device secret
+	 * @param moduleId
+	 *            The module id (0-5)
+	 * @param accessToken
+	 *            The access token
+	 * @param accessSecret
+	 *            The access secret
+	 * @return the number of entries for this module
+	 * @throws Exception
+	 *             if there was an error communicating with the server or
+	 *             constructing the request.
+	 */
 	private static int countData(final String token, final String secret,
 			final int moduleId, final String accessToken,
 			final String accessSecret) throws Exception {
@@ -276,31 +307,51 @@ public class TestTask {
 
 		HttpResponse response = httpClient.execute(httpget);
 		return Integer.parseInt(IOUtils.toString(response.getEntity()
-				.getContent(), "UTF-8"));
+				.getContent(), ENCODING));
 	}
 
+	/**
+	 * Copy data to the server.
+	 * 
+	 * @param token
+	 *            The application/device token
+	 * @param secret
+	 *            The application/device secret
+	 * @param jsonString
+	 *            The string with the JSON data to submit
+	 * @param moduleId
+	 *            The module id (0-5)
+	 * @param accessToken
+	 *            The access token
+	 * @param accessSecret
+	 *            The access secret
+	 * @return the server response (a JSON string with the generated ids if the
+	 *         process was successful).
+	 * @throws Exception
+	 *             if there was an error communicating with the server or
+	 *             constructing the request.
+	 */
 	private static String saveRandomArrayJSONData(final String token,
-			final String secret, final String parameterString,
-			final int moduleId, final String accessToken,
-			final String accessSecret) throws Exception {
+			final String secret, final String jsonString, final int moduleId,
+			final String accessToken, final String accessSecret)
+			throws Exception {
 
 		String authorization = AuthorizationBuilder
 				.createSaveDataRequestAuthorizationHeader(
 						AuthorizationBuilder.createRequestArrayUrl(moduleId),
-						parameterString, token, secret, accessToken,
-						accessSecret);
+						jsonString, token, secret, accessToken, accessSecret);
 		HttpPost httppost = new HttpPost(
 				AuthorizationBuilder.createRequestArrayUrl(moduleId));
 		httppost.setHeader(AUTHORIZATION_STRING, authorization);
 		httppost.setHeader("Content-Type", "application/json;charset=utf-8");
 		DefaultHttpClient httpClient = new DefaultHttpClient();
-		httppost.setEntity(new StringEntity(parameterString, "UTF-8"));
+		httppost.setEntity(new StringEntity(jsonString, ENCODING));
 
 		HeaderPrinter.printPost(httppost);
 
 		HttpResponse response = httpClient.execute(httppost);
 		String responseString = IOUtils.toString(response.getEntity()
-				.getContent(), "UTF-8");
+				.getContent(), ENCODING);
 
 		System.out.println("    Response: " + responseString
 				+ "\n--------------");
@@ -308,6 +359,25 @@ public class TestTask {
 
 	}
 
+	/**
+	 * Delete data on the server.
+	 * 
+	 * @param token
+	 *            The application/device token
+	 * @param secret
+	 *            The application/device secret
+	 * @param moduleId
+	 *            The module id (0-5)
+	 * @param accessToken
+	 *            The access token
+	 * @param accessSecret
+	 *            The access secret
+	 * @param idList
+	 *            A collection of ids to be deleted on the server
+	 * @throws Exception
+	 *             if there was an error communicating with the server or
+	 *             constructing the request.
+	 */
 	private static void deleteJSONData(final String token, final String secret,
 			final int moduleId, final String accessToken,
 			final String accessSecret, final Collection<String> idList)
@@ -333,6 +403,24 @@ public class TestTask {
 		HttpResponse response = httpClient.execute(httppost);
 	}
 
+	/**
+	 * Function to retrieve data since a certain date.
+	 * 
+	 * @param token
+	 *            The application/device token
+	 * @param secret
+	 *            The application/device secret
+	 * @param moduleId
+	 *            The module id (0-5)
+	 * @param accessToken
+	 *            The access token
+	 * @param accessSecret
+	 *            The access secret
+	 * @return the JSON data from the server (or an error message).
+	 * @throws Exception
+	 *             if there was an error communicating with the server or
+	 *             constructing the request.
+	 */
 	private static String loadData(final String token, final String secret,
 			final int moduleId, final String accessToken,
 			final String accessSecret) throws Exception {
@@ -353,9 +441,27 @@ public class TestTask {
 
 		HeaderPrinter.printPost(httpget);
 		HttpResponse response = httpClient.execute(httpget);
-		return IOUtils.toString(response.getEntity().getContent(), "UTF-8");
+		return IOUtils.toString(response.getEntity().getContent(), ENCODING);
 	}
 
+	/**
+	 * Function to retrieve data since a certain date.
+	 * 
+	 * @param token
+	 *            The application/device token
+	 * @param secret
+	 *            The application/device secret
+	 * @param moduleId
+	 *            The module id (0-5)
+	 * @param accessToken
+	 *            The access token
+	 * @param accessSecret
+	 *            The access secret
+	 * @return the JSON data from the server (or an error message).
+	 * @throws Exception
+	 *             if there was an error communicating with the server or
+	 *             constructing the request.
+	 */
 	private static String syncData(final String token, final String secret,
 			final int moduleId, final String accessToken,
 			final String accessSecret) throws Exception {
@@ -378,7 +484,7 @@ public class TestTask {
 		HttpResponse response = httpClient.execute(httpget);
 		InputStream testStream = response.getEntity().getContent();
 		byte[] bytes = IOUtils.toByteArray(testStream);
-		String responseString = new String(bytes, "UTF-8");
+		String responseString = new String(bytes, ENCODING);
 
 		System.out.println("    Response: " + responseString
 				+ "\n--------------");
@@ -386,6 +492,25 @@ public class TestTask {
 		return responseString;
 	}
 
+	/**
+	 * Delete all entries permanently on the server for this module and user
+	 * (note: works only on the test server).
+	 * 
+	 * @param token
+	 *            The application/device token
+	 * @param secret
+	 *            The application/device secret
+	 * @param moduleId
+	 *            The module id (0-5)
+	 * @param accessToken
+	 *            The access token
+	 * @param accessSecret
+	 *            The access secret
+	 * @return the number of deleted entries.
+	 * @throws Exception
+	 *             if there was an error communicating with the server or
+	 *             constructing the request.
+	 */
 	public static int deleteAllData(final String token, final String secret,
 			final int moduleId, final String accessToken,
 			final String accessSecret) throws Exception {
@@ -402,7 +527,7 @@ public class TestTask {
 
 		HttpResponse response = httpClient.execute(httppost);
 		String responseString = IOUtils.toString(response.getEntity()
-				.getContent(), "UTF-8");
+				.getContent(), ENCODING);
 		int number = 0;
 		try {
 			number = Integer.parseInt(responseString);

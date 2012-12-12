@@ -1,12 +1,12 @@
 package com.medisanaspace.web.library;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang3.RandomStringUtils;
 
+import com.medisanaspace.library.MapUtil;
 import com.medisanaspace.library.StringUtil;
 
 /**
@@ -54,10 +54,10 @@ public final class AuthorizationBuilder {
 	public static String createUnauthorizedAccessRequestAuthorizationHeader(
 			final String requestUrl, final String applicationToken,
 			final String applicationSecret) throws Exception {
-		String timestamp = Long.toString(new Date().getTime());
-		String nonce = RandomStringUtils.randomAlphanumeric(NONCE_LENGTH);
+		final String timestamp = Long.toString(new Date().getTime());
+		final String nonce = RandomStringUtils.randomAlphanumeric(NONCE_LENGTH);
 
-		Map<String, String> signatureMap = new HashMap<String, String>();
+		final Map<String, String> signatureMap = new HashMap<String, String>();
 
 		signatureMap.put(SignatureHelper.OAUTH_CONSUMER_KEY_STRING,
 				applicationToken);
@@ -68,17 +68,17 @@ public final class AuthorizationBuilder {
 		signatureMap.put(SignatureHelper.OAUTH_VERSION_STRING,
 				SignatureHelper.VERSION);
 
-		String baseParameterString = SignatureHelper.createBaseParameterString(
+		final String baseParameterString = MapUtil.createBaseParameterString(
 				signatureMap, null);
 
-		String baseSignatureString = SignatureHelper
+		final String baseSignatureString = SignatureHelper
 				.calculateBaseSignatureString(POST_STRING, requestUrl,
 						baseParameterString);
 
-		String signature = SignatureHelper.calculateSignature(
+		final String signature = SignatureHelper.calculateSignature(
 				baseSignatureString, applicationSecret, null);
 
-		String authorization = SignatureHelper.OAUTH_STRING
+		final String authorization = SignatureHelper.OAUTH_STRING
 				+ SignatureHelper.OAUTH_CONSUMER_KEY_STRING + "=\""
 				+ applicationToken + "\","
 				+ SignatureHelper.OAUTH_SIGNATURE_METHOD_STRING + "=\""
@@ -135,7 +135,7 @@ public final class AuthorizationBuilder {
 		signatureMap.put(SignatureHelper.OAUTH_VERSION_STRING,
 				SignatureHelper.VERSION);
 
-		String baseParameterString = SignatureHelper.createBaseParameterString(
+		String baseParameterString = MapUtil.createBaseParameterString(
 				signatureMap, null);
 
 		String baseSignatureString = SignatureHelper
@@ -207,7 +207,7 @@ public final class AuthorizationBuilder {
 		signatureMap.put(SignatureHelper.OAUTH_VERSION_STRING,
 				SignatureHelper.VERSION);
 
-		String baseParameterString = SignatureHelper.createBaseParameterString(
+		String baseParameterString = MapUtil.createBaseParameterString(
 				signatureMap, null);
 
 		if (StringUtil.isNotNullOrEmpty(parameterString)) {
@@ -294,7 +294,7 @@ public final class AuthorizationBuilder {
 		signatureMap.put(SignatureHelper.OAUTH_VERSION_STRING,
 				SignatureHelper.VERSION);
 
-		String baseParameterString = SignatureHelper.createBaseParameterString(
+		String baseParameterString = MapUtil.createBaseParameterString(
 				signatureMap, parameterString);
 
 		String baseSignatureString = SignatureHelper
@@ -320,14 +320,15 @@ public final class AuthorizationBuilder {
 	}
 
 	public static String createCountDataRequestAuthorizationHeader(
-			final String dateSince, String requestUrl, String applicationToken,
-			String applicationSecret, String accessToken, String accessSecret)
+			final String dateSince, final String requestUrl,
+			final String applicationToken, final String applicationSecret,
+			final String accessToken, final String accessSecret)
 			throws Exception {
-		String parameterString = DATE_SINCE_STRING + "=" + dateSince;
-		String timestamp = Long.toString(new Date().getTime());
-		String nonce = RandomStringUtils.randomAlphanumeric(NONCE_LENGTH);
+		final String parameterString = DATE_SINCE_STRING + "=" + dateSince;
+		final String timestamp = Long.toString(new Date().getTime());
+		final String nonce = RandomStringUtils.randomAlphanumeric(NONCE_LENGTH);
 
-		Map<String, String> signatureMap = new HashMap<String, String>();
+		final Map<String, String> signatureMap = new HashMap<String, String>();
 
 		signatureMap.put(SignatureHelper.OAUTH_CONSUMER_KEY_STRING,
 				applicationToken);
@@ -339,7 +340,7 @@ public final class AuthorizationBuilder {
 		signatureMap.put(SignatureHelper.OAUTH_VERSION_STRING,
 				SignatureHelper.VERSION);
 
-		String baseParameterString = SignatureHelper.createBaseParameterString(
+		String baseParameterString = MapUtil.createBaseParameterString(
 				signatureMap, parameterString);
 
 		String baseSignatureString = SignatureHelper

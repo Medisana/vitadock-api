@@ -32,28 +32,20 @@ public final class HmacShaEncoder {
 	 * @throws java.security.SignatureException
 	 *             when signature generation fails
 	 */
-	public static String calculateRFC2104HMAC(final String data,
+	public static byte[] calculateRFC2104HMAC(final String data,
 			final String key) throws java.security.SignatureException {
+
+		// get an hmac_sha256 key from the raw key bytes
+		SecretKeySpec signingKey = new SecretKeySpec(key.getBytes(),
+				HMAC_SHA256_ALGORITHM);
 		try {
-
-			// get an hmac_sha256 key from the raw key bytes
-			SecretKeySpec signingKey = new SecretKeySpec(key.getBytes(),
-					HMAC_SHA256_ALGORITHM);
-
 			// get an hmac_sha256 Mac instance and initialize with the signing
 			// key
 			Mac mac = Mac.getInstance(HMAC_SHA256_ALGORITHM);
 			mac.init(signingKey);
 
 			// compute the hmac on input data bytes
-			byte[] rawHmac = mac.doFinal(data.getBytes());
-
-			StringBuffer buf = new StringBuffer();
-			for (final byte element : rawHmac) {
-				buf.append(Integer.toString((element & 0xff) + 0x100, 16)
-						.substring(1));
-			}
-			return buf.toString();
+			return mac.doFinal(data.getBytes());
 		} catch (Exception e) {
 			throw new SignatureException("Failed to generate HMAC : "
 					+ e.getMessage());

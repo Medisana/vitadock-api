@@ -8,8 +8,8 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import com.medisanaspace.library.HmacShaEncoder;
-import com.medisanaspace.library.MapUtil;
 import com.medisanaspace.library.StringUtil;
+import org.apache.commons.codec.binary.Base64;
 
 /**
  * Helper class to calculate the signature and check the authorization header.
@@ -31,20 +31,35 @@ public final class SignatureHelper {
 	public static final String OAUTH_SIGNATURE_STRING = "oauth_signature";
 
 	public static final String SIGNATURE_METHOD = "HMAC-SHA256";
-	public static final String VERSION = "1.0a";
+	public static final String VERSION = "1.0";
 	public static final String ENCODING = "UTF-8";
 	public static final String OAUTH_STRING = "OAuth ";
 
 	private SignatureHelper() {
 	}
 
+	/**
+	 * Creates the encoded base signature string.
+	 * 
+	 * @param method
+	 *            The HTTP method (GET or POST)
+	 * @param requestUrl
+	 *            The URL where the data was sent to or received from
+	 * @param baseParameterString
+	 *            The sorted base parameter string containing the OAuth
+	 *            parameters and additional function parameters (e.g.
+	 *            'date_since=0&max=10')
+	 * @return An URL encoded string consisting of a combination of the method,
+	 *         the URL and the base parameter string and by URL encoding the
+	 *         result.
+	 * @throws Exception
+	 */
 	public static String calculateBaseSignatureString(final String method,
 			final String requestUrl, final String baseParameterString)
 			throws Exception {
 
 		String baseSignatureString = null;
-
-		String realRequestUrl = requestUrl.replace("http://", "https://");
+		final String realRequestUrl = requestUrl.replace("http://", "https://");
 
 		try {
 			baseSignatureString = method + "&"
@@ -60,6 +75,26 @@ public final class SignatureHelper {
 		return baseSignatureString;
 	}
 
+	/**
+	 * Calculates the signature encoding it with HMAC SHA256 and Base64 using
+	 * the encoded base signature string and the secrets.
+	 * 
+	 * @param baseSignatureString
+	 *            The URL encoded base signature string with method, URL, OAuth
+	 *            parameters and function parameters (e.g.
+	 *            'date_since=0&max=10')
+	 * @param consumerSecret
+	 *            The application secret
+	 * @param tokenSecret
+	 *            The access secret
+	 * @return a short string containing the signature. This signature will be
+	 *         compared on the server side in order to test if the secrets are
+	 *         valid and if the message was not changed during transportation to
+	 *         the server.
+	 * @throws Exception
+	 *             if there was an error calculating the signature (e.g. missing
+	 *             internal methods).
+	 */
 	public static String calculateSignature(final String baseSignatureString,
 			final String consumerSecret, final String tokenSecret)
 			throws Exception {
@@ -68,58 +103,69 @@ public final class SignatureHelper {
 			secrets += tokenSecret;
 		}
 		try {
-			String signature = Base64.encodeString(HmacShaEncoder
-					.calculateRFC2104HMAC(baseSignatureString, secrets));
-			return URLEncoder.encode(signature, ENCODING);
+			return URLEncoder.encode(
+					new String(Base64.encodeBase64(HmacShaEncoder
+							.calculateRFC2104HMAC(baseSignatureString, secrets))), ENCODING);
 		} catch (SignatureException e) {
 			Logger.getLogger(SignatureHelper.class.getName()).log(
 					Level.SEVERE,
-					"Could not calculate signature [" + e.toString()
+					"Could not calculate signature [" + e.toString() + ", "
+							+ StringUtil.getStackTraceAsString(e)
 							+ "] (BaseSignatureString: " + baseSignatureString
 							+ ").");
 			throw new Exception("Could not calculate signature.");
 		}
-
 	}
 
+	/**
+	 * Do some basic checks on a received authorization string from the server
+	 * and extract the OAuth parameters.
+	 * 
+	 * @param authorization
+	 *            The complete authorization header string
+	 * @return A map with name/value pairs of the individual OAuth parameters
+	 * @throws Exception
+	 *             if there was a problem with one of the parameters or the
+	 *             whole OAuth parameter string (e.g. missing parameter).
+	 */
 	public static Map<String, String> checkBasicAuthorization(
 			final String authorization) throws Exception {
 
 		if (!"OAuth ".equals(authorization.substring(0, 6))) {
-			String errorString = "Missing \"OAuth\" element at the beginning (entry is missing \"=\": "
+			final String errorString = "Missing \"OAuth\" element at the beginning (entry is missing \"=\": "
 					+ authorization + ").";
 			Logger.getLogger(SignatureHelper.class.getName()).log(
 					Level.WARNING, errorString);
 			throw new Exception("Missing \"OAuth\" element at the beginning.");
 		}
-		String auth = authorization.substring(6);
+		final String auth = authorization.substring(6);
 
-		String[] authorizationList = auth.split(",");
-		Map<String, String> authorizationMap = new HashMap<String, String>();
+		final String[] authorizationList = auth.split(",");
+		final Map<String, String> authorizationMap = new HashMap<String, String>();
 		for (String authorizationString : authorizationList) {
-			String[] pair = authorizationString.split("=");
+			final String[] pair = authorizationString.split("=");
 			if (pair.length != 2) {
-				String errorString = "Invalid authorization header (entry is missing \"=\":"
+				final String errorString = "Invalid authorization header (entry is missing \"=\":"
 						+ auth + ").";
 				Logger.getLogger(SignatureHelper.class.getName()).log(
 						Level.WARNING, errorString);
 				throw new Exception(
 						"Invalid authorization header (entry is missing \"=\")");
 			}
-			String key = pair[0];
-			String value = pair[1].replaceAll("\"", "");
+			final String key = pair[0];
+			final String value = pair[1].replaceAll("\"", "");
 			authorizationMap.put(key.trim(), value);
 		}
 
-		String oauthToken = authorizationMap.get(OAUTH_TOKEN_STRING);
-		String consumerKey = authorizationMap.get(OAUTH_CONSUMER_KEY_STRING);
-		String signatureMethod = authorizationMap
+		final String oauthToken = authorizationMap.get(OAUTH_TOKEN_STRING);
+		final String consumerKey = authorizationMap.get(OAUTH_CONSUMER_KEY_STRING);
+		final String signatureMethod = authorizationMap
 				.get(OAUTH_SIGNATURE_METHOD_STRING);
-		String timestamp = authorizationMap.get(OAUTH_TIMESTAMP_STRING);
-		String nonce = authorizationMap.get(OAUTH_NONCE_STRING);
-		String verifierToken = authorizationMap
+		final String timestamp = authorizationMap.get(OAUTH_TIMESTAMP_STRING);
+		final String nonce = authorizationMap.get(OAUTH_NONCE_STRING);
+		final String verifierToken = authorizationMap
 				.get(OAUTH_VERIFIER_TOKEN_STRING);
-		String signature = authorizationMap.get(OAUTH_SIGNATURE_STRING);
+		final String signature = authorizationMap.get(OAUTH_SIGNATURE_STRING);
 
 		if (StringUtil.isNullOrEmpty(consumerKey)) {
 			Logger.getLogger(SignatureHelper.class.getName()).log(
@@ -200,45 +246,5 @@ public final class SignatureHelper {
 		signatureMap.put(OAUTH_SIGNATURE_STRING, signature);
 
 		return signatureMap;
-	}
-
-	public static String createBaseParameterString(
-			Map<String, String> signatureMap, final String parameterString) {
-
-		if (StringUtil.isNotNullOrEmpty(parameterString)) {
-			String[] parameterList = parameterString.split("&");
-
-			for (String parameter : parameterList) {
-				String[] pair = parameter.split("=");
-				if (pair.length != 2) {
-					String errorString = "Invalid parameter string (entry is missing \"=\":"
-							+ parameterString + ").";
-					Logger.getLogger(SignatureHelper.class.getName()).log(
-							Level.WARNING, errorString);
-					return "Invalid parameter string (entry is missing \"=\")";
-				}
-				String key = pair[0];
-				String value = pair[1];
-				signatureMap.put(key, value);
-			}
-		}
-
-		Map<String, String> sortedSignatureMap = MapUtil
-				.sortByKey(signatureMap);
-
-		StringBuilder stringBuilder = new StringBuilder();
-		boolean first = true;
-
-		for (Map.Entry<String, String> entry : sortedSignatureMap.entrySet()) {
-			if (!first) {
-				stringBuilder.append("&");
-			}
-			stringBuilder.append(entry.getKey() + "=" + entry.getValue());
-			first = false;
-		}
-
-		String baseParameterString = stringBuilder.toString();
-
-		return baseParameterString;
 	}
 }
