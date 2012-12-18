@@ -1,0 +1,801 @@
+Found a 51 line (204 tokens) duplication in the following files: 
+Starting at line 285 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\web\library\AuthorizationBuilder.java
+Starting at line 331 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\web\library\AuthorizationBuilder.java
+
+		final Map<String, String> signatureMap = new HashMap<String, String>();
+
+		signatureMap.put(SignatureHelper.OAUTH_CONSUMER_KEY_STRING,
+				applicationToken);
+		signatureMap.put(SignatureHelper.OAUTH_SIGNATURE_METHOD_STRING,
+				SignatureHelper.SIGNATURE_METHOD);
+		signatureMap.put(SignatureHelper.OAUTH_TIMESTAMP_STRING, timestamp);
+		signatureMap.put(SignatureHelper.OAUTH_NONCE_STRING, nonce);
+		signatureMap.put(SignatureHelper.OAUTH_TOKEN_STRING, accessToken);
+		signatureMap.put(SignatureHelper.OAUTH_VERSION_STRING,
+				SignatureHelper.VERSION);
+
+		String baseParameterString = MapUtil.createBaseParameterString(
+				signatureMap, parameterString);
+
+		String baseSignatureString = SignatureHelper
+				.calculateBaseSignatureString(GET_STRING, requestUrl,
+						baseParameterString);
+
+		String signature = SignatureHelper.calculateSignature(
+				baseSignatureString, applicationSecret, accessSecret);
+
+		String authorization = SignatureHelper.OAUTH_STRING
+				+ SignatureHelper.OAUTH_CONSUMER_KEY_STRING + "=\""
+				+ applicationToken + "\","
+				+ SignatureHelper.OAUTH_SIGNATURE_METHOD_STRING + "=\""
+				+ SignatureHelper.SIGNATURE_METHOD + "\","
+				+ SignatureHelper.OAUTH_TIMESTAMP_STRING + "=\"" + timestamp
+				+ "\"," + SignatureHelper.OAUTH_NONCE_STRING + "=\"" + nonce
+				+ "\"," + SignatureHelper.OAUTH_TOKEN_STRING + "=\""
+				+ accessToken + "\"," + SignatureHelper.OAUTH_VERSION_STRING
+				+ "=\"" + SignatureHelper.VERSION + "\","
+				+ SignatureHelper.OAUTH_SIGNATURE_STRING + "=\"" + signature
+				+ "\"";
+		return authorization;
+	}
+
+	/**
+	 * Helper function to build the request URL.
+	 * 
+	 * @param moduleId
+	 *            id of the module to load data from
+	 * @param start
+	 *            first entry of entry returned
+	 * @param max
+	 *            maximum number of entries returned
+	 * @param dateSince
+	 *            retrieve all entries with a measurement date later than this
+	 * @return URL of the service to send the request to
+	 */
+	public static String createRequestUrl(final int moduleId, final int start,
+=====================================================================
+Found a 17 line (115 tokens) duplication in the following files: 
+Starting at line 195 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\web\library\AuthorizationBuilder.java
+Starting at line 282 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\web\library\AuthorizationBuilder.java
+
+		String timestamp = Long.toString(new Date().getTime());
+		String nonce = RandomStringUtils.randomAlphanumeric(NONCE_LENGTH);
+
+		Map<String, String> signatureMap = new HashMap<String, String>();
+
+		signatureMap.put(SignatureHelper.OAUTH_CONSUMER_KEY_STRING,
+				applicationToken);
+		signatureMap.put(SignatureHelper.OAUTH_SIGNATURE_METHOD_STRING,
+				SignatureHelper.SIGNATURE_METHOD);
+		signatureMap.put(SignatureHelper.OAUTH_TIMESTAMP_STRING, timestamp);
+		signatureMap.put(SignatureHelper.OAUTH_NONCE_STRING, nonce);
+		signatureMap.put(SignatureHelper.OAUTH_TOKEN_STRING, accessToken);
+		signatureMap.put(SignatureHelper.OAUTH_VERSION_STRING,
+				SignatureHelper.VERSION);
+
+		String baseParameterString = MapUtil.createBaseParameterString(
+				signatureMap, parameterString);
+=====================================================================
+Found a 18 line (106 tokens) duplication in the following files: 
+Starting at line 82 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\web\main\CloudClient.java
+Starting at line 122 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\web\main\CloudClient.java
+
+		httppost.setHeader(AUTHORIZATION_STRING, authorization);
+		HeaderPrinter.printPost(httppost);
+
+		response = httpClient.execute(httppost);
+
+		try {
+			bufferReader = new BufferedReader(new InputStreamReader(response.getEntity()
+					.getContent()));
+			final StringBuffer strBuffer = new StringBuffer();
+			while ((str = bufferReader.readLine()) != null) {
+				strBuffer.append(str);
+			}
+
+			str = strBuffer.toString();
+			System.out.println("    Response: " + str + "\n--------------");
+			if (str.split("&").length < 2) {
+				throw new Exception(str);
+			}
+=====================================================================
+Found a 21 line (100 tokens) duplication in the following files: 
+Starting at line 225 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\web\library\AuthorizationBuilder.java
+Starting at line 302 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\web\library\AuthorizationBuilder.java
+
+						baseParameterString);
+
+		String signature = SignatureHelper.calculateSignature(
+				baseSignatureString, applicationSecret, accessSecret);
+
+		String authorization = SignatureHelper.OAUTH_STRING
+				+ SignatureHelper.OAUTH_CONSUMER_KEY_STRING + "=\""
+				+ applicationToken + "\","
+				+ SignatureHelper.OAUTH_SIGNATURE_METHOD_STRING + "=\""
+				+ SignatureHelper.SIGNATURE_METHOD + "\","
+				+ SignatureHelper.OAUTH_TIMESTAMP_STRING + "=\"" + timestamp
+				+ "\"," + SignatureHelper.OAUTH_NONCE_STRING + "=\"" + nonce
+				+ "\"," + SignatureHelper.OAUTH_TOKEN_STRING + "=\""
+				+ accessToken + "\"," + SignatureHelper.OAUTH_VERSION_STRING
+				+ "=\"" + SignatureHelper.VERSION + "\","
+				+ SignatureHelper.OAUTH_SIGNATURE_STRING + "=\"" + signature
+				+ "\"";
+		return authorization;
+	}
+
+	public static String createCountDataRequestAuthorizationHeader(
+=====================================================================
+Found a 12 line (93 tokens) duplication in the following files: 
+Starting at line 57 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\web\library\AuthorizationBuilder.java
+Starting at line 328 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\web\library\AuthorizationBuilder.java
+
+		final String timestamp = Long.toString(new Date().getTime());
+		final String nonce = RandomStringUtils.randomAlphanumeric(NONCE_LENGTH);
+
+		final Map<String, String> signatureMap = new HashMap<String, String>();
+
+		signatureMap.put(SignatureHelper.OAUTH_CONSUMER_KEY_STRING,
+				applicationToken);
+		signatureMap.put(SignatureHelper.OAUTH_SIGNATURE_METHOD_STRING,
+				SignatureHelper.SIGNATURE_METHOD);
+		signatureMap.put(SignatureHelper.OAUTH_TIMESTAMP_STRING, timestamp);
+		signatureMap.put(SignatureHelper.OAUTH_NONCE_STRING, nonce);
+		signatureMap.put(SignatureHelper.OAUTH_TOKEN_STRING, accessToken);
+=====================================================================
+Found a 12 line (92 tokens) duplication in the following files: 
+Starting at line 120 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\web\library\AuthorizationBuilder.java
+Starting at line 195 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\web\library\AuthorizationBuilder.java
+
+		String timestamp = Long.toString(new Date().getTime());
+		String nonce = RandomStringUtils.randomAlphanumeric(NONCE_LENGTH);
+
+		Map<String, String> signatureMap = new HashMap<String, String>();
+
+		signatureMap.put(SignatureHelper.OAUTH_CONSUMER_KEY_STRING,
+				applicationToken);
+		signatureMap.put(SignatureHelper.OAUTH_SIGNATURE_METHOD_STRING,
+				SignatureHelper.SIGNATURE_METHOD);
+		signatureMap.put(SignatureHelper.OAUTH_TIMESTAMP_STRING, timestamp);
+		signatureMap.put(SignatureHelper.OAUTH_NONCE_STRING, nonce);
+		signatureMap.put(SignatureHelper.OAUTH_TOKEN_STRING, accessToken);
+=====================================================================
+Found a 14 line (90 tokens) duplication in the following files: 
+Starting at line 198 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\web\library\AuthorizationBuilder.java
+Starting at line 331 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\web\library\AuthorizationBuilder.java
+
+		final Map<String, String> signatureMap = new HashMap<String, String>();
+
+		signatureMap.put(SignatureHelper.OAUTH_CONSUMER_KEY_STRING,
+				applicationToken);
+		signatureMap.put(SignatureHelper.OAUTH_SIGNATURE_METHOD_STRING,
+				SignatureHelper.SIGNATURE_METHOD);
+		signatureMap.put(SignatureHelper.OAUTH_TIMESTAMP_STRING, timestamp);
+		signatureMap.put(SignatureHelper.OAUTH_NONCE_STRING, nonce);
+		signatureMap.put(SignatureHelper.OAUTH_TOKEN_STRING, accessToken);
+		signatureMap.put(SignatureHelper.OAUTH_VERSION_STRING,
+				SignatureHelper.VERSION);
+
+		String baseParameterString = MapUtil.createBaseParameterString(
+				signatureMap, parameterString);
+=====================================================================
+Found a 16 line (89 tokens) duplication in the following files: 
+Starting at line 35 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\model\fixture\TargetscaleFixture.java
+Starting at line 30 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\model\fixture\GlucodockglucoseFixture.java
+
+		this.glucodockGlucose = new Glucodockglucose();
+
+		this.expectedMeasurementDate = new Date(new Date().getTime()
+				- (long) index * 3600L * 24L * 1000L);
+
+		this.expectedActivityStatus = RandomHelper.generateInt(
+				BaseModelWithoutMeal.MIN_ACTIVITY_STATUS,
+				BaseModelWithoutMeal.MAX_ACTIVITY_STATUS);
+		this.expectedMood = RandomHelper.generateInt(
+				BaseModelWithoutMeal.MIN_MOOD, BaseModelWithoutMeal.MAX_MOOD);
+		this.expectedNote = ""; // to test utf8
+		this.expectedModuleSerialId = "[Autogenerated Item]";
+		this.expectedMealStatus = RandomHelper.generateInt(
+				BaseModel.MIN_MEAL_STATUS, BaseModel.MAX_MEAL_STATUS);
+
+		if (lastGlucodockglucose == null) {
+=====================================================================
+Found a 24 line (73 tokens) duplication in the following files: 
+Starting at line 74 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\model\fixture\GlucodockglucoseFixture.java
+Starting at line 103 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\model\fixture\CardiodockFixture.java
+
+		this.cardiodock.setArrhythmic(this.expectedArrhythmic);
+	}
+
+	public final Date getExpectedMeasurementDate() {
+		return new Date(this.expectedMeasurementDate.getTime());
+	}
+
+	public final Integer getExpectedActivityStatus() {
+		return this.expectedActivityStatus;
+	}
+
+	public final Integer getExpectedMood() {
+		return this.expectedMood;
+	}
+
+	public final String getExpectedNote() {
+		return this.expectedNote;
+	}
+
+	public final String getExpectedModuleSerialId() {
+		return this.expectedModuleSerialId;
+	}
+
+	public final Integer getExpectedSystole() {
+=====================================================================
+Found a 23 line (71 tokens) duplication in the following files: 
+Starting at line 78 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\model\fixture\ThermodockFixture.java
+Starting at line 75 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\model\fixture\GlucodockglucoseFixture.java
+
+	}
+
+	public final Date getExpectedMeasurementDate() {
+		return new Date(this.expectedMeasurementDate.getTime());
+	}
+
+	public final Integer getExpectedActivityStatus() {
+		return this.expectedActivityStatus;
+	}
+
+	public final Integer getExpectedMood() {
+		return this.expectedMood;
+	}
+
+	public final String getExpectedNote() {
+		return this.expectedNote;
+	}
+
+	public final String getExpectedModuleSerialId() {
+		return this.expectedModuleSerialId;
+	}
+
+	public final Integer getExpectedBloodGlucose() {
+=====================================================================
+Found a 11 line (71 tokens) duplication in the following files: 
+Starting at line 27 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\model\fixture\ThermodockFixture.java
+Starting at line 35 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\model\fixture\TargetscaleFixture.java
+
+		this.targetscale = new Targetscale();
+
+		this.expectedMeasurementDate = new Date(new Date().getTime()
+				- (long) index * 3600L * 24L * 1000L);
+		this.expectedActivityStatus = RandomHelper.generateInt(
+				BaseModelWithoutMeal.MIN_ACTIVITY_STATUS,
+				BaseModelWithoutMeal.MAX_ACTIVITY_STATUS);
+		this.expectedMood = RandomHelper.generateInt(
+				BaseModelWithoutMeal.MIN_MOOD, BaseModelWithoutMeal.MAX_MOOD);
+		this.expectedNote = "";
+		this.expectedModuleSerialId = "[Autogenerated Item]";
+=====================================================================
+Found a 9 line (67 tokens) duplication in the following files: 
+Starting at line 123 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\web\library\AuthorizationBuilder.java
+Starting at line 331 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\web\library\AuthorizationBuilder.java
+
+		final Map<String, String> signatureMap = new HashMap<String, String>();
+
+		signatureMap.put(SignatureHelper.OAUTH_CONSUMER_KEY_STRING,
+				applicationToken);
+		signatureMap.put(SignatureHelper.OAUTH_SIGNATURE_METHOD_STRING,
+				SignatureHelper.SIGNATURE_METHOD);
+		signatureMap.put(SignatureHelper.OAUTH_TIMESTAMP_STRING, timestamp);
+		signatureMap.put(SignatureHelper.OAUTH_NONCE_STRING, nonce);
+		signatureMap.put(SignatureHelper.OAUTH_TOKEN_STRING, accessToken);
+=====================================================================
+Found a 9 line (65 tokens) duplication in the following files: 
+Starting at line 60 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\web\library\AuthorizationBuilder.java
+Starting at line 123 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\web\library\AuthorizationBuilder.java
+
+		Map<String, String> signatureMap = new HashMap<String, String>();
+
+		signatureMap.put(SignatureHelper.OAUTH_CONSUMER_KEY_STRING,
+				applicationToken);
+		signatureMap.put(SignatureHelper.OAUTH_SIGNATURE_METHOD_STRING,
+				SignatureHelper.SIGNATURE_METHOD);
+		signatureMap.put(SignatureHelper.OAUTH_TIMESTAMP_STRING, timestamp);
+		signatureMap.put(SignatureHelper.OAUTH_NONCE_STRING, nonce);
+		signatureMap.put(SignatureHelper.OAUTH_TOKEN_STRING,
+=====================================================================
+Found a 11 line (56 tokens) duplication in the following files: 
+Starting at line 147 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\web\library\AuthorizationBuilder.java
+Starting at line 228 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\web\library\AuthorizationBuilder.java
+
+				baseSignatureString, applicationSecret, accessSecret);
+
+		String authorization = SignatureHelper.OAUTH_STRING
+				+ SignatureHelper.OAUTH_CONSUMER_KEY_STRING + "=\""
+				+ applicationToken + "\","
+				+ SignatureHelper.OAUTH_SIGNATURE_METHOD_STRING + "=\""
+				+ SignatureHelper.SIGNATURE_METHOD + "\","
+				+ SignatureHelper.OAUTH_TIMESTAMP_STRING + "=\"" + timestamp
+				+ "\"," + SignatureHelper.OAUTH_NONCE_STRING + "=\"" + nonce
+				+ "\"," + SignatureHelper.OAUTH_TOKEN_STRING + "=\""
+				+ accessToken + "\"," + SignatureHelper.OAUTH_VERSION_STRING
+=====================================================================
+Found a 8 line (51 tokens) duplication in the following files: 
+Starting at line 81 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\web\library\AuthorizationBuilder.java
+Starting at line 149 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\web\library\AuthorizationBuilder.java
+
+		String authorization = SignatureHelper.OAUTH_STRING
+				+ SignatureHelper.OAUTH_CONSUMER_KEY_STRING + "=\""
+				+ applicationToken + "\","
+				+ SignatureHelper.OAUTH_SIGNATURE_METHOD_STRING + "=\""
+				+ SignatureHelper.SIGNATURE_METHOD + "\","
+				+ SignatureHelper.OAUTH_TIMESTAMP_STRING + "=\"" + timestamp
+				+ "\"," + SignatureHelper.OAUTH_NONCE_STRING + "=\"" + nonce
+				+ "\"," + SignatureHelper.OAUTH_TOKEN_STRING + "=\""
+=====================================================================
+Found a 11 line (50 tokens) duplication in the following files: 
+Starting at line 86 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\web\main\TestTask.java
+Starting at line 101 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\web\main\TestTask.java
+Starting at line 116 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\web\main\TestTask.java
+Starting at line 131 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\web\main\TestTask.java
+Starting at line 146 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\web\main\TestTask.java
+
+						targetscaleList.get(i - 1)).getTargetscale());
+			}
+		}
+		index = 0;
+		for (int i = 0; i < this.maxEntries; i++) {
+			if (RandomHelper.generateBoolean()
+					&& RandomHelper.generateBoolean()) {
+				index++;
+			}
+			index++;
+			if (i == 0) {
+=====================================================================
+Found a 15 line (49 tokens) duplication in the following files: 
+Starting at line 383 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\web\library\AuthorizationBuilder.java
+Starting at line 392 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\web\library\AuthorizationBuilder.java
+
+		return createSyncUrl(moduleId)
+				+ "?"
+				+ (start >= 0 ? START_STRING + "=" + Integer.toString(start)
+						+ "&" : "") + MAX_STRING + "=" + Integer.toString(max)
+				+ "&" + DATE_SINCE_STRING + "=" + dateSince;
+	}
+
+	/**
+	 * Helper class to build the request URL.
+	 * 
+	 * @param moduleId
+	 *            id of the module to load data from
+	 * @return URL of the service to save/load data to/from.
+	 */
+	public static String createRequestUrl(final int moduleId) {
+=====================================================================
+Found a 15 line (47 tokens) duplication in the following files: 
+Starting at line 78 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\model\fixture\ThermodockFixture.java
+Starting at line 148 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\model\fixture\TargetscaleFixture.java
+
+	}
+
+	public final Date getExpectedMeasurementDate() {
+		return new Date(this.expectedMeasurementDate.getTime());
+	}
+
+	public final Integer getExpectedActivityStatus() {
+		return this.expectedActivityStatus;
+	}
+
+	public final Integer getExpectedMood() {
+		return this.expectedMood;
+	}
+
+	public final Integer getExpectedMealStatus() {
+=====================================================================
+Found a 11 line (45 tokens) duplication in the following files: 
+Starting at line 29 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\model\fixture\ThermodockFixture.java
+Starting at line 38 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\model\fixture\CardiodockFixture.java
+
+				- (long) index * 3600L * 1000L * 24L);
+
+		this.expectedActivityStatus = RandomHelper.generateInt(
+				BaseModelWithoutMeal.MIN_ACTIVITY_STATUS,
+				BaseModelWithoutMeal.MAX_ACTIVITY_STATUS);
+		this.expectedMood = RandomHelper.generateInt(
+				BaseModelWithoutMeal.MIN_MOOD, BaseModelWithoutMeal.MAX_MOOD);
+		this.expectedNote = "";
+		this.expectedModuleSerialId = "[Autogenerated Item]";
+
+		if (lastCardiodock == null) {
+=====================================================================
+Found a 8 line (45 tokens) duplication in the following files: 
+Starting at line 74 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\web\main\TestTask.java
+Starting at line 89 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\web\main\TestTask.java
+
+		index = 0;
+		for (int i = 0; i < this.maxEntries; i++) {
+			if (RandomHelper.generateBoolean()
+					&& RandomHelper.generateBoolean()) {
+				index++;
+			}
+			index++;
+			if (i == 0) {
+=====================================================================
+Found a 7 line (44 tokens) duplication in the following files: 
+Starting at line 100 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\web\main\CloudClient.java
+Starting at line 141 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\web\main\CloudClient.java
+
+			oauthSecret = str.split("&")[1].split("=")[1];
+		} finally {
+			if (bufferReader != null) {
+				bufferReader.close();
+			}
+			httpClient.getConnectionManager().shutdown();
+		}
+=====================================================================
+Found a 9 line (43 tokens) duplication in the following files: 
+Starting at line 38 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\model\fixture\TargetscaleFixture.java
+Starting at line 38 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\model\fixture\CardiodockFixture.java
+
+				- (long) index * 3600L * 1000L * 24L);
+
+		this.expectedActivityStatus = RandomHelper.generateInt(
+				BaseModelWithoutMeal.MIN_ACTIVITY_STATUS,
+				BaseModelWithoutMeal.MAX_ACTIVITY_STATUS);
+		this.expectedMood = RandomHelper.generateInt(
+				BaseModelWithoutMeal.MIN_MOOD, BaseModelWithoutMeal.MAX_MOOD);
+		this.expectedNote = "";
+		this.expectedModuleSerialId = "[Autogenerated Item]";
+=====================================================================
+Found a 7 line (40 tokens) duplication in the following files: 
+Starting at line 82 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\model\Thermodock.java
+Starting at line 96 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\model\Targetscale.java
+Starting at line 55 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\model\Glucodockmeal.java
+Starting at line 83 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\model\Glucodockglucose.java
+
+			final Collection<Glucodockglucose> collection) {
+		return new JSONSerializer().exclude("*.class").exclude("active")
+				.exclude("updatedDate").exclude("version")
+				.serialize(collection);
+	}
+
+	public static final Collection<Glucodockglucose> fromJsonArrayToGlucodockglucoses(
+=====================================================================
+Found a 7 line (40 tokens) duplication in the following files: 
+Starting at line 437 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\web\main\TestTask.java
+Starting at line 478 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\web\main\TestTask.java
+
+		String requestUrl = AuthorizationBuilder.createSyncUrl(moduleId, start,
+				max, dateSince);
+		HttpGet httpget = new HttpGet(requestUrl);
+		httpget.setHeader(AUTHORIZATION_STRING, authorization);
+		HeaderPrinter.printPost(httpget);
+
+		HttpResponse response = httpClient.execute(httpget);
+=====================================================================
+Found a 3 line (39 tokens) duplication in the following files: 
+Starting at line 275 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\web\library\AuthorizationBuilder.java
+Starting at line 385 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\web\library\AuthorizationBuilder.java
+
+				+ (start >= 0 ? START_STRING + "=" + Integer.toString(start)
+						+ "&" : "") + MAX_STRING + "=" + Integer.toString(max)
+				+ "&" + DATE_SINCE_STRING + "=" + dateSince;
+=====================================================================
+Found a 12 line (38 tokens) duplication in the following files: 
+Starting at line 105 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\model\Targetscale.java
+Starting at line 62 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\model\Glucodockinsulin.java
+
+				.use("values", Glucodockinsulin.class).deserialize(json);
+	}
+
+	public final String getModuleSerialId() {
+		return this.moduleSerialId;
+	}
+
+	public void setModuleSerialId(final String moduleSerialId) {
+		this.moduleSerialId = moduleSerialId;
+	}
+
+	public final String getInsulinTypeName2() {
+=====================================================================
+Found a 8 line (38 tokens) duplication in the following files: 
+Starting at line 119 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\web\main\CloudClient.java
+Starting at line 177 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\web\main\CloudClient.java
+
+							verifierToken);
+			httppost = new HttpPost(uriOauthRequest);
+			httppost.setHeader("Content-Type",
+					"application/x-www-form-urlencoded");
+			httppost.setHeader(AUTHORIZATION_STRING, authorization);
+			HeaderPrinter.printPost(httppost);
+
+			response = httpClient.execute(httppost);
+=====================================================================
+Found a 7 line (37 tokens) duplication in the following files: 
+Starting at line 96 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\model\Targetscale.java
+Starting at line 52 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\model\Glucodockinsulin.java
+
+			final Collection<Glucodockinsulin> collection) {
+		return new JSONSerializer().exclude("*.class").exclude("active")
+				.exclude("updatedDate").exclude("version")
+				.serialize(collection);
+	}
+
+	public static Collection<Glucodockinsulin> fromJsonArrayToGlucodockinsulins(
+=====================================================================
+Found a 11 line (37 tokens) duplication in the following files: 
+Starting at line 91 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\model\Thermodock.java
+Starting at line 93 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\model\Glucodockglucose.java
+
+				.use("values", Glucodockglucose.class).deserialize(json);
+	}
+
+	public final String getModuleSerialId() {
+		return this.moduleSerialId;
+	}
+
+	public void setModuleSerialId(final String moduleSerialId) {
+		this.moduleSerialId = moduleSerialId;
+	}
+}
+=====================================================================
+Found a 7 line (37 tokens) duplication in the following files: 
+Starting at line 82 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\model\Thermodock.java
+Starting at line 52 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\model\Glucodockinsulin.java
+
+			final Collection<Glucodockinsulin> collection) {
+		return new JSONSerializer().exclude("*.class").exclude("active")
+				.exclude("updatedDate").exclude("version")
+				.serialize(collection);
+	}
+
+	public static Collection<Glucodockinsulin> fromJsonArrayToGlucodockinsulins(
+=====================================================================
+Found a 11 line (36 tokens) duplication in the following files: 
+Starting at line 91 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\model\Thermodock.java
+Starting at line 105 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\model\Targetscale.java
+
+				.use(null, ArrayList.class).use("values", Targetscale.class)
+				.deserialize(json);
+	}
+
+	public final String getModuleSerialId() {
+		return this.moduleSerialId;
+	}
+
+	public void setModuleSerialId(final String moduleSerialId) {
+		this.moduleSerialId = moduleSerialId;
+	}
+=====================================================================
+Found a 6 line (35 tokens) duplication in the following files: 
+Starting at line 348 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\web\main\TestTask.java
+Starting at line 525 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\web\main\TestTask.java
+
+		DefaultHttpClient httpClient = new DefaultHttpClient();
+		HeaderPrinter.printPost(httppost);
+
+		HttpResponse response = httpClient.execute(httppost);
+		String responseString = IOUtils.toString(response.getEntity()
+				.getContent(), ENCODING);
+=====================================================================
+Found a 6 line (31 tokens) duplication in the following files: 
+Starting at line 27 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\model\fixture\ThermodockFixture.java
+Starting at line 19 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\model\fixture\GlucodockmealFixture.java
+Starting at line 22 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\model\fixture\GlucodockinsulinFixture.java
+
+		this.glucodockInsulin = new Glucodockinsulin();
+
+		this.expectedMeasurementDate = new Date(new Date().getTime()
+				- (long) index * 3600L * 24L * 1000L);
+
+		this.expectedInsulin = RandomHelper.generateFloat(
+=====================================================================
+Found a 7 line (30 tokens) duplication in the following files: 
+Starting at line 19 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\library\RandomHelper.java
+Starting at line 29 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\library\RandomHelper.java
+
+	public static int generateLong(final long min, final long max) {
+		if (max < min) {
+			throw new RuntimeException(
+					"Could not generate random number, max value is smaller than min value ("
+							+ max + " < " + min + ").");
+		}
+		return random.nextInt((int) (1 + max - min)) + (int) min;
+=====================================================================
+Found a 3 line (30 tokens) duplication in the following files: 
+Starting at line 55 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\model\Glucodockmeal.java
+Starting at line 110 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\model\Cardiodock.java
+
+			final Collection<Cardiodock> collection) {
+		return new JSONSerializer().exclude("*.class").exclude("active")
+				.exclude("updatedDate").exclude("version").exclude("id")
+=====================================================================
+Found a 11 line (30 tokens) duplication in the following files: 
+Starting at line 107 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\model\Targetscale.java
+Starting at line 27 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\model\Glucodockmeal.java
+
+	}
+
+	public final String getModuleSerialId() {
+		return this.moduleSerialId;
+	}
+
+	public void setModuleSerialId(final String moduleSerialId) {
+		this.moduleSerialId = moduleSerialId;
+	}
+
+	public final Integer getCarbohydrates() {
+=====================================================================
+Found a 3 line (30 tokens) duplication in the following files: 
+Starting at line 82 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\model\Thermodock.java
+Starting at line 110 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\model\Cardiodock.java
+
+			final Collection<Cardiodock> collection) {
+		return new JSONSerializer().exclude("*.class").exclude("active")
+				.exclude("updatedDate").exclude("version").exclude("id")
+=====================================================================
+Found a 32 line (30 tokens) duplication in the following files: 
+Starting at line 88 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\web\library\AuthorizationBuilder.java
+Starting at line 159 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\web\library\AuthorizationBuilder.java
+Starting at line 238 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\web\library\AuthorizationBuilder.java
+
+				+ accessToken + "\"," + SignatureHelper.OAUTH_VERSION_STRING
+				+ "=\"" + SignatureHelper.VERSION + "\","
+				+ SignatureHelper.OAUTH_SIGNATURE_STRING + "=\"" + signature
+				+ "\"";
+
+		return authorization;
+	}
+
+	/**
+	 * Build authorization header for accessing an Access for loading data from
+	 * the server.
+	 * 
+	 * @param moduleId
+	 *            id of the module to load data from
+	 * @param start
+	 *            first entry of entry returned
+	 * @param max
+	 *            maximum number of entries returned
+	 * @param dateSince
+	 *            retrieve all entries with a measurement date later than this
+	 * @param applicationToken
+	 *            Token of the Consumer's application
+	 * @param applicationSecret
+	 *            Secret of the Consumer's application
+	 * @param accessToken
+	 *            Access Token received earlier from the server
+	 * @param accessSecret
+	 *            Access Secret received earlier from the server
+	 * @return The Authorization header as a string
+	 * @throws Exception
+	 */
+	public static String createLoadDataRequestAuthorizationHeader(
+=====================================================================
+Found a 10 line (29 tokens) duplication in the following files: 
+Starting at line 93 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\model\Thermodock.java
+Starting at line 209 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\model\Cardiodock.java
+
+	}
+
+	public final String getModuleSerialId() {
+		return this.moduleSerialId;
+	}
+
+	public void setModuleSerialId(final String moduleSerialId) {
+		this.moduleSerialId = moduleSerialId;
+	}
+}
+=====================================================================
+Found a 9 line (28 tokens) duplication in the following files: 
+Starting at line 93 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\model\Thermodock.java
+Starting at line 27 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\model\Glucodockmeal.java
+
+	}
+
+	public final String getModuleSerialId() {
+		return this.moduleSerialId;
+	}
+
+	public void setModuleSerialId(final String moduleSerialId) {
+		this.moduleSerialId = moduleSerialId;
+	}
+=====================================================================
+Found a 11 line (28 tokens) duplication in the following files: 
+Starting at line 90 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\model\fixture\ThermodockFixture.java
+Starting at line 164 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\model\fixture\TargetscaleFixture.java
+
+	}
+
+	public final String getExpectedNote() {
+		return this.expectedNote;
+	}
+
+	public final String getExpectedModuleSerialId() {
+		return this.expectedModuleSerialId;
+	}
+
+	public final Float getExpectedBodyWeight() {
+=====================================================================
+Found a 7 line (27 tokens) duplication in the following files: 
+Starting at line 70 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\model\Thermodock.java
+Starting at line 84 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\model\Targetscale.java
+Starting at line 43 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\model\Glucodockmeal.java
+Starting at line 70 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\model\Glucodockglucose.java
+Starting at line 98 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\model\Cardiodock.java
+
+	}
+
+	public final String toJson() {
+		return new JSONSerializer().exclude("*.class").serialize(this);
+	}
+
+	public static final Cardiodock fromJsonToCardiodock(final String json) {
+=====================================================================
+Found a 4 line (27 tokens) duplication in the following files: 
+Starting at line 136 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\web\library\SignatureHelper.java
+Starting at line 149 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\web\library\SignatureHelper.java
+
+						+ auth + ").";
+				Logger.getLogger(SignatureHelper.class.getName()).log(
+						Level.WARNING, errorString);
+				throw new Exception(
+=====================================================================
+Found a 4 line (27 tokens) duplication in the following files: 
+Starting at line 424 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\web\main\TestTask.java
+Starting at line 465 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\web\main\TestTask.java
+
+	private static String syncData(final String token, final String secret,
+			final int moduleId, final String accessToken,
+			final String accessSecret) throws Exception {
+		int start = -1;
+=====================================================================
+Found a 6 line (26 tokens) duplication in the following files: 
+Starting at line 101 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\web\main\CloudClient.java
+Starting at line 200 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\web\main\CloudClient.java
+
+		} finally {
+			if (bufferReader != null) {
+				bufferReader.close();
+			}
+			httpClient.getConnectionManager().shutdown();
+		}
+=====================================================================
+Found a 4 line (25 tokens) duplication in the following files: 
+Starting at line 22 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\model\fixture\GlucodockinsulinFixture.java
+Starting at line 35 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\model\fixture\CardiodockFixture.java
+
+		this.cardiodock = new Cardiodock();
+
+		this.expectedMeasurementDate = new Date(new Date().getTime()
+				- (long) index * 3600L * 1000L * 24L);
+=====================================================================
+Found a 8 line (25 tokens) duplication in the following files: 
+Starting at line 30 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\model\fixture\GlucodockmealFixture.java
+Starting at line 74 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\model\fixture\GlucodockglucoseFixture.java
+
+				.setBloodGlucoseTargetMin(this.expectedBloodGlucoseTargetMin);
+	}
+
+	public final Date getExpectedMeasurementDate() {
+		return new Date(this.expectedMeasurementDate.getTime());
+	}
+
+	public final Integer getExpectedActivityStatus() {
+=====================================================================
+Found a 4 line (25 tokens) duplication in the following files: 
+Starting at line 27 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\model\fixture\ThermodockFixture.java
+Starting at line 35 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\model\fixture\CardiodockFixture.java
+
+		this.cardiodock = new Cardiodock();
+
+		this.expectedMeasurementDate = new Date(new Date().getTime()
+				- (long) index * 3600L * 1000L * 24L);
+=====================================================================
+Found a 7 line (25 tokens) duplication in the following files: 
+Starting at line 335 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\web\main\TestTask.java
+Starting at line 514 of C:\Users\Clemens Lode\git\vitadock-api\cloudexample\src\com\medisanaspace\web\main\TestTask.java
+
+	public static int deleteAllData(final String token, final String secret,
+			final int moduleId, final String accessToken,
+			final String accessSecret) throws Exception {
+
+		String authorization = AuthorizationBuilder
+				.createSaveDataRequestAuthorizationHeader(
+						AuthorizationBuilder.createDeleteAllArrayUrl(moduleId),

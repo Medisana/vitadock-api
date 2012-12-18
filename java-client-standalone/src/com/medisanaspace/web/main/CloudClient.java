@@ -30,14 +30,14 @@ public class CloudClient {
 	 * (localhost only works if deployed on the test server, you can ignore that
 	 * one). Note to also switch the server URLs (see VitaDockServer.java).
 	 */
-	private static final String APPLICATION_TOKEN = "5bS2TiPfe6oRo5ihqwgDwwTmyGWZFyqvKGAmjUDayw1xS4vyVB9KJU9EC9lebxwV";
+	private static final String APPLICATION_TOKEN = "kpVxi8aRrPB9RphDLixM5uacLU99UZ2g8gEtiwWEfRr7BY99D9ifTmhnLmTLKbEM";
 	// cloud.vitadock.com
 	// "wqR6Tu245t1VVPViJTJGvcf2AkW3G06niYsn655AG3umZS3s6E6fAXvSkiEhrYTm"
 	// localhost
 	// "kpVxi8aRrPB9RphDLixM5uacLU99UZ2g8gEtiwWEfRr7BY99D9ifTmhnLmTLKbEM";
 	// vitacloud.medisanaspace.com
 	// "5bS2TiPfe6oRo5ihqwgDwwTmyGWZFyqvKGAmjUDayw1xS4vyVB9KJU9EC9lebxwV";
-	private static final String APPLICATION_SECRET = "F4MffyvaMAXJCMghbAjbry2wk66FgbKK9iTfh5WzntoaM1aYyev3ujyT1LSZbpfh";
+	private static final String APPLICATION_SECRET = "Pwb81Dc7lR4F6FWejDBmkNrLJfFxeXlc3GmFlBm41nJL9x5pDG0kGovdSdiZWPJc";
 
 	// cloud.vitadock.com
 	// "WSc3hplyunPa4SgLncJFKthZWZTdsJy4uZFXEgJ308GCnZq3eY1xGeJVJWUePGhp"
