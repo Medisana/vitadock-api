@@ -25,7 +25,7 @@ public class ActivitydockTestTask extends AbstractTestTask {
 		printer.logMessage("Activitydoc Test");
 		final List<Activitydock> activityList = new ArrayList<Activitydock>();
 
-		for (int i = 0; i < TestConstants.MAX_ENTRIES; i++) {
+		for (int i = 0; i < numberOfEntries; i++) {
 			activityList.add(new ActivitydockFixture().getActivity());
 		}
 

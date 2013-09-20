@@ -26,14 +26,14 @@ public class TargetscaleTestTask extends AbstractTestTask {
 
 		final List<Targetscale> targetscaleList = new ArrayList<Targetscale>();
 		int index = 0;
-		for (int i = 0; i < TestConstants.MAX_ENTRIES; i++) {
+		for (int i = 0; i < numberOfEntries; i++) {
 			index++;
 			if (i == 0) {
 				targetscaleList.add(new TargetscaleFixture(index,
-						TestConstants.MAX_ENTRIES, null).getTargetscale());
+						numberOfEntries, null).getTargetscale());
 			} else {
 				targetscaleList.add(new TargetscaleFixture(index,
-						TestConstants.MAX_ENTRIES, targetscaleList.get(i - 1))
+						numberOfEntries, targetscaleList.get(i - 1))
 						.getTargetscale());
 			}
 		}

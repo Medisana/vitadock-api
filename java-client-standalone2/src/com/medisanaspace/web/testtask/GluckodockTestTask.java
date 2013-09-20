@@ -39,28 +39,28 @@ public class GluckodockTestTask extends AbstractTestTask {
 		
 		// fill with "maxEntries" random entries
 		int index = 0;
-		for (int i = 0; i < TestConstants.MAX_ENTRIES; i++) {
+		for (int i = 0; i < numberOfEntries; i++) {
 			index++;
 			if (i == 0) {
 				glucodockglucoseList.add(new GlucodockglucoseFixture(index,
-						TestConstants.MAX_ENTRIES, null).getGlucodockglucose());
+						numberOfEntries, null).getGlucodockglucose());
 
 				glucodockinsulinList.add(new GlucodockinsulinFixture(index,
-						TestConstants.MAX_ENTRIES).getGlucodockinsulin());
+						numberOfEntries).getGlucodockinsulin());
 
 				glucodockmealList.add(new GlucodockmealFixture(index,
-						TestConstants.MAX_ENTRIES).getGlucodockmeal());
+						numberOfEntries).getGlucodockmeal());
 
 			} else {
 				glucodockglucoseList.add(new GlucodockglucoseFixture(index,
-						TestConstants.MAX_ENTRIES, glucodockglucoseList
+						numberOfEntries, glucodockglucoseList
 								.get(i - 1)).getGlucodockglucose());
 
 				glucodockinsulinList.add(new GlucodockinsulinFixture(index,
-						TestConstants.MAX_ENTRIES).getGlucodockinsulin());
+						numberOfEntries).getGlucodockinsulin());
 
 				glucodockmealList.add(new GlucodockmealFixture(index,
-						TestConstants.MAX_ENTRIES).getGlucodockmeal());
+						numberOfEntries).getGlucodockmeal());
 			}
 		}
 

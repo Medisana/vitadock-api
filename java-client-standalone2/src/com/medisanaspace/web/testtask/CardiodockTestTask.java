@@ -28,14 +28,14 @@ public class CardiodockTestTask extends AbstractTestTask {
 		
 		// generate random entries
 		int index = 0;
-		for (int i = 0; i < TestConstants.MAX_ENTRIES; i++) {
+		for (int i = 0; i < numberOfEntries; i++) {
 			index++;
 			if (i == 0) {
 				cardiodockList.add(new CardiodockFixture(index,
-						TestConstants.MAX_ENTRIES, null).getCardiodock());
+						numberOfEntries, null).getCardiodock());
 			} else {
 				cardiodockList.add(new CardiodockFixture(index,
-						TestConstants.MAX_ENTRIES, cardiodockList.get(i - 1))
+						numberOfEntries, cardiodockList.get(i - 1))
 						.getCardiodock());
 			}
 		}

@@ -24,9 +24,9 @@ public class TrackerSleepTestTask extends AbstractTestTask {
 
 		// fill the lists with generated random entries
 		final List<TrackerSleep> trackerSleepList = new ArrayList<TrackerSleep>();
-		for (int i = 0; i < TestConstants.MAX_ENTRIES; i++) {
+		for (int i = 0; i < numberOfEntries; i++) {
 			trackerSleepList.add(new TrackerSleepFixture(i,
-					TestConstants.MAX_ENTRIES).getTrackerSleep());
+					numberOfEntries).getTrackerSleep());
 		}
 
 		String responseTrackerSleep = saveJSONData(

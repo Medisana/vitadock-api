@@ -23,7 +23,7 @@ public class UserSettingsTestTask extends AbstractTestTask {
 	protected void executeTask() throws Exception {
 		final List<UserSettings> userSettingsList = new ArrayList<UserSettings>();
 
-		for (int i = 0; i < TestConstants.MAX_ENTRIES; i++) {
+		for (int i = 0; i < numberOfEntries; i++) {
 			userSettingsList.add(new UserSettingsFixture().getUserSettings());
 		}
 		String responseUserSettings = saveJSONData(

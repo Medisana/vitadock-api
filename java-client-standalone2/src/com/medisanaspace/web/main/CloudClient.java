@@ -12,7 +12,6 @@ import com.medisanaspace.web.testtask.AbstractTestTask;
 import com.medisanaspace.web.testtask.ActivitydockTestTask;
 import com.medisanaspace.web.testtask.CardiodockTestTask;
 import com.medisanaspace.web.testtask.GluckodockTestTask;
-import com.medisanaspace.web.testtask.OrderTestTask;
 import com.medisanaspace.web.testtask.TargetscaleTestTask;
 import com.medisanaspace.web.testtask.ThermodockTestTask;
 import com.medisanaspace.web.testtask.TrackerActivityAndTrackerSleepTestTask;
@@ -61,7 +60,6 @@ public class CloudClient {
 		tests.add(new ActivitydockTestTask(numberOfEntries));
 		tests.add(new CardiodockTestTask(numberOfEntries));
 		tests.add(new GluckodockTestTask(numberOfEntries));
-		tests.add(new OrderTestTask(numberOfEntries));
 		tests.add(new TargetscaleTestTask(numberOfEntries));
 		tests.add(new ThermodockTestTask(numberOfEntries));
 		tests.add(new TrackerPhaseTestTask(numberOfEntries));

@@ -26,14 +26,14 @@ public class ThermodockTestTask extends AbstractTestTask {
 
 		final List<Thermodock> thermodockList = new ArrayList<Thermodock>();
 		int index = 0;
-		for (int i = 0; i < TestConstants.MAX_ENTRIES; i++) {
+		for (int i = 0; i < numberOfEntries; i++) {
 			index++;
 			if (i == 0) {
 				thermodockList.add(new ThermodockFixture(index,
-						TestConstants.MAX_ENTRIES, null).getThermodock());
+						numberOfEntries, null).getThermodock());
 			} else {
 				thermodockList.add(new ThermodockFixture(index,
-						TestConstants.MAX_ENTRIES, thermodockList.get(i - 1))
+						numberOfEntries, thermodockList.get(i - 1))
 						.getThermodock());
 			}
 		}
