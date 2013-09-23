@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+<ui:composition template="../templates/layout.xhtml">
+	
+	<f:metadata>
+      <f:event type="preRenderView" listener="#{testRunnerBean.init()}" />
+      <f:viewParam id="oauth_verifier" name="oauth_verifier" value="#{testRunnerBean.oauth_verifier}" required="#{!facesContext.postback}" />
+      <f:viewParam id="oauth_token" name="oauth_token" value="#{testRunnerBean.oauth_token}" required="#{!facesContext.postback}" />
+      
+	</f:metadata>
+	
+	<ui:define name="content">
+	    <p:panel id="mainPanel" toggleable="true" toggleSpeed="250">
+	    	<f:facet name="header">
+	        	<h:outputFormat value="#{messages.label_welcome_titlepane}">
+	          		<f:param value="#{applicationBean.appName}" />
+	        	</h:outputFormat>
+	      	</f:facet>
+	    <p />
+   
+      
+	<h:form>
+
+	    <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+			Callback Page
+	
+	    </h:panelGrid>
+
+	    <p:separator />
+	
+	
+
+	</h:form>
+					
+    </p:panel>
+  </ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+<ui:composition template="../templates/layout.xhtml">
+	
+	<f:metadata>
+      <f:event type="preRenderView" listener="#{testRunnerBean.init()}" /> 
+	</f:metadata>
+	
+	<ui:define name="content">
+	    <p:panel id="mainPanel" toggleable="true" toggleSpeed="250">
+	    	<f:facet name="header">
+	        	<h:outputFormat value="#{messages.label_welcome_titlepane}">
+	          		<f:param value="#{applicationBean.appName}" />
+	        	</h:outputFormat>
+	      	</f:facet>
+	    <p />
+   
+      
+	<h:form>
+
+	    <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+	
+	        <h:outputText value="Select your tests: " />
+	        <p:selectManyCheckbox value="#{testRunnerBean.selectedTests}"
+	            layout="pageDirection">
+	            <f:selectItems value="#{testRunnerBean.tests}" />
+	        </p:selectManyCheckbox>
+	
+	    </h:panelGrid>
+
+	    <p:separator />
+	
+	   <p:commandButton value="Submit" actionListener="#{testRunnerBean.authorize}"  ajax="false" /> 
+
+
+	</h:form>
+					
+    </p:panel>
+  </ui:define>
+</ui:composition>
+</html>
