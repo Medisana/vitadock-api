@@ -7,15 +7,13 @@
 <ui:composition template="../templates/layout.xhtml">
 	
 	<f:metadata>
-      <f:event type="preRenderView" listener="#{testRunnerBean.init()}" /> 
+      <f:event type="preRenderView" listener="#{testRunnerBean.init()}"/> 
 	</f:metadata>
 	
 	<ui:define name="content">
 	    <p:panel id="mainPanel" toggleable="true" toggleSpeed="250">
 	    	<f:facet name="header">
-	        	<h:outputFormat value="#{messages.label_welcome_titlepane}">
-	          		<f:param value="#{applicationBean.appName}" />
-	        	</h:outputFormat>
+	
 	      	</f:facet>
 	    <p />
    
@@ -34,8 +32,8 @@
 
 	    <p:separator />
 	
-	   <p:commandButton value="Submit" actionListener="#{testRunnerBean.authorize}"  ajax="false" /> 
-
+	   <p:commandButton value="Submit" action="#{testRunnerBean.authorize}"  /> 
+		<h:messages />
 
 	</h:form>
 					

@@ -1,11 +1,15 @@
 package com.medisanaspace.jsf;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -15,11 +19,11 @@ import com.medisanaspace.web.testconfig.OAuthData;
 
 @Controller
 @Scope("session")
+@SessionScoped
 @ManagedBean(name="testRunnerBean")
-
-public class TestRunnerBean {
+public class TestRunnerBean implements Serializable{
 	
-	private List<Integer> selectedTests = new ArrayList<>();  
+	private List<Integer> selectedTests = new ArrayList<Integer>();  
 	private Map<String,Integer> tests;
 	private CloudClient cloudClient;		
 	private String messageLog;
@@ -30,21 +34,25 @@ public class TestRunnerBean {
 	
 
    public void init() {
-	   tests = new HashMap<String, Integer>();
-	   tests.put("Tracker Activity and Tracker Sleep Test", 1);
-	   tests.put("Activitydock Test", 2);
-	   tests.put("Cardiodock Test", 3);
+	   if (!FacesContext.getCurrentInstance().isPostback()) {   
+		   tests = new HashMap<String, Integer>();
+		   tests.put("Tracker Activity and Tracker Sleep Test", 1);
+		   tests.put("Activitydock Test", 2);
+		   tests.put("Cardiodock Test", 3);
+	   }
     }
    
    
-   public String authorize(){
+   public void authorize(){
 	   cloudClient = new CloudClient();
 	   try {
 		   // redirect the user to the login page
-		   return cloudClient.authorize()+"&faces-redirect=true";
+		   ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+		   externalContext.redirect(cloudClient.authorize());
+		   
 		} catch (Exception e) {
 			// refer to error page here, user does not need to know specifics
-			return "error.jsf";
+			//return "error.jsf";
 		}
    }
    

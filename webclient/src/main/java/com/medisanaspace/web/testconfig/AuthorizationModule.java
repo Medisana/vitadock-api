@@ -259,9 +259,10 @@ public class AuthorizationModule {
 		// createRandomUserAndGetVerifierToken(unauthorizedAccessToken);
 		
 		//return redirect adress
-		return testRunnerConfig.getHTTPS_LOGIN_URL()
+		String addr=testRunnerConfig.getHTTPS_LOGIN_URL()
 				+ "/desiredaccessrights/request?oauth_token="
-				+ unauthorizedAccessToken;
+				+ unauthorizedAccessToken; 
+		return addr;
 
 	}
 	/**
