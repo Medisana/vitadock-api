@@ -3,6 +3,11 @@ package com.medisanaspace.web.main;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Resource;
+import javax.faces.bean.SessionScoped;
+
+import org.springframework.context.annotation.Scope;
+
 import com.medisanaspace.printer.PrinterInterface;
 import com.medisanaspace.printer.PrinterInterface.LoggerStatus;
 import com.medisanaspace.printer.WebPrinter;
@@ -45,11 +50,13 @@ public class CloudClient {
 	 */
 	private static TestRunnerConfig newConfiguration = new TestRunnerConfig(
 			ServerType.TEST_SERVER, new User("test.test", "test.test",
-					"de_DE"), false, 1, CloudClient.printer);
+					"en_GB"), false, 1, CloudClient.printer);
 	
 	private ArrayList<AbstractTestTask> testsToRun = new ArrayList<AbstractTestTask>();
 	
+	@Resource(name="authorizationModuleBean")
 	private AuthorizationModule authorizationModule;
+	
 	private String messageLog="";
 	
 	
@@ -72,6 +79,7 @@ public class CloudClient {
 	 * @throws Exception
 	 */
 	public OAuthData authorizeWithVerifierToken (String verifierToken) throws Exception{
+		System.out.println("Test");
 		return	authorizationModule.authorizeWithVerifierToken(verifierToken);
 	}
 	

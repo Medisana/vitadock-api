@@ -8,8 +8,9 @@
 	
 	<f:metadata>
       <f:event type="preRenderView" listener="#{testRunnerBean.init()}" />
-      <f:viewParam id="oauth_verifier" name="oauth_verifier" value="#{testRunnerBean.oauth_verifier}" required="#{!facesContext.postback}" />
+      <f:viewParam id="oauth_verifier" name="oauth_verifier" value="#{testRunnerBean.oauth_verifier}" required="#{not empty deny}" />
       <f:viewParam id="oauth_token" name="oauth_token" value="#{testRunnerBean.oauth_token}" required="#{!facesContext.postback}" />
+      <f:viewParam id="deny" name="deny" value="#{testRunnerBean.deny}" required="#{not empty oauth_verifier}" />
       
 	</f:metadata>
 	
@@ -27,7 +28,8 @@
 
 	    <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
 			Callback Page
-	
+			
+			<h:outputFormat value="#{testRunnerBean.callbackMassage}" />
 	    </h:panelGrid>
 
 	    <p:separator />

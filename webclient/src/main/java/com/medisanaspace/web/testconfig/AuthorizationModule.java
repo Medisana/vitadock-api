@@ -22,7 +22,10 @@ public class AuthorizationModule {
 	// temporary tokens
 	String unauthorizedAccessToken = "";
 	String unauthorizedAccessSecret = "";
-
+	
+	public AuthorizationModule() {
+	}
+	
 	public AuthorizationModule(TestRunnerConfig testRunnerConfig) {
 		this.testRunnerConfig = testRunnerConfig;
 	}
@@ -241,9 +244,9 @@ public class AuthorizationModule {
 	 */
 	public String authorize() throws Exception {
 		HashMap<String, String> tokenAndSecret;
-
+		
 		tokenAndSecret = getDeviceTokenAndDeviceSecret();
-
+		
 		oauthData.setDeviceToken(tokenAndSecret.get("token"));
 		oauthData.setDeviceSecret(tokenAndSecret.get("secret"));
 

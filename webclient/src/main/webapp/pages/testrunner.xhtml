@@ -26,15 +26,17 @@
 	
 	        <h:outputText value="Select your tests: " />
 	        <p:selectManyCheckbox value="#{testRunnerBean.selectedTests}"
-	            layout="pageDirection">
-	            <f:selectItems value="#{testRunnerBean.tests}" />
+	            layout="pageDirection" >
+	            <!-- <f:selectItems value="#{testRunnerBean.tests}"/>-->
+	            <f:selectItems value="#{testRunnerBean.tests.entrySet()}" var="entry" itemValue="#{entry.key}" itemLabel="#{entry.key}" />
+
 	        </p:selectManyCheckbox>
 	
 	    </h:panelGrid>
 
 	    <p:separator />
 	
-	   <p:commandButton value="Submit" actionListener="#{testRunnerBean.authorize}"  ajax="false" /> 
+	   <p:commandButton value="Submit" action="#{testRunnerBean.authorize}" ajax="false" /> 
 
 
 	</h:form>
