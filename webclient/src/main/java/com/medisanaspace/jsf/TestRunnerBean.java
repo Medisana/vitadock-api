@@ -1,34 +1,31 @@
 package com.medisanaspace.jsf;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Resource;
-import javax.faces.application.NavigationHandler;
 import javax.faces.bean.ManagedBean;
-import javax.faces.context.ExternalContext;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import com.medisanaspace.web.main.CloudClient;
+
 import com.medisanaspace.web.testconfig.OAuthData;
 
 @Controller
 @Scope("session")
-@ManagedBean(name = "testRunnerBean")
+@SessionScoped
+@ManagedBean(name="testRunnerBean")
+public class TestRunnerBean implements Serializable{
 
-public class TestRunnerBean {
-
-	private List<Integer> selectedTests = new ArrayList<>();
-	private Map<String, Integer> tests;
-	
-	@Resource(name="cloudClientBean")
-	private CloudClient cloudClient = new CloudClient();
-	
+	private List<Integer> selectedTests = new ArrayList<Integer>();  
+	private Map<String,Integer> tests;
+	private CloudClient cloudClient;
 	private String messageLog;
 
 	// temp
@@ -42,10 +39,12 @@ public class TestRunnerBean {
 	}
 	
 	public void init() {
-		tests = new HashMap<String, Integer>();
-		tests.put("Tracker Activity and Tracker Sleep Test", 1);
-		tests.put("Activitydock Test", 2);
-		tests.put("Cardiodock Test", 3);
+		if (!FacesContext.getCurrentInstance().isPostback()) {
+			tests = new HashMap<String, Integer>();
+			tests.put("Tracker Activity and Tracker Sleep Test", 1);
+			tests.put("Activitydock Test", 2);
+			tests.put("Cardiodock Test", 3);
+		}
 		if (isDeny() && oauth_verifier == null) {
 			setCallbackMassage("Access denied");
 		} else if (!isDeny() && oauth_verifier != null){
@@ -59,9 +58,6 @@ public class TestRunnerBean {
 		try {
 			
 			// redirect the user to the login page
-			if (cloudClient == null) {
-				System.out.println("CloudCliente is null before");
-			}
 			String url = cloudClient.authorize() + "&faces-redirect=true";
 			System.out.println("url: "+url);
 			FacesContext.getCurrentInstance().getExternalContext().redirect(url);
@@ -72,22 +68,15 @@ public class TestRunnerBean {
 			return "error.jsf";
 		}
 	}
-
+	
 	public String runTest() {
 		try {
-			System.out.println("runTest");
-			if (cloudClient == null) {
-				System.out.println("CloudCliente is null");
-			}
 			OAuthData oauthdata = cloudClient
 					.authorizeWithVerifierToken(oauth_verifier);
-			System.out.println("after authorize");
-			System.out.println("oauth_data: "+oauthdata);
-			System.out.println("selectTests: "+selectedTests);
 			cloudClient.runTests(selectedTests, oauthdata);
 			messageLog = cloudClient.getMessageLog();
 		} catch (Exception e) {
-			e.getStackTrace();
+			//
 		}
 		return "completed";
 	}

@@ -41,7 +41,7 @@ public class CloudClient {
 	 * the server
 	 */
 	private static TestRunnerConfig newConfiguration = new TestRunnerConfig(
-			ServerType.PRODUCTION_SERVER, new User("test.test", "test.test",
+			ServerType.TEST_SERVER, new User("test.test", "test.test",
 					"de_DE"), false, 1, CloudClient.printer);
 
 	/**

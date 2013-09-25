@@ -7,11 +7,10 @@
 <ui:composition template="../templates/layout.xhtml">
 	
 	<f:metadata>
-      <f:event type="preRenderView" listener="#{testRunnerBean.init()}" />
+      <!--<f:event type="preRenderView" listener="#{testRunnerBean.init()}" />-->
       <f:viewParam id="oauth_verifier" name="oauth_verifier" value="#{testRunnerBean.oauth_verifier}" required="#{not empty deny}" />
       <f:viewParam id="oauth_token" name="oauth_token" value="#{testRunnerBean.oauth_token}" required="#{!facesContext.postback}" />
       <f:viewParam id="deny" name="deny" value="#{testRunnerBean.deny}" required="#{not empty oauth_verifier}" />
-      
 	</f:metadata>
 	
 	<ui:define name="content">
