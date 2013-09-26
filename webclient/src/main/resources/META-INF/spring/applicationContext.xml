@@ -63,11 +63,11 @@
     <bean class="org.springframework.orm.jpa.JpaTransactionManager" id="transactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
-    <bean class="com.medisanaspace.web.main.CloudClient" id="cloudClientBean" />
+<!-- <bean class="com.medisanaspace.web.main.CloudClient" id="cloudClientBean" /> -->    
     <bean class="com.medisanaspace.web.testconfig.AuthorizationModule" id="authorizationModuleBean" />   
     <tx:annotation-driven mode="aspectj" transaction-manager="transactionManager"/>
     <bean class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean" id="entityManagerFactory">
         <property name="persistenceUnitName" value="persistenceUnit"/>
         <property name="dataSource" ref="dataSource"/>
-    </bean>
+    </bean> 
 </beans>

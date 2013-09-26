@@ -79,11 +79,10 @@ public class CloudClient {
 	 * @throws Exception
 	 */
 	public OAuthData authorizeWithVerifierToken (String verifierToken) throws Exception{
-		System.out.println("Test");
 		return	authorizationModule.authorizeWithVerifierToken(verifierToken);
 	}
 	
-	public void runTests(List<Integer> testList, OAuthData oauthdata){
+	public void runTests(List<String> testList, OAuthData oauthdata){
 		
 		// maybe configuration of server etc. here
 		//
@@ -103,8 +102,8 @@ public class CloudClient {
 		
 
 		// get selected tests to run
-		for(Integer index: testList){
-			testsToRun.add(tests.get(index));
+		for(String index: testList){
+			testsToRun.add(tests.get(Integer.parseInt(index)));
 		}
 		
 		TestRunner testRunner = new TestRunner(newConfiguration, oauthdata);

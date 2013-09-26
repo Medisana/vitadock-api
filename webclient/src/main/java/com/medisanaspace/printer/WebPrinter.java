@@ -31,7 +31,7 @@ public  class WebPrinter implements PrinterInterface {
 	@Override
 	public void startLog(String startMessage) {
 		if (loggerStatus.equals(LoggerStatus.LOG_ALL))
-			messages+="Start logging: "+ startMessage +"\n -----------";
+			messages+="Start logging: "+ startMessage +" <br /> -----------";
 	}
 
 	/**
@@ -42,7 +42,7 @@ public  class WebPrinter implements PrinterInterface {
 	@Override
 	public void endLog(String endMessage) {
 		if (loggerStatus.equals(LoggerStatus.LOG_ALL))
-			messages+="End of log: "+ endMessage +"\n -----------";
+			messages+="End of log: "+ endMessage +"<br /> -----------";
 	}
 
 	/**
@@ -63,7 +63,7 @@ public  class WebPrinter implements PrinterInterface {
 	@Override
 	public void logMessage(String message){
 	if (loggerStatus.equals(LoggerStatus.LOG_ALL))
-		messages+=message+"\n";
+		messages+=message+"<br />";
 	}
 
 	/**
@@ -74,7 +74,7 @@ public  class WebPrinter implements PrinterInterface {
 	@Override
 	public void logData(String data) {
 		if (loggerStatus.equals(LoggerStatus.LOG_ALL))
-			messages+="    Response: " + data + "\n--------------";
+			messages+="    Response: " + data + "<br /> -------------";
 
 	}
 
@@ -86,7 +86,7 @@ public  class WebPrinter implements PrinterInterface {
 	@Override
 	public void logError(String e) {
 		if (!loggerStatus.equals(LoggerStatus.LOG_DISABLED))
-			messages+=" ------------ \n An Error occured: "+ e +"\n -------------";
+			messages+=" ------------ <br /> An Error occured: "+ e +"<br /> -------------";
 	}
 
 	/**
@@ -98,8 +98,8 @@ public  class WebPrinter implements PrinterInterface {
 	@Override
 	public void logError(String e, Exception exception) {
 		if (!loggerStatus.equals(LoggerStatus.LOG_DISABLED)){
-			messages+=" ------------ \n An Error occured: "+ e +
-							"\n Message: "+ exception +"\n -------------";
+			messages+=" ------------ <br /> An Error occured: "+ e +
+							"<br /> Message: "+ exception +"<br /> -------------";
 			messages+=exception.getStackTrace().toString();
 		}
 	}
@@ -113,12 +113,12 @@ public  class WebPrinter implements PrinterInterface {
 	public void logPost(final HttpRequestBase httppost) {
 		if (loggerStatus.equals(LoggerStatus.LOG_ALL)){		
 			messages+="Request " + httppost.getMethod() + " URL:"
-					+ httppost.getURI()+"\n";
+					+ httppost.getURI()+"<br />";
 			for (Header header : httppost.getAllHeaders()) {
 				messages+="    " + header.getName() + " : "
-						+ header.getValue()+"\n";
+						+ header.getValue()+"<br />";
 			}
-			messages+='\n';
+			messages+="<br />";
 		}
 	}
 

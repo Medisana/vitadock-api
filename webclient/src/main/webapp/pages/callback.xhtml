@@ -5,15 +5,17 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
 <ui:composition template="../templates/layout.xhtml">
-	
-	<f:metadata>
-      <!--<f:event type="preRenderView" listener="#{testRunnerBean.init()}" />-->
-      <f:viewParam id="oauth_verifier" name="oauth_verifier" value="#{testRunnerBean.oauth_verifier}" required="#{empty deny}" />
-      <f:viewParam id="oauth_token" name="oauth_token" value="#{testRunnerBean.oauth_token}" required="#{!facesContext.postback}" />
-      <f:viewParam id="deny" name="deny" value="#{testRunnerBean.deny}"/>
-	</f:metadata>
+
 	
 	<ui:define name="content">
+	
+		<f:metadata>
+		      <f:event type="preRenderView" listener="#{testRunnerBean.authorizeVerifierToken()}"  required="#{!facesContext.postback}" />
+		      <f:viewParam id="oauth_verifier" name="oauth_verifier" value="#{testRunnerBean.oauth_verifier}" required="#{empty deny}" />
+		      <f:viewParam id="oauth_token" name="oauth_token" value="#{testRunnerBean.oauth_token}" required="#{!facesContext.postback}" />
+		      <f:viewParam id="deny" name="deny" value="#{testRunnerBean.deny}"/>
+		</f:metadata>
+	
 	    <p:panel id="mainPanel" toggleable="true" toggleSpeed="250">
 	    	<f:facet name="header">
 	        	<h:outputFormat value="#{messages.label_welcome_titlepane}">
@@ -27,12 +29,18 @@
 
 	    <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
 			Callback Page
-			<h:outputFormat value="#{testRunnerBean.callbackMassage}" />
+<!-- 		<h:outputFormat value="#{testRunnerBean.callbackMassage}" />
+			<h:outputFormat value="Access Token: #{testRunnerBean.oauthdata.accessToken}" />
+			<h:outputFormat value="Access Secret: #{testRunnerBean.oauthdata.accessSecret}" /> 
+-->	
+		
+			<h:outputText id="messageLog" value="#{testRunnerBean.messageLog}"  escape="false"/>
+			<h:outputLabel for="runTestButton" value="Run Tests:" />  
+			<p:commandButton id="runTestButton" value="Run" action="#{testRunnerBean.runTest()}" ajax="true" update="messageLog"  />
 			<h:messages />
 	    </h:panelGrid>
 
 	    <p:separator />
-	
 	
 
 	</h:form>

@@ -23,8 +23,8 @@ import com.medisanaspace.web.testconfig.OAuthData;
 @ManagedBean(name="testRunnerBean")
 public class TestRunnerBean implements Serializable{
 
-	private List<Integer> selectedTests = new ArrayList<Integer>();  
-	private Map<String,Integer> tests;
+	private List<String> selectedTests = new ArrayList<String>();  
+	private Map<String,String> tests;
 	private CloudClient cloudClient;
 	private String messageLog;
 
@@ -33,6 +33,7 @@ public class TestRunnerBean implements Serializable{
 	private String oauth_verifier;
 	private boolean deny;
 	private String callbackMassage;
+	private OAuthData oauthdata;
 	
 	public TestRunnerBean() {
 		init();
@@ -40,26 +41,30 @@ public class TestRunnerBean implements Serializable{
 	
 	public void init() {
 		if (!FacesContext.getCurrentInstance().isPostback()) {
-			tests = new HashMap<String, Integer>();
-			tests.put("Tracker Activity and Tracker Sleep Test", 1);
-			tests.put("Activitydock Test", 2);
-			tests.put("Cardiodock Test", 3);
-		}
-		if (isDeny() && oauth_verifier == null) {
-			setCallbackMassage("Access denied");
-		} else if (!isDeny() && oauth_verifier != null){
-			setCallbackMassage("Tests began");
-			runTest();
-		}
-	}
+			tests = new HashMap<String, String>();
+			tests.put("Tracker Activity and Tracker Sleep Test", "0");
+			tests.put("Activitydock Test", "1");
+			tests.put("Cardiodock Test", "2");
 
+		}
+//		if (isDeny() && oauth_verifier == null) {
+//			setCallbackMassage("Access denied");
+//		} else if (!isDeny() && oauth_verifier != null){
+//			setCallbackMassage("Tests began");
+//			runTest();
+//		}
+	}
+	
+	/**
+	 * Authorize on a host
+	 * @return
+	 */
 	public String authorize() {
-		//cloudClient = new CloudClient();
+		cloudClient = new CloudClient();
 		try {
-			
 			// redirect the user to the login page
-			String url = cloudClient.authorize() + "&faces-redirect=true";
-			System.out.println("url: "+url);
+			String url = cloudClient.authorize();
+		//	System.out.println("url: "+url);
 			FacesContext.getCurrentInstance().getExternalContext().redirect(url);
 		    return null;
 		} catch (Exception e) {
@@ -69,20 +74,46 @@ public class TestRunnerBean implements Serializable{
 		}
 	}
 	
+	/**
+	 * Authorize verifier token
+	 * @return
+	 */
+	public String authorizeVerifierToken(){
+		// we need the verifier token!
+		if(!FacesContext.getCurrentInstance().isPostback()){
+			if (!isDeny() && oauth_verifier != null){
+				try {
+					oauthdata = cloudClient
+							.authorizeWithVerifierToken(oauth_verifier);
+				} catch (Exception e) {
+					System.out.println("Error: Authorize verifier token error");
+					return "error.jsf";
+				}
+			}else{
+				System.out.println("Error: denied or no Verifiertoken");
+				return "error.jsf";			
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * Run tests after authorization process.
+	 * @return
+	 */
 	public String runTest() {
 		try {
-			OAuthData oauthdata = cloudClient
-					.authorizeWithVerifierToken(oauth_verifier);
 			cloudClient.runTests(selectedTests, oauthdata);
 			messageLog = cloudClient.getMessageLog();
 		} catch (Exception e) {
-			//
+			System.out.println("Error: Tests do not run correctly");
+			return "error.jsf";	
 		}
-		return "completed";
+		return null;
 	}
 
 	// getter only
-	public Map<String, Integer> getTests() {
+	public Map<String, String> getTests() {
 		return tests;
 	}
 
@@ -90,11 +121,11 @@ public class TestRunnerBean implements Serializable{
 		return messageLog;
 	}
 
-	public List<Integer> getSelectedTests() {
+	public List<String> getSelectedTests() {
 		return selectedTests;
 	}
 
-	public void setSelectedTests(List<Integer> selectedTests) {
+	public void setSelectedTests(List<String> selectedTests) {
 		this.selectedTests = selectedTests;
 	}
 
@@ -128,5 +159,13 @@ public class TestRunnerBean implements Serializable{
 
 	public void setCallbackMassage(String callbackMassage) {
 		this.callbackMassage = callbackMassage;
+	}
+
+	public OAuthData getOauthdata() {
+		return oauthdata;
+	}
+
+	public void setOauthdata(OAuthData oauthdata) {
+		this.oauthdata = oauthdata;
 	}
 }

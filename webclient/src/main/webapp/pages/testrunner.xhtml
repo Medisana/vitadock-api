@@ -6,11 +6,11 @@
 	xmlns:p="http://primefaces.org/ui">
 <ui:composition template="../templates/layout.xhtml">
 
-	<f:metadata>
-		<f:event type="preRenderView" listener="#{testRunnerBean.init()}" />
-	</f:metadata>
-
 	<ui:define name="content">
+		<f:metadata>
+			<f:event type="preRenderView" listener="#{testRunnerBean.init()}" />
+		</f:metadata>
+		
 		<p:panel id="mainPanel" toggleable="true" toggleSpeed="250">
 			<f:facet name="header">
 
@@ -27,10 +27,9 @@
 						layout="pageDirection">
 						<!-- <f:selectItems value="#{testRunnerBean.tests}"/>-->
 						<f:selectItems value="#{testRunnerBean.tests.entrySet()}"
-							var="entry" itemValue="#{entry.key}" itemLabel="#{entry.key}" />
-
+							var="entry" itemValue="#{entry.value}" itemLabel="#{entry.key}" />
 					</p:selectManyCheckbox>
-
+				
 				</h:panelGrid>
 
 				<p:separator />
