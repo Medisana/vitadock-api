@@ -12,7 +12,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import com.medisanaspace.library.StringUtil;
-import com.medisanaspace.printer.PrinterInterface;
+import com.medisanaspace.printer.AbstractPrinter;
 import com.medisanaspace.web.library.AuthorizationBuilder;
 import com.medisanaspace.web.main.CloudClient;
 import com.medisanaspace.web.testconfig.OAuthData;
@@ -39,7 +39,7 @@ public abstract class AbstractTestTask implements Runnable{
 	protected ArrayList<String> latency = new ArrayList<String>();
 	protected OAuthData oauthData;
 	protected ServerConfig serverConfig;
-	protected PrinterInterface printer;
+	protected AbstractPrinter printer;
 	protected final int numberOfEntries;
 	
 	public AbstractTestTask(int numberOfEntries) {
@@ -152,7 +152,7 @@ public abstract class AbstractTestTask implements Runnable{
 		String responseString = IOUtils.toString(response.getEntity()
 				.getContent(), ENCODING);
 		latency.add(String.valueOf(System.currentTimeMillis() - curr));
-		CloudClient.printer.logData(responseString);
+		CloudClient.printer.logJSONData(responseString);
 
 		return responseString;
 
@@ -205,7 +205,7 @@ public abstract class AbstractTestTask implements Runnable{
 		String responseString = IOUtils.toString(response.getEntity()
 				.getContent(), ENCODING);
 
-		CloudClient.printer.logData(responseString);
+		CloudClient.printer.logJSONData(responseString);
 		
 		latency.add(String.valueOf(System.currentTimeMillis() - curr));
 	}
@@ -386,7 +386,7 @@ public abstract class AbstractTestTask implements Runnable{
 	 * Method getPrinter.
 	 * @return PrinterInterface
 	 */
-	public PrinterInterface getPrinter() {
+	public AbstractPrinter getPrinter() {
 		return printer;
 	}
 
@@ -394,7 +394,7 @@ public abstract class AbstractTestTask implements Runnable{
 	 * Method setPrinter.
 	 * @param printer PrinterInterface
 	 */
-	public void setPrinter(PrinterInterface printer) {
+	public void setPrinter(AbstractPrinter printer) {
 		this.printer = printer;
 	}
 

@@ -80,14 +80,14 @@ public class TrackerActivityAndTrackerSleepTestTask extends AbstractTestTask {
 				AuthorizationBuilder.TRACKER_ACTIVITY_MODULE_ID,
 				this.oauthData.getAccessToken(),
 				this.oauthData.getAccessSecret());
-		printer.logData(data);
+		printer.logJSONData(data);
 		
 		data = loadData(this.oauthData.getDeviceToken(),
 				this.oauthData.getDeviceSecret(), 
 				AuthorizationBuilder.TRACKER_SLEEP_MODULE_ID,
 				this.oauthData.getAccessToken(),
 				this.oauthData.getAccessSecret());
-		printer.logData(data);
+		printer.logJSONData(data);
 	
 		
 		int countTrackerActivity = countData(this.oauthData.getDeviceToken(),

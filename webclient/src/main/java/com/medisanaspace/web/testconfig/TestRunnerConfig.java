@@ -1,6 +1,6 @@
 package com.medisanaspace.web.testconfig;
 
-import com.medisanaspace.printer.PrinterInterface;
+import com.medisanaspace.printer.AbstractPrinter;
 import com.medisanaspace.web.testtask.User;
 
 /**
@@ -42,7 +42,7 @@ public final class TestRunnerConfig {
 	private boolean mobile;
 	private int numberOfThreads = 1;
 
-	private PrinterInterface printer;
+	private AbstractPrinter printer;
 	private ServerConfig serverConfig;
 	private OAuthData oauthData;
 
@@ -63,7 +63,7 @@ public final class TestRunnerConfig {
 	 *            
 	 */
 	public TestRunnerConfig(ServerType serverType, User user, boolean mobile,
-			int numberOfThreads, PrinterInterface printer) {
+			int numberOfThreads, AbstractPrinter printer) {
 		serverConfig = new ServerConfig();
 		this.printer = printer;
 		this.setNumberOfThreads(numberOfThreads);
@@ -191,7 +191,7 @@ public final class TestRunnerConfig {
 	 * 
 	 * @return PrinterInterface
 	 */
-	public PrinterInterface getPrinter() {
+	public AbstractPrinter getPrinter() {
 		return printer;
 	}
 
@@ -201,7 +201,7 @@ public final class TestRunnerConfig {
 	 * @param printer
 	 *            PrinterInterface
 	 */
-	public void setPrinter(PrinterInterface printer) {
+	public void setPrinter(AbstractPrinter printer) {
 		this.printer = printer;
 	}
 

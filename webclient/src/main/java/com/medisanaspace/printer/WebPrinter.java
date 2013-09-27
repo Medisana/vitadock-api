@@ -1,14 +1,18 @@
 package com.medisanaspace.printer;
 
+import java.util.EnumSet;
+
 import org.apache.http.Header;
 import org.apache.http.client.methods.HttpRequestBase;
+
+import com.medisanaspace.printer.AbstractPrinter.LoggerAction;
 
 /**
  * Concrete Console Printer.
  * 
  */
-public  class WebPrinter implements PrinterInterface {
-	private LoggerStatus loggerStatus;
+public  class WebPrinter extends AbstractPrinter{
+
 	private String messages = "";
 	
 	public String getMessages(){
@@ -19,8 +23,8 @@ public  class WebPrinter implements PrinterInterface {
 	 * Constructor for ConsolePrinter.
 	 * @param loggerStatus LoggerStatus
 	 */
-	public WebPrinter(LoggerStatus loggerStatus) {
-		this.loggerStatus = loggerStatus;
+	public WebPrinter(EnumSet<LoggerAction> set) {
+		super(set);
 	}
 	
 	/**
@@ -30,8 +34,8 @@ public  class WebPrinter implements PrinterInterface {
 	 */
 	@Override
 	public void startLog(String startMessage) {
-		if (loggerStatus.equals(LoggerStatus.LOG_ALL))
-			messages+="Start logging: "+ startMessage +" <br /> -----------";
+		if (loggerActionSet.contains(LoggerAction.LOG_MESSAGE))
+			messages+="Start logging: "+ startMessage +" <br /> -----------<br /> ";
 	}
 
 	/**
@@ -41,8 +45,8 @@ public  class WebPrinter implements PrinterInterface {
 	 */
 	@Override
 	public void endLog(String endMessage) {
-		if (loggerStatus.equals(LoggerStatus.LOG_ALL))
-			messages+="End of log: "+ endMessage +"<br /> -----------";
+		if (loggerActionSet.contains(LoggerAction.LOG_MESSAGE))
+			messages+="End of log: "+ endMessage +"<br /> -----------<br /> ";
 	}
 
 	/**
@@ -51,8 +55,8 @@ public  class WebPrinter implements PrinterInterface {
 	 * @see com.medisanaspace.printer.PrinterInterface#startDataSet(String)
 	 */
 	@Override
-	public void startDataSet(String s) {
-		// not needed in the console printer
+	public void startDataSet(String testName) {
+		messages+="<br /> <b> Start test: "+testName+" </b> <br />";
 	}
 
 	/**
@@ -62,19 +66,19 @@ public  class WebPrinter implements PrinterInterface {
 	 */
 	@Override
 	public void logMessage(String message){
-	if (loggerStatus.equals(LoggerStatus.LOG_ALL))
+	if (loggerActionSet.contains(LoggerAction.LOG_MESSAGE))
 		messages+=message+"<br />";
 	}
 
 	/**
 	 * Method logData.
 	 * @param data String
-	 * @see com.medisanaspace.printer.PrinterInterface#logData(String)
+	 * @see com.medisanaspace.printer.PrinterInterface#logJSONData(String)
 	 */
 	@Override
-	public void logData(String data) {
-		if (loggerStatus.equals(LoggerStatus.LOG_ALL))
-			messages+="    Response: " + data + "<br /> -------------";
+	public void logJSONData(String data) {
+		if (loggerActionSet.contains(LoggerAction.LOG_JSON_DATA))
+			messages+="Response: " + data + "<br /> ------------- <br />";
 
 	}
 
@@ -85,8 +89,8 @@ public  class WebPrinter implements PrinterInterface {
 	 */
 	@Override
 	public void logError(String e) {
-		if (!loggerStatus.equals(LoggerStatus.LOG_DISABLED))
-			messages+=" ------------ <br /> An Error occured: "+ e +"<br /> -------------";
+		if (loggerActionSet.contains(LoggerAction.LOG_ERROR))
+			messages+=" ------------ <br /> An Error occured: "+ e +"<br /> -------------<br /> ";
 	}
 
 	/**
@@ -97,10 +101,10 @@ public  class WebPrinter implements PrinterInterface {
 	 */
 	@Override
 	public void logError(String e, Exception exception) {
-		if (!loggerStatus.equals(LoggerStatus.LOG_DISABLED)){
+		if (loggerActionSet.contains(LoggerAction.LOG_ERROR)){
 			messages+=" ------------ <br /> An Error occured: "+ e +
-							"<br /> Message: "+ exception +"<br /> -------------";
-			messages+=exception.getStackTrace().toString();
+							"<br /> Message: "+ exception +"<br /> -------------<br /> ";
+			messages+=exception.getStackTrace().toString()+"<br /> ";
 		}
 	}
 
@@ -111,7 +115,7 @@ public  class WebPrinter implements PrinterInterface {
 	 */
 	@Override
 	public void logPost(final HttpRequestBase httppost) {
-		if (loggerStatus.equals(LoggerStatus.LOG_ALL)){		
+		if (loggerActionSet.contains(LoggerAction.LOG_PROTOCOL_MESSAGE)){		
 			messages+="Request " + httppost.getMethod() + " URL:"
 					+ httppost.getURI()+"<br />";
 			for (Header header : httppost.getAllHeaders()) {
@@ -120,6 +124,21 @@ public  class WebPrinter implements PrinterInterface {
 			}
 			messages+="<br />";
 		}
+	}
+
+	@Override
+	public void logActivity(String activity) {
+		if(loggerActionSet.contains(LoggerAction.LOG_ACTIVITY)){
+			messages+="<b>"+activity+"</b> <br />";
+		}
+	}
+
+	@Override
+	public void logProtocolMessages(String s) {
+		if (loggerActionSet.contains(LoggerAction.LOG_PROTOCOL_MESSAGE)){
+			messages+=s+"<br />";
+		}
+		
 	}
 
 }

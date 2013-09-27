@@ -44,7 +44,7 @@ public class AuthorizationModule {
 		 * For mobile applications (desktop, smartphone etc.) only. This
 		 * exchanges the application token with the device token.
 		 */
-		CloudClient.printer.logMessage("Get device token and device secret\n");
+		CloudClient.printer.logActivity("Get device token and device secret\n");
 		if (testRunnerConfig.isMobile()) {
 			DefaultHttpClient httpClient = new DefaultHttpClient();
 			HttpPost httppost = null;
@@ -74,7 +74,7 @@ public class AuthorizationModule {
 
 				str = strBuffer.toString();
 
-				CloudClient.printer.logData(str);
+				CloudClient.printer.logJSONData(str);
 
 				if (str.split("&").length < 2) {
 					throw new Exception(str);
@@ -123,7 +123,7 @@ public class AuthorizationModule {
 		HashMap<String, String> tokenAndSecret = new HashMap<>();
 		// --- Check Verifier Token ---
 
-		CloudClient.printer.logMessage("Check verifier token\n");
+		CloudClient.printer.logActivity("Check verifier token");
 
 		String uriOauthRequest = testRunnerConfig.getHTTPS_AUTH_URL()
 				+ "/accesses/verify";
@@ -149,7 +149,7 @@ public class AuthorizationModule {
 					.getEntity().getContent()));
 			try {
 				while ((str = bufferReader.readLine()) != null) {
-					CloudClient.printer.logData(str);
+					CloudClient.printer.logJSONData(str);
 					tokenAndSecret
 							.put("token", str.split("&")[0].split("=")[1]);
 					tokenAndSecret.put("secret",
@@ -187,8 +187,7 @@ public class AuthorizationModule {
 		BufferedReader bufferReader = null;
 		HttpResponse response = null;
 		String verifierToken = "";
-		CloudClient.printer
-				.logMessage("Create a random user and retrieve verifier token\n");
+		CloudClient.printer.logActivity("Create a random user and retrieve verifier token\n");
 		// generate new test user
 		testRunnerConfig.setUser(new User(RandomHelper.randomString(4) + "."
 				+ RandomHelper.randomString(4), RandomHelper.randomString(10),
@@ -217,7 +216,7 @@ public class AuthorizationModule {
 			}
 
 			str = strBuffer.toString();
-			CloudClient.printer.logData(str);
+			CloudClient.printer.logJSONData(str);
 
 			if (str.equals("") || str.split("&").length < 1) {
 				CloudClient.printer.logError("Error when creating a new user!");
@@ -360,7 +359,7 @@ public class AuthorizationModule {
 		HashMap<String, String> tokenAndSecret = new HashMap<>();
 
 		CloudClient.printer
-				.logMessage("Get unauthorized access token and secret\n");
+				.logActivity("Get unauthorized access token and secret\n");
 
 		httpClient = new DefaultHttpClient();
 		String uriOauthRequest = testRunnerConfig.getHTTPS_AUTH_URL()
@@ -384,7 +383,7 @@ public class AuthorizationModule {
 			}
 
 			str = strBuffer.toString();
-			CloudClient.printer.logData(str);
+			CloudClient.printer.logJSONData(str);
 			if (str.split("&").length < 2) {
 				CloudClient.printer
 						.logError("Invalid response from server when acquiring Unauthorized Access Token!");

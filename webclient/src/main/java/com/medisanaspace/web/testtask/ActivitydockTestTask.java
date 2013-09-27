@@ -23,7 +23,7 @@ public class ActivitydockTestTask extends AbstractTestTask {
 	 */
 	@Override
 	protected void executeTask() throws Exception {
-		printer.logMessage("Activitydoc Test");
+		printer.startDataSet("Activitydoc Test");
 		final List<Activitydock> activityList = new ArrayList<Activitydock>();
 
 		for (int i = 0; i < numberOfEntries; i++) {

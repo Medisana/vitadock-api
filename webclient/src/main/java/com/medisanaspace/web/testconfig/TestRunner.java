@@ -59,7 +59,7 @@ public class TestRunner {
 			task.setOauthData(testRunnerConfig.getOauthData());
 			task.setPrinter(testRunnerConfig.getPrinter());
 			executor.execute(task);
-
+	
 		}
 
 		executor.shutdown();
@@ -69,8 +69,18 @@ public class TestRunner {
 			CloudClient.printer.logError("thread executor error", e);
 
 		}
+		
+		CloudClient.printer.logMessage("Latencies:");
 
-		CloudClient.printer.endLog("finished successfully.");
+		for (AbstractTestTask task : testTasks) {
+			CloudClient.printer.logMessage("</ br>"+task.getClass().getSimpleName());			
+			for(String latency: task.getLatency()){
+				CloudClient.printer.logMessage(latency+"ms");
+			}
+		}
+		
+		CloudClient.printer.endLog("Finished");
+		
 	}
 
 	// /**
