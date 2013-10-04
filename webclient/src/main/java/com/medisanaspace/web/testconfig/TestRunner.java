@@ -43,13 +43,8 @@ public class TestRunner {
 	 */
 	public void runTests() {
 		CloudClient.printer.startLog("Start with tests");
-		try {
-			// OAuthData oAuthData = retrieveOAuthData();
-			testRunnerConfig.setOauthData(oAuthData);
-		} catch (Exception e) {
-			CloudClient.printer.logError("Error when retrieving oAuth data: ",
-					e);
-		}
+		// OAuthData oAuthData = retrieveOAuthData();
+		testRunnerConfig.setOauthData(oAuthData);
 
 		ExecutorService executor = Executors
 				.newFixedThreadPool(testRunnerConfig.getNumberOfThreads());
@@ -59,7 +54,7 @@ public class TestRunner {
 			task.setOauthData(testRunnerConfig.getOauthData());
 			task.setPrinter(testRunnerConfig.getPrinter());
 			executor.execute(task);
-	
+
 		}
 
 		executor.shutdown();
@@ -69,11 +64,9 @@ public class TestRunner {
 			CloudClient.printer.logError("thread executor error", e);
 
 		}
-		
-		
-		
+
 		CloudClient.printer.endLog("Finished");
-		
+
 	}
 
 	// /**

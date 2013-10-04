@@ -69,6 +69,7 @@ public class CloudClient {
 	 * @throws Exception
 	 */
 	public String authorize() throws Exception {
+		((WebPrinter)CloudClient.printer).clearLog();
 		authorizationModule = new AuthorizationModule(newConfiguration);
 		return authorizationModule.authorize();
 	}

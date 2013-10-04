@@ -27,6 +27,10 @@ public  class WebPrinter extends AbstractPrinter{
 		super(set);
 	}
 	
+	public void clearLog(){
+		messages="";
+	}
+	
 	/**
 	 * Method startLog.
 	 * @param startMessage String

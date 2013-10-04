@@ -12,6 +12,9 @@ import javax.faces.context.FacesContext;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.medisanaspace.web.main.CloudClient;
 
@@ -22,7 +25,7 @@ import com.medisanaspace.web.testconfig.OAuthData;
 @SessionScoped
 @ManagedBean(name="testRunnerBean")
 public class TestRunnerBean implements Serializable{
-
+	
 	private List<String> selectedTests = new ArrayList<String>();  
 	private Map<String,String> tests;
 	private CloudClient cloudClient;
@@ -45,13 +48,19 @@ public class TestRunnerBean implements Serializable{
 			tests.put("Tracker Activity and Tracker Sleep Test", "0");
 			tests.put("Activitydock Test", "1");
 			tests.put("Cardiodock Test", "2");
-			tests.put("Targetscale Test", "3");
-			tests.put("Thermodock Test", "4");
-			tests.put("TrackerPhase Test", "5");
-			tests.put("TrackerSleep Test", "6");
-			tests.put("UserSettings Test", "7");
+			tests.put("Gluckodock Test", "3");
+			tests.put("Targetscale Test", "4");
+			tests.put("Thermodock Test", "5");
+			tests.put("TrackerPhase Test", "6");
+			tests.put("TrackerSleep Test", "7");
+			tests.put("UserSettings Test", "8");
 		}
 
+	}
+	
+	@RequestMapping("/latency")
+	public String getlatency(@RequestParam String server, Model model){
+		return "";	
 	}
 	
 	/**
