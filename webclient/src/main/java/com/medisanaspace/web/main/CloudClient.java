@@ -88,7 +88,6 @@ public class CloudClient {
 	public void runTests(List<String> testList, OAuthData oauthdata) {
 
 		// maybe configuration of server etc. here
-		//
 		int numberOfEntries = 1;
 
 		// available tests
@@ -111,12 +110,24 @@ public class CloudClient {
 		TestRunner testRunner = new TestRunner(newConfiguration, oauthdata);
 		testRunner.setTestTasks(testsToRun);
 		testRunner.runTests();
-
+		
+		// latencies
+		CloudClient.printer.logMessage("Latencies:");
+		
+		CloudClient.printer.logMessage("Authorization Module");
+		for(String latency: authorizationModule.getLatency()){
+			CloudClient.printer.logMessage(latency+"ms");
+		}
+		
+		for (AbstractTestTask task : testsToRun) {
+			CloudClient.printer.logMessage("</ br>"+task.getClass().getSimpleName());			
+			for(String latency: task.getLatency()){
+				CloudClient.printer.logMessage(latency+"ms");
+			}
+		}
+			
 		messageLog = ((WebPrinter) printer).getMessages();
-		// retrieve latencies
-		// for(AbstractTestTask task: testsToRun){
-		// task.getLatency()
-		// }
+	
 
 	}
 

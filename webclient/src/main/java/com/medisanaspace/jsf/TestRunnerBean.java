@@ -45,14 +45,13 @@ public class TestRunnerBean implements Serializable{
 			tests.put("Tracker Activity and Tracker Sleep Test", "0");
 			tests.put("Activitydock Test", "1");
 			tests.put("Cardiodock Test", "2");
-
+			tests.put("Targetscale Test", "3");
+			tests.put("Thermodock Test", "4");
+			tests.put("TrackerPhase Test", "5");
+			tests.put("TrackerSleep Test", "6");
+			tests.put("UserSettings Test", "7");
 		}
-//		if (isDeny() && oauth_verifier == null) {
-//			setCallbackMassage("Access denied");
-//		} else if (!isDeny() && oauth_verifier != null){
-//			setCallbackMassage("Tests began");
-//			runTest();
-//		}
+
 	}
 	
 	/**
@@ -64,7 +63,6 @@ public class TestRunnerBean implements Serializable{
 		try {
 			// redirect the user to the login page
 			String url = cloudClient.authorize();
-		//	System.out.println("url: "+url);
 			FacesContext.getCurrentInstance().getExternalContext().redirect(url);
 		    return null;
 		} catch (Exception e) {

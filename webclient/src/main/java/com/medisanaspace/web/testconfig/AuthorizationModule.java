@@ -2,6 +2,7 @@ package com.medisanaspace.web.testconfig;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.apache.http.HttpResponse;
@@ -18,6 +19,7 @@ public class AuthorizationModule {
 
 	private TestRunnerConfig testRunnerConfig;
 	private OAuthData oauthData = new OAuthData();
+	private ArrayList<String> latency = new ArrayList<String>();
 	
 	// temporary tokens
 	String unauthorizedAccessToken = "";
@@ -62,8 +64,10 @@ public class AuthorizationModule {
 			httppost.setHeader(AUTHORIZATION_STRING, authorization);
 			httppost.setHeader("device_id", "123ABC");
 			CloudClient.printer.logPost(httppost);
-
+			
+			long curr = System.currentTimeMillis();
 			response = httpClient.execute(httppost);
+
 			try {
 				bufferReader = new BufferedReader(new InputStreamReader(
 						response.getEntity().getContent()));
@@ -71,8 +75,8 @@ public class AuthorizationModule {
 				while ((str = bufferReader.readLine()) != null) {
 					strBuffer.append(str);
 				}
-
 				str = strBuffer.toString();
+				latency.add(String.valueOf(System.currentTimeMillis() - curr));
 
 				CloudClient.printer.logJSONData(str);
 
@@ -142,7 +146,8 @@ public class AuthorizationModule {
 					"application/x-www-form-urlencoded");
 			httppost.setHeader(AUTHORIZATION_STRING, authorization);
 			CloudClient.printer.logPost(httppost);
-
+			
+			long curr = System.currentTimeMillis();
 			response = httpClient.execute(httppost);
 			String str = null;
 			bufferReader = new BufferedReader(new InputStreamReader(response
@@ -156,6 +161,7 @@ public class AuthorizationModule {
 							str.split("&")[1].split("=")[1]);
 					break;
 				}
+				latency.add(String.valueOf(System.currentTimeMillis() - curr));
 			} catch (Exception e) {
 				CloudClient.printer.logError(
 						"error while checking the verifier token: " + str, e);
@@ -204,7 +210,7 @@ public class AuthorizationModule {
 		httppost.setHeader("password", testRunnerConfig.getUser().getPassword());
 		httppost.setHeader("locale", testRunnerConfig.getUser().getLocale());
 		CloudClient.printer.logPost(httppost);
-
+		long curr = System.currentTimeMillis();
 		response = httpClient.execute(httppost);
 
 		try {
@@ -214,8 +220,8 @@ public class AuthorizationModule {
 			while ((str = bufferReader.readLine()) != null) {
 				strBuffer.append(str);
 			}
-
 			str = strBuffer.toString();
+			latency.add(String.valueOf(System.currentTimeMillis() - curr));
 			CloudClient.printer.logJSONData(str);
 
 			if (str.equals("") || str.split("&").length < 1) {
@@ -371,7 +377,7 @@ public class AuthorizationModule {
 		httppost.setHeader("Content-Type", "application/x-www-form-urlencoded");
 		httppost.setHeader(AUTHORIZATION_STRING, authorization);
 		CloudClient.printer.logPost(httppost);
-
+		long curr = System.currentTimeMillis();
 		response = httpClient.execute(httppost);
 
 		try {
@@ -381,9 +387,10 @@ public class AuthorizationModule {
 			while ((str = bufferReader.readLine()) != null) {
 				strBuffer.append(str);
 			}
-
 			str = strBuffer.toString();
+			latency.add(String.valueOf(System.currentTimeMillis() - curr));
 			CloudClient.printer.logJSONData(str);
+			
 			if (str.split("&").length < 2) {
 				CloudClient.printer
 						.logError("Invalid response from server when acquiring Unauthorized Access Token!");
@@ -399,7 +406,11 @@ public class AuthorizationModule {
 			httpClient.getConnectionManager().shutdown();
 		}
 		return tokenAndSecret;
-
 	}
+
+	public ArrayList<String> getLatency() {
+		return latency;
+	}
+	
 
 }

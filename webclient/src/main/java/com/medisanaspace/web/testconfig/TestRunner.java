@@ -70,14 +70,7 @@ public class TestRunner {
 
 		}
 		
-		CloudClient.printer.logMessage("Latencies:");
-
-		for (AbstractTestTask task : testTasks) {
-			CloudClient.printer.logMessage("</ br>"+task.getClass().getSimpleName());			
-			for(String latency: task.getLatency()){
-				CloudClient.printer.logMessage(latency+"ms");
-			}
-		}
+		
 		
 		CloudClient.printer.endLog("Finished");
 		
