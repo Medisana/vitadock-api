@@ -26,6 +26,7 @@ public class UserSettingsTestTask extends AbstractTestTask {
 		for (int i = 0; i < numberOfEntries; i++) {
 			userSettingsList.add(new UserSettingsFixture().getUserSettings());
 		}
+		printer.startDataSet("Usersettings test");
 		String responseUserSettings = saveJSONData(
 				this.oauthData.getDeviceToken(),
 				this.oauthData.getDeviceSecret(),

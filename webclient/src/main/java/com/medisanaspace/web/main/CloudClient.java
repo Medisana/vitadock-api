@@ -2,13 +2,16 @@ package com.medisanaspace.web.main;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
 import com.medisanaspace.printer.AbstractPrinter;
 import com.medisanaspace.printer.AbstractPrinter.LoggerAction;
 import com.medisanaspace.printer.WebPrinter;
+import com.medisanaspace.web.library.AuthorizationBuilder;
 import com.medisanaspace.web.testconfig.AuthorizationModule;
 import com.medisanaspace.web.testconfig.OAuthData;
 import com.medisanaspace.web.testconfig.ServerType;
@@ -57,7 +60,7 @@ public class CloudClient {
 	@Resource(name = "authorizationModuleBean")
 	private AuthorizationModule authorizationModule;
 
-	private String messageLog = "";
+//	private String messageLog = "";
 
 	public CloudClient() {
 	}
@@ -92,20 +95,21 @@ public class CloudClient {
 		int numberOfEntries = 1;
 
 		// available tests
-		final ArrayList<AbstractTestTask> tests = new ArrayList<AbstractTestTask>();
-		tests.add(new TrackerActivityAndTrackerSleepTestTask(numberOfEntries));
-		tests.add(new ActivitydockTestTask(numberOfEntries));
-		tests.add(new CardiodockTestTask(numberOfEntries));
-		tests.add(new GluckodockTestTask(numberOfEntries));
-		tests.add(new TargetscaleTestTask(numberOfEntries));
-		tests.add(new ThermodockTestTask(numberOfEntries));
-		tests.add(new TrackerPhaseTestTask(numberOfEntries));
-		tests.add(new TrackerSleepTestTask(numberOfEntries));
-		tests.add(new UserSettingsTestTask(numberOfEntries));
-
+		final Map<String,AbstractTestTask> tests = new HashMap<String, AbstractTestTask>();
+		tests.put(String.valueOf(AuthorizationBuilder.TRACKER_ACTIVITY_MODULE_ID), new TrackerActivityAndTrackerSleepTestTask(numberOfEntries));
+		tests.put(String.valueOf(AuthorizationBuilder.ACTIVITY_MODULE_ID), new ActivitydockTestTask(numberOfEntries));
+		tests.put(String.valueOf(AuthorizationBuilder.CARDIODOCK_MODULE_ID), new CardiodockTestTask(numberOfEntries));
+		tests.put(String.valueOf(AuthorizationBuilder.GLUCODOCK_GLUCOSE_MODULE_ID), new GluckodockTestTask(numberOfEntries));
+		tests.put(String.valueOf(AuthorizationBuilder.TARGETSCALE_MODULE_ID),new TargetscaleTestTask(numberOfEntries));
+		tests.put(String.valueOf(AuthorizationBuilder.THERMODOCK_MODULE_ID),new ThermodockTestTask(numberOfEntries));
+		tests.put(String.valueOf(AuthorizationBuilder.TRACKER_PHASE_MODULE_ID),new TrackerPhaseTestTask(numberOfEntries));
+		tests.put(String.valueOf(AuthorizationBuilder.TRACKER_SLEEP_MODULE_ID), new TrackerSleepTestTask(numberOfEntries));
+		tests.put(String.valueOf(AuthorizationBuilder.USER_SETTINGS_MODULE_ID), new UserSettingsTestTask(numberOfEntries));
+	
 		// get selected tests to run
+		testsToRun.clear();
 		for (String index : testList) {
-			testsToRun.add(tests.get(Integer.parseInt(index)));
+			testsToRun.add(tests.get(index));
 		}
 
 		TestRunner testRunner = new TestRunner(newConfiguration, oauthdata);
@@ -127,13 +131,13 @@ public class CloudClient {
 			}
 		}
 			
-		messageLog = ((WebPrinter) printer).getMessages();
+		//messageLog = ((WebPrinter) printer).getMessages();
 	
 
 	}
 
 	public String getMessageLog() {
-		return messageLog;
+		return ((WebPrinter)CloudClient.printer).getMessages();
 	}
 
 }

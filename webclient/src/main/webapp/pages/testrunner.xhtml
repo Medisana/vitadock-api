@@ -27,7 +27,7 @@
 						layout="pageDirection">
 						<!-- <f:selectItems value="#{testRunnerBean.tests}"/>-->
 						<f:selectItems value="#{testRunnerBean.tests.entrySet()}"
-							var="entry" itemValue="#{entry.value}" itemLabel="#{entry.key}" />
+							var="entry" itemValue="#{entry.key}" itemLabel="#{entry.value}" />
 					</p:selectManyCheckbox>
 				
 				</h:panelGrid>

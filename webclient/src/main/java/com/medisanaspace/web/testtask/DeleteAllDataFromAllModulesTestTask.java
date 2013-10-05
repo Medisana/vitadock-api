@@ -28,9 +28,8 @@ public class DeleteAllDataFromAllModulesTestTask extends AbstractTestTask {
 		String deviceSecret = oauthData.getDeviceSecret();
 		String accessToken = oauthData.getAccessToken();
 		String accessSecret = oauthData.getAccessSecret();
-
-		this.printer.logMessage("Delete all data from all modules.\n");
-
+		printer.startDataSet("Delete all data test");
+		
 		deleteAllDataFromModule(deviceToken, deviceSecret,
 				AuthorizationBuilder.CARDIODOCK_MODULE_ID, accessToken,
 				accessSecret);

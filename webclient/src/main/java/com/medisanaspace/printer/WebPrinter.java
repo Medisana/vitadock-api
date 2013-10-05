@@ -5,8 +5,6 @@ import java.util.EnumSet;
 import org.apache.http.Header;
 import org.apache.http.client.methods.HttpRequestBase;
 
-import com.medisanaspace.printer.AbstractPrinter.LoggerAction;
-
 /**
  * Concrete Console Printer.
  * 
@@ -38,6 +36,7 @@ public  class WebPrinter extends AbstractPrinter{
 	 */
 	@Override
 	public void startLog(String startMessage) {
+		clearLog();
 		if (loggerActionSet.contains(LoggerAction.LOG_MESSAGE))
 			messages+="Start logging: "+ startMessage +" <br /> -----------<br /> ";
 	}

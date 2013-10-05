@@ -20,6 +20,7 @@ public class TrackerPhaseTestTask extends AbstractTestTask {
 	 */
 	@Override
 	protected void executeTask() throws Exception {
+		printer.startDataSet("Trackerphase test");
 		final List<TrackerPhase> trackerPhaseList = new ArrayList<TrackerPhase>();
 		// read only
 		String responseTrackerPhase = syncData(this.oauthData.getDeviceToken(),

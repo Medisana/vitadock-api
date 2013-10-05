@@ -24,7 +24,7 @@ public class CardiodockTestTask extends AbstractTestTask {
 	 */
 	@Override
 	protected void executeTask() throws Exception{
-		printer.logMessage("Cardiodock test");
+		printer.startDataSet("Cardiodock test");
 		final List<Cardiodock> cardiodockList = new ArrayList<Cardiodock>();
 		
 		// generate random entries

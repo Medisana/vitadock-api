@@ -37,7 +37,7 @@ public class ThermodockTestTask extends AbstractTestTask {
 						.getThermodock());
 			}
 		}
-
+		printer.startDataSet("Thermodock test");
 		String responseThermodock = saveJSONData(
 				this.oauthData.getDeviceToken(),
 				this.oauthData.getDeviceSecret(),

@@ -11,7 +11,7 @@
 	
 		<f:metadata>
 		      <f:event type="preRenderView" listener="#{testRunnerBean.authorizeVerifierToken()}"  required="#{!facesContext.postback}" />
-		      <f:viewParam id="oauth_verifier" name="oauth_verifier" value="#{testRunnerBean.oauth_verifier}" required="#{empty deny}" />
+		      <f:viewParam id="oauth_verifier" name="oauth_verifier" value="#{testRunnerBean.oauth_verifier}"  />
 		      <f:viewParam id="oauth_token" name="oauth_token" value="#{testRunnerBean.oauth_token}" required="#{!facesContext.postback}" />
 		      <f:viewParam id="deny" name="deny" value="#{testRunnerBean.deny}"/>
 		</f:metadata>
@@ -35,6 +35,7 @@
 			<h:outputText id="messageLog" value="#{testRunnerBean.messageLog}"  escape="false"/>
 			<h:outputLabel for="runTestButton" value="Run Tests:" />  
 			<p:commandButton id="runTestButton" value="Run" action="#{testRunnerBean.runTest()}" ajax="true" update="messageLog"  />
+		<!--	<p:lineChart id="linear" value="#{chartBean.linearModel}" legendPosition="e"  title="Linear Chart" minY="0" maxY="10" style="height:300px"/> --> 
 			<h:messages />
 	    </h:panelGrid>
 

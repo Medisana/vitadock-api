@@ -23,7 +23,7 @@ public class TargetscaleTestTask extends AbstractTestTask {
 	 */
 	@Override
 	protected void executeTask() throws Exception {
-
+		printer.startDataSet("Targetscale Test");
 		final List<Targetscale> targetscaleList = new ArrayList<Targetscale>();
 		int index = 0;
 		for (int i = 0; i < numberOfEntries; i++) {

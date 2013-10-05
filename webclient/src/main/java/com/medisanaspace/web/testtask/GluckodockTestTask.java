@@ -35,7 +35,7 @@ public class GluckodockTestTask extends AbstractTestTask {
 		String accessToken = oauthData.getAccessToken();
 		String accessSecret = oauthData.getAccessSecret();
 		
-		printer.logMessage("Gluckodock test");
+		printer.startDataSet("Gluckodock test");
 		
 		// fill with "maxEntries" random entries
 		int index = 0;
