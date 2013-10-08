@@ -5,7 +5,7 @@
 	<projects>
 	</projects>
 	<buildSpec>
-		<buildCommand>
+		<buildCommand> 
 			<name>org.eclipse.wst.jsdt.core.javascriptValidator</name>
 			<arguments>
 			</arguments>
