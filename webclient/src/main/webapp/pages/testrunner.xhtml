@@ -18,10 +18,30 @@
 			<p />
 
 
-			<h:form>
+			<h:form id ="form">
 
 				<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
-
+					
+					<h:outputText value="Select your role:" />
+					<p:selectOneMenu value="#{testRunnerBean.role}" >  
+						<f:selectItems value="#{testRunnerBean.roleList.entrySet()}" 
+						    var="r" itemValue="#{r.key}" itemLabel="#{r.value}" />
+						    <f:ajax listener="#{testRunnerBean.updateLoggerLevel}" render=":form:loggerBox"/>
+			        </p:selectOneMenu>
+			    </h:panelGrid>   
+			
+				
+				<p:panel id="pnl" header="Output Options" toggleable="true" closable="false"
+					collapsed="true" toggleSpeed="500" closeSpeed="500" widgetVar="panel">  
+  					<h:outputText value="Select your output:" />
+					<p:selectManyCheckbox  value="#{testRunnerBean.loggerLevel}" id="loggerBox"
+						layout="pageDirection" disabled="#{testRunnerBean.role ne 'DEVELOPER'}" >
+						<f:selectItems value="#{testRunnerBean.loggerList.entrySet()}"
+							var="entry" itemValue="#{entry.key}" itemLabel="#{entry.value}" />
+					</p:selectManyCheckbox>
+	    		</p:panel>
+	    	      
+			    <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
 					<h:outputText value="Select your tests:" />
 					<p:selectManyCheckbox value="#{testRunnerBean.selectedTests}"
 						layout="pageDirection">
@@ -29,7 +49,17 @@
 						<f:selectItems value="#{testRunnerBean.tests.entrySet()}"
 							var="entry" itemValue="#{entry.key}" itemLabel="#{entry.value}" />
 					</p:selectManyCheckbox>
-				
+					
+			 		  
+			    					
+		
+					
+					<h:outputText value="Select the Server:" />
+					 <p:selectOneMenu value="#{testRunnerBean.server}">  
+						<f:selectItems value="#{testRunnerBean.serverList.entrySet()}" 
+						    var="srv" itemValue="#{srv.key}" itemLabel="#{srv.value}"/>  
+			        </p:selectOneMenu>  
+			        
 				</h:panelGrid>
 
 				<p:separator />

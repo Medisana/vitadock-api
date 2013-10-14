@@ -5,6 +5,7 @@ import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -42,7 +43,7 @@ public class CloudClient {
 
 	// Webprinter
 	// define EnumSet by hand: EnumSet.of(LoggerAction.LOG_ERROR, ...,);
-	public static final AbstractPrinter printer = new WebPrinter(
+	public static AbstractPrinter printer = new WebPrinter(
 			EnumSet.allOf(LoggerAction.class));
 
 	/*
@@ -71,8 +72,36 @@ public class CloudClient {
 	 * @return url with unauthorizedaccess token to the login page
 	 * @throws Exception
 	 */
-	public String authorize() throws Exception {
+	public String authorize(String server, Set<String> loggerActionStrings) throws Exception {
 		((WebPrinter)CloudClient.printer).clearLog();
+		
+		final Map<String,LoggerAction> loggerActions = new HashMap<String, LoggerAction>();
+		loggerActions.put("LOG_ERROR", LoggerAction.LOG_ERROR);
+		loggerActions.put("LOG_JSON_DATA", LoggerAction.LOG_JSON_DATA);
+		loggerActions.put("LOG_ACTIVITY", LoggerAction.LOG_ACTIVITY);
+		loggerActions.put("LOG_PROTOCOL_MESSAGE", LoggerAction.LOG_PROTOCOL_MESSAGE);
+		loggerActions.put("LOG_MESSAGE", LoggerAction.LOG_MESSAGE);
+		
+		EnumSet<LoggerAction> selectedloggerLevel = EnumSet.of(null);
+		for(String loggerAction: loggerActionStrings){
+			selectedloggerLevel.add(loggerActions.get(loggerAction));
+		}
+		
+		printer = new WebPrinter(selectedloggerLevel);
+
+		final Map<String,ServerType> servers = new HashMap<String, ServerType>();
+		servers.put("PRODUCTION_SERVER", ServerType.PRODUCTION_SERVER);
+		servers.put("TEST_SERVER", ServerType.TEST_SERVER);
+		servers.put("LOCALHOST", ServerType.LOCALHOST);
+		
+		ServerType serverType = servers.get(server);
+		
+		
+		newConfiguration =  new TestRunnerConfig(
+				serverType, 
+				new User("test.test", "test.test", "en_GB"), false, 1,
+				CloudClient.printer);
+		
 		authorizationModule = new AuthorizationModule(newConfiguration);
 		return authorizationModule.authorize();
 	}
