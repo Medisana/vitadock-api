@@ -82,7 +82,7 @@ public class CloudClient {
 		loggerActions.put("LOG_PROTOCOL_MESSAGE", LoggerAction.LOG_PROTOCOL_MESSAGE);
 		loggerActions.put("LOG_MESSAGE", LoggerAction.LOG_MESSAGE);
 		
-		EnumSet<LoggerAction> selectedloggerLevel = EnumSet.of(null);
+		EnumSet<LoggerAction> selectedloggerLevel = EnumSet.noneOf(LoggerAction.class);
 		for(String loggerAction: loggerActionStrings){
 			selectedloggerLevel.add(loggerActions.get(loggerAction));
 		}
