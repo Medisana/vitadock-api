@@ -20,7 +20,7 @@
 
 			<h:form id ="form">
 
-				<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+				<h:panelGrid columns="3" style="margin-bottom:10px" cellpadding="5">
 					
 					<h:outputText value="Select your role:" />
 					<p:selectOneMenu value="#{testRunnerBean.role}" >  
@@ -28,6 +28,15 @@
 						    var="r" itemValue="#{r.key}" itemLabel="#{r.value}" />
 						    <f:ajax listener="#{testRunnerBean.updateLoggerLevel}" render=":form:loggerBox"/>
 			        </p:selectOneMenu>
+			        <h:outputText value="Choose your role to obtain a pre-configured view and test procedure." />
+			        
+			       <h:outputText value="Select the Server:" />
+					<p:selectOneMenu value="#{testRunnerBean.server}">  
+						<f:selectItems value="#{testRunnerBean.serverList.entrySet()}" 
+						    var="srv" itemValue="#{srv.key}" itemLabel="#{srv.value}"/>  
+			        </p:selectOneMenu>  
+			    	<h:outputText value="Choose if you want to run the test on the test server: 'vitacloud.medisanaspace.com' or the production server 'cloud.vitadock.com'" />
+					
 			    </h:panelGrid>   
 			
 				
@@ -50,15 +59,6 @@
 							var="entry" itemValue="#{entry.key}" itemLabel="#{entry.value}" />
 					</p:selectManyCheckbox>
 					
-			 		  
-			    					
-		
-					
-					<h:outputText value="Select the Server:" />
-					 <p:selectOneMenu value="#{testRunnerBean.server}">  
-						<f:selectItems value="#{testRunnerBean.serverList.entrySet()}" 
-						    var="srv" itemValue="#{srv.key}" itemLabel="#{srv.value}"/>  
-			        </p:selectOneMenu>  
 			        
 				</h:panelGrid>
 
