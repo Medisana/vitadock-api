@@ -44,9 +44,12 @@ public class TestRunnerBean implements Serializable {
 	private Map<String, String> roleList;
 
 	private List<String> selectedTests = new ArrayList<String>();
-	private String server;
+	private String server="TEST_SERVER";
 	private Set<String> loggerLevel;
 	private String role="MANAGER";
+	private boolean createNewUser=false;
+	private String newUserEmail="";
+	private String newUserPassword="";
 	
 	// preconfigured logging level
 	private Map<String, Set<String>> preConfiguredLoggerOptions;
@@ -153,8 +156,11 @@ public class TestRunnerBean implements Serializable {
 	public String authorize() {
 		cloudClient = new CloudClient();
 		try {
+			
+			// TODO: add createNewUser Parameter when ServerSide is repaired
+			
 			// redirect the user to the login page to authorize
-			String url = cloudClient.authorize(server, loggerLevel);
+			String url = cloudClient.authorize(server, false ,newUserEmail, newUserPassword, loggerLevel);
 			FacesContext.getCurrentInstance().getExternalContext()
 					.redirect(url);
 			return null;
@@ -300,6 +306,30 @@ public class TestRunnerBean implements Serializable {
 
 	public void setRole(String role) {
 		this.role = role;
+	}
+
+	public boolean isCreateNewUser() {
+		return createNewUser;
+	}
+
+	public void setCreateNewUser(boolean createNewUser) {
+		this.createNewUser = createNewUser;
+	}
+
+	public String getNewUserEmail() {
+		return newUserEmail;
+	}
+
+	public void setNewUserEmail(String newUserEmail) {
+		this.newUserEmail = newUserEmail;
+	}
+
+	public String getNewUserPassword() {
+		return newUserPassword;
+	}
+
+	public void setNewUserPassword(String newUserPassword) {
+		this.newUserPassword = newUserPassword;
 	}
 	
 

@@ -41,7 +41,7 @@ import com.medisanaspace.web.testtask.UserSettingsTestTask;
  */
 public class CloudClient {
 
-	// Webprinter
+	
 	// define EnumSet by hand: EnumSet.of(LoggerAction.LOG_ERROR, ...,);
 	public static AbstractPrinter printer = new WebPrinter(
 			EnumSet.allOf(LoggerAction.class));
@@ -53,7 +53,7 @@ public class CloudClient {
 	 */
 	private static TestRunnerConfig newConfiguration = new TestRunnerConfig(
 			ServerType.TEST_SERVER,
-			new User("test.test", "test.test", "en_GB"), false, 1,
+			new User("test.test", "test.test", "en_GB"),false, false, 1,
 			CloudClient.printer);
 
 	private ArrayList<AbstractTestTask> testsToRun = new ArrayList<AbstractTestTask>();
@@ -61,9 +61,20 @@ public class CloudClient {
 	@Resource(name = "authorizationModuleBean")
 	private AuthorizationModule authorizationModule;
 
-//	private String messageLog = "";
-
+	private final Map<String,LoggerAction> loggerActions = new HashMap<String, LoggerAction>();
+	private final Map<String,ServerType> servers = new HashMap<String, ServerType>();
+	
 	public CloudClient() {
+		
+		loggerActions.put("LOG_ERROR", LoggerAction.LOG_ERROR);
+		loggerActions.put("LOG_JSON_DATA", LoggerAction.LOG_JSON_DATA);
+		loggerActions.put("LOG_ACTIVITY", LoggerAction.LOG_ACTIVITY);
+		loggerActions.put("LOG_PROTOCOL_MESSAGE", LoggerAction.LOG_PROTOCOL_MESSAGE);
+		loggerActions.put("LOG_MESSAGE", LoggerAction.LOG_MESSAGE);
+		
+		servers.put("PRODUCTION_SERVER", ServerType.PRODUCTION_SERVER);
+		servers.put("TEST_SERVER", ServerType.TEST_SERVER);
+		servers.put("LOCALHOST", ServerType.LOCALHOST);
 	}
 
 	/**
@@ -72,35 +83,19 @@ public class CloudClient {
 	 * @return url with unauthorizedaccess token to the login page
 	 * @throws Exception
 	 */
-	public String authorize(String server, Set<String> loggerActionStrings) throws Exception {
+	public String authorize(String server, boolean createNewUser, String userEmail, String userPassword,
+			Set<String> loggerActionStrings) throws Exception {
 		((WebPrinter)CloudClient.printer).clearLog();
-		
-		final Map<String,LoggerAction> loggerActions = new HashMap<String, LoggerAction>();
-		loggerActions.put("LOG_ERROR", LoggerAction.LOG_ERROR);
-		loggerActions.put("LOG_JSON_DATA", LoggerAction.LOG_JSON_DATA);
-		loggerActions.put("LOG_ACTIVITY", LoggerAction.LOG_ACTIVITY);
-		loggerActions.put("LOG_PROTOCOL_MESSAGE", LoggerAction.LOG_PROTOCOL_MESSAGE);
-		loggerActions.put("LOG_MESSAGE", LoggerAction.LOG_MESSAGE);
 		
 		EnumSet<LoggerAction> selectedloggerLevel = EnumSet.noneOf(LoggerAction.class);
 		for(String loggerAction: loggerActionStrings){
 			selectedloggerLevel.add(loggerActions.get(loggerAction));
 		}
-		
 		printer = new WebPrinter(selectedloggerLevel);
-
-		final Map<String,ServerType> servers = new HashMap<String, ServerType>();
-		servers.put("PRODUCTION_SERVER", ServerType.PRODUCTION_SERVER);
-		servers.put("TEST_SERVER", ServerType.TEST_SERVER);
-		servers.put("LOCALHOST", ServerType.LOCALHOST);
-		
 		ServerType serverType = servers.get(server);
-		
-		
 		newConfiguration =  new TestRunnerConfig(
-				serverType, 
-				new User("test.test", "test.test", "en_GB"), false, 1,
-				CloudClient.printer);
+				serverType, new User(userEmail, userPassword, "en_GB"), 
+				createNewUser, false, 1, CloudClient.printer);
 		
 		authorizationModule = new AuthorizationModule(newConfiguration);
 		return authorizationModule.authorize();

@@ -28,8 +28,9 @@
 						    var="r" itemValue="#{r.key}" itemLabel="#{r.value}" />
 						    <f:ajax listener="#{testRunnerBean.updateLoggerLevel}" render=":form:loggerBox"/>
 			        </p:selectOneMenu>
-			        <h:outputText value="Choose your role to obtain a pre-configured view and test procedure." />
 			        
+			        <h:outputText value="Choose your role to obtain a pre-configured view and test procedure." />
+			      
 			       <h:outputText value="Select the Server:" />
 					<p:selectOneMenu value="#{testRunnerBean.server}">  
 						<f:selectItems value="#{testRunnerBean.serverList.entrySet()}" 
@@ -37,8 +38,24 @@
 			        </p:selectOneMenu>  
 			    	<h:outputText value="Choose if you want to run the test on the test server: 'vitacloud.medisanaspace.com' or the production server 'cloud.vitadock.com'" />
 					
+				   <h:outputText value="Create new user" />
+				   <p:selectBooleanCheckbox value="#{testRunnerBean.createNewUser}" >
+				       <p:ajax update=":form:create_user_panel"  />
+				   </p:selectBooleanCheckbox>
+				   <h:outputText value="Choose this option to create a new user on the selected server." />
+				   
 			    </h:panelGrid>   
-			
+				
+				<p:panel id="create_user_panel" header="Enter user details" visible="#{testRunnerBean.createNewUser}">  
+  					<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+	  					<p:outputLabel for="useremail_input" value="User E-Mail:" />  
+	           			<p:inputText id="useremail_input" value="#{testRunnerBean.newUserEmail}" /> 	
+	           			
+	  					<p:outputLabel for="password_input" value="Password:" />  
+	           			<p:password id="password_input" value="#{testRunnerBean.newUserPassword}" /> 
+           			</h:panelGrid>
+	    		</p:panel>
+				
 				
 				<p:panel id="pnl" header="Output Options" toggleable="true" closable="false"
 					collapsed="true" toggleSpeed="500" closeSpeed="500" widgetVar="panel">  
@@ -49,7 +66,7 @@
 							var="entry" itemValue="#{entry.key}" itemLabel="#{entry.value}" />
 					</p:selectManyCheckbox>
 	    		</p:panel>
-	    	      
+	    	    
 			    <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
 					<h:outputText value="Select your tests:" />
 					<p:selectManyCheckbox value="#{testRunnerBean.selectedTests}"

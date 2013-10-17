@@ -41,7 +41,8 @@ public final class TestRunnerConfig {
 	private User user = null;
 	private boolean mobile;
 	private int numberOfThreads = 1;
-
+	private boolean createNewUserOnServer = false;
+	
 	private AbstractPrinter printer;
 	private ServerConfig serverConfig;
 	private OAuthData oauthData;
@@ -62,11 +63,12 @@ public final class TestRunnerConfig {
 	 * @param printer 
 	 *            
 	 */
-	public TestRunnerConfig(ServerType serverType, User user, boolean mobile,
+	public TestRunnerConfig(ServerType serverType, User user, boolean createNewUser, boolean mobile,
 			int numberOfThreads, AbstractPrinter printer) {
 		serverConfig = new ServerConfig();
 		this.printer = printer;
 		this.setNumberOfThreads(numberOfThreads);
+		this.createNewUserOnServer = createNewUser;
 		oauthData = new OAuthData();
 		switch (serverType) {
 		case TEST_SERVER:
@@ -287,6 +289,14 @@ public final class TestRunnerConfig {
 	 */
 	public void setNumberOfThreads(int numberOfThreads) {
 		this.numberOfThreads = numberOfThreads;
+	}
+
+	public boolean isCreateNewUserOnServer() {
+		return createNewUserOnServer;
+	}
+
+	public void setCreateNewUserOnServer(boolean createNewUserOnServer) {
+		this.createNewUserOnServer = createNewUserOnServer;
 	}
 
 }

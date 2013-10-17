@@ -97,10 +97,7 @@ public class AuthorizationModule {
 					.put("token", testRunnerConfig.getAPPLICATION_TOKEN());
 			tokenAndSecret.put("secret",
 					testRunnerConfig.getAPPLICATION_SECRET());
-			// testRunnerConfig.setDeviceToken(testRunnerConfig
-			// .getAPPLICATION_TOKEN());
-			// testRunnerConfig.setDeviceSecret(testRunnerConfig
-			// .getAPPLICATION_SECRET());
+
 		}
 		return tokenAndSecret;
 	}
@@ -177,15 +174,22 @@ public class AuthorizationModule {
 
 	}
 
+	public String createRandomUserAndGetVerifierToken(String unauthorizedAccessToken) throws Exception {
+		return createUserAndGetVerifierToken(new User(RandomHelper.randomString(4) + "."
+				+ RandomHelper.randomString(4), RandomHelper.randomString(10),
+				"de_DE"), unauthorizedAccessToken);
+	}
+	
 	/**
-	 * Create a random user on the server. Also retrieve the verifier token.
+	 * Create a user on the server. Also retrieve the verifier token.
 	 * 
+	 * @param user user credentials
 	 * @param unauthorizedAccessToken
 	 *            String
 	 * @return String
 	 * @throws Exception
 	 */
-	public String createRandomUserAndGetVerifierToken(
+	public String createUserAndGetVerifierToken(User user,
 			String unauthorizedAccessToken) throws Exception {
 		DefaultHttpClient httpClient = new DefaultHttpClient();
 		HttpPost httppost = null;
@@ -195,9 +199,7 @@ public class AuthorizationModule {
 		String verifierToken = "";
 		CloudClient.printer.logActivity("Create a random user and retrieve verifier token\n");
 		// generate new test user
-		testRunnerConfig.setUser(new User(RandomHelper.randomString(4) + "."
-				+ RandomHelper.randomString(4), RandomHelper.randomString(10),
-				"de_DE"));
+		testRunnerConfig.setUser(user);
 
 		httpClient = new DefaultHttpClient();
 		String uriOauthRequest = testRunnerConfig.getHTTPS_LOGIN_URL()
@@ -260,12 +262,17 @@ public class AuthorizationModule {
 
 		unauthorizedAccessToken = tokenAndSecret.get("token");
 		unauthorizedAccessSecret = tokenAndSecret.get("secret");
-
-		// we don't want to create a new user via the webclient
-		// if (testRunnerConfig.getUser() == null) {
-		// verifierToken =
-		// createRandomUserAndGetVerifierToken(unauthorizedAccessToken);
 		
+		if(testRunnerConfig.isCreateNewUserOnServer()){
+			String response; 
+			if(testRunnerConfig.getUser()==null){
+				response = createRandomUserAndGetVerifierToken(unauthorizedAccessToken);
+			}else{
+				response = createUserAndGetVerifierToken(testRunnerConfig.getUser(), unauthorizedAccessToken);
+			}
+			return response;
+		}	
+
 		//return redirect adress
 		String addr=testRunnerConfig.getHTTPS_LOGIN_URL()
 				+ "/desiredaccessrights/request?oauth_token="
@@ -275,7 +282,7 @@ public class AuthorizationModule {
 	}
 	/**
 	 * Second part of the OAuth handshake. Triggered by callback of the Medisana Server.
-	 * Take verifier token and exchange it for access tokane and access secret.
+	 * Take verifier token and exchange it for access token and access secret.
 	 * @param verifierToken
 	 * @return oauthdata oauth data necessary to communicate with the server
 	 * @throws Exception
@@ -289,12 +296,7 @@ public class AuthorizationModule {
 		return oauthData;
 	}
 
-	/**
-	 * Method retrieveOAuthData.
-	 * 
-	 * @return OAuthData
-	 * @throws Exception
-	 */
+
 //	private OAuthData retrieveOAuthData() throws Exception {
 //
 //		// temporary tokens
