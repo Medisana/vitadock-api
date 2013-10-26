@@ -53,6 +53,7 @@ public abstract class AbstractTestTask implements Runnable{
 	@Override
 	public void run(){
 		try{
+			latency.clear();
 			executeTask();
 		}catch(Exception e){
 			CloudClient.printer.logError("Error in Test: "

@@ -1,5 +1,6 @@
 package com.medisanaspace.web.main;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -9,9 +10,13 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import com.medisanaspace.printer.AbstractPrinter;
 import com.medisanaspace.printer.AbstractPrinter.LoggerAction;
 import com.medisanaspace.printer.WebPrinter;
+import com.medisanaspace.web.datatask.ActivitydockTestData;
 import com.medisanaspace.web.library.AuthorizationBuilder;
 import com.medisanaspace.web.testconfig.AuthorizationModule;
 import com.medisanaspace.web.testconfig.OAuthData;
@@ -39,9 +44,11 @@ import com.medisanaspace.web.testtask.UserSettingsTestTask;
  * 
  * @version $Revision: 1.0 $
  */
-public class CloudClient {
+@Component
+@Scope("session")
+public class CloudClient implements Serializable{
+	private static final long serialVersionUID = 1L;
 
-	
 	// define EnumSet by hand: EnumSet.of(LoggerAction.LOG_ERROR, ...,);
 	public static AbstractPrinter printer = new WebPrinter(
 			EnumSet.allOf(LoggerAction.class));
@@ -61,10 +68,36 @@ public class CloudClient {
 	@Resource(name = "authorizationModuleBean")
 	private AuthorizationModule authorizationModule;
 
+	
+	/**************************************************
+	 * Mapping of Strings from view to Objects
+	 **************************************************/
 	private final Map<String,LoggerAction> loggerActions = new HashMap<String, LoggerAction>();
 	private final Map<String,ServerType> servers = new HashMap<String, ServerType>();
-	
+	private final Map<String,AbstractTestTask> tests = new HashMap<String, AbstractTestTask>();
+	private final Map<String,AbstractTestTask> modulesToAddRandomData = new HashMap<String, AbstractTestTask>();
 	public CloudClient() {
+		int numberOfEntries = 1;
+		// available tests	
+		tests.put(String.valueOf(AuthorizationBuilder.TRACKER_ACTIVITY_MODULE_ID), new TrackerActivityAndTrackerSleepTestTask(numberOfEntries));
+		tests.put(String.valueOf(AuthorizationBuilder.ACTIVITY_MODULE_ID), new ActivitydockTestTask(numberOfEntries));
+		tests.put(String.valueOf(AuthorizationBuilder.CARDIODOCK_MODULE_ID), new CardiodockTestTask(numberOfEntries));
+		tests.put(String.valueOf(AuthorizationBuilder.GLUCODOCK_GLUCOSE_MODULE_ID), new GluckodockTestTask(numberOfEntries));
+		tests.put(String.valueOf(AuthorizationBuilder.TARGETSCALE_MODULE_ID),new TargetscaleTestTask(numberOfEntries));
+		tests.put(String.valueOf(AuthorizationBuilder.THERMODOCK_MODULE_ID),new ThermodockTestTask(numberOfEntries));
+		tests.put(String.valueOf(AuthorizationBuilder.TRACKER_PHASE_MODULE_ID),new TrackerPhaseTestTask(numberOfEntries));
+		tests.put(String.valueOf(AuthorizationBuilder.TRACKER_SLEEP_MODULE_ID), new TrackerSleepTestTask(numberOfEntries));
+		tests.put(String.valueOf(AuthorizationBuilder.USER_SETTINGS_MODULE_ID), new UserSettingsTestTask(numberOfEntries));
+	
+		// random data fixtures
+//		modulesToAddRandomData.put("TRACKER_ACTIVITY_MODULE",);
+		modulesToAddRandomData.put("ACTIVITY_MODULE",new ActivitydockTestData(100));
+//		modulesToAddRandomData.put("CARDIODOCK_MODULE","Cardiodock");
+//		modulesToAddRandomData.put("GLUCODOCK_GLUCOSE_MODULE","Gluckodock");
+//		modulesToAddRandomData.put("TARGETSCALE_MODULE","Targetscale");
+//		modulesToAddRandomData.put("THERMODOCK_MODULE","Thermodock");
+//		modulesToAddRandomData.put("TRACKER_PHASE_MODULE","Tracker Phase");
+
 		
 		loggerActions.put("LOG_ERROR", LoggerAction.LOG_ERROR);
 		loggerActions.put("LOG_JSON_DATA", LoggerAction.LOG_JSON_DATA);
@@ -93,9 +126,9 @@ public class CloudClient {
 		}
 		printer = new WebPrinter(selectedloggerLevel);
 		ServerType serverType = servers.get(server);
-		newConfiguration =  new TestRunnerConfig(
-				serverType, new User(userEmail, userPassword, "en_GB"), 
-				createNewUser, false, 1, CloudClient.printer);
+		User user =  new User(userEmail, userPassword, "en_GB");
+		newConfiguration =  new TestRunnerConfig(serverType, user, createNewUser, 
+				false, 1, CloudClient.printer);
 		
 		authorizationModule = new AuthorizationModule(newConfiguration);
 		return authorizationModule.authorize();
@@ -116,20 +149,8 @@ public class CloudClient {
 	public void runTests(List<String> testList, OAuthData oauthdata) {
 
 		// maybe configuration of server etc. here
-		int numberOfEntries = 1;
+		
 
-		// available tests
-		final Map<String,AbstractTestTask> tests = new HashMap<String, AbstractTestTask>();
-		tests.put(String.valueOf(AuthorizationBuilder.TRACKER_ACTIVITY_MODULE_ID), new TrackerActivityAndTrackerSleepTestTask(numberOfEntries));
-		tests.put(String.valueOf(AuthorizationBuilder.ACTIVITY_MODULE_ID), new ActivitydockTestTask(numberOfEntries));
-		tests.put(String.valueOf(AuthorizationBuilder.CARDIODOCK_MODULE_ID), new CardiodockTestTask(numberOfEntries));
-		tests.put(String.valueOf(AuthorizationBuilder.GLUCODOCK_GLUCOSE_MODULE_ID), new GluckodockTestTask(numberOfEntries));
-		tests.put(String.valueOf(AuthorizationBuilder.TARGETSCALE_MODULE_ID),new TargetscaleTestTask(numberOfEntries));
-		tests.put(String.valueOf(AuthorizationBuilder.THERMODOCK_MODULE_ID),new ThermodockTestTask(numberOfEntries));
-		tests.put(String.valueOf(AuthorizationBuilder.TRACKER_PHASE_MODULE_ID),new TrackerPhaseTestTask(numberOfEntries));
-		tests.put(String.valueOf(AuthorizationBuilder.TRACKER_SLEEP_MODULE_ID), new TrackerSleepTestTask(numberOfEntries));
-		tests.put(String.valueOf(AuthorizationBuilder.USER_SETTINGS_MODULE_ID), new UserSettingsTestTask(numberOfEntries));
-	
 		// get selected tests to run
 		testsToRun.clear();
 		for (String index : testList) {
@@ -159,7 +180,15 @@ public class CloudClient {
 	
 
 	}
+	
+	public void addRandomData(List<String> moduleList, OAuthData oauthdata){
+		testsToRun.clear();
+		for (String index : moduleList) {
+			testsToRun.add(tests.get(index));
+		}
 
+	}
+	
 	public String getMessageLog() {
 		return ((WebPrinter)CloudClient.printer).getMessages();
 	}

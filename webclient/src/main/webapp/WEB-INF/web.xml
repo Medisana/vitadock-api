@@ -5,7 +5,7 @@
 	version="2.4"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 	<display-name>webclient</display-name>
-	<description>Roo generated webclient application</description>
+	<description>Vitadock Online Webclient for API Tests</description>
 	<!-- Enable escaping of form submission contents -->
 	<context-param>
 		<param-name>defaultHtmlEscape</param-name>
@@ -19,6 +19,10 @@
 	<context-param>
 		<param-name>primefaces.THEME</param-name>
 		<param-value>south-street</param-value>
+	</context-param>
+	<context-param>
+	    <param-name>javax.faces.FACELETS_SKIP_COMMENTS</param-name>
+    	<param-value>true</param-value>
 	</context-param>
 	<filter>
 		<filter-name>PrimeFaces FileUpload Filter</filter-name>

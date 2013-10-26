@@ -1,72 +1,67 @@
 package com.medisanaspace.jsf;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
-import javax.faces.event.ValueChangeEvent;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import com.medisanaspace.printer.AbstractPrinter.LoggerAction;
 import com.medisanaspace.web.library.AuthorizationBuilder;
 import com.medisanaspace.web.main.CloudClient;
-import com.medisanaspace.web.testconfig.OAuthData;
-import com.medisanaspace.web.testconfig.ServerType;
 
 @Controller
-@Scope("session")
-@SessionScoped
-@ManagedBean(name = "testRunnerBean")
+@Scope("request")
 public class TestRunnerBean implements Serializable {
+	private static final long serialVersionUID = 1L;
 	
-	private CloudClient cloudClient;
-	private OAuthData oauthdata;
-	private String messageLog;
+	/***********************************************
+	 * Injected Beans
+	 **********************************************/
+	
+	@Autowired private CloudClient cloudClient;
+	/*
+	 * Store session wide data as
+	 * - oauth
+	 * - selectedTests
+	 * - modules to insert random data
+	 */
+	@Autowired private SessionDataBean sessionDataBean;
+	
 
-	// for the View
+	/***********************************************
+	 * View attributes and parameters
+	 **********************************************/
+	
+	//output
 	private Map<String, String> tests;
 	private Map<String, String> serverList;
 	private Map<String, String> loggerList;
 	private Map<String, String> roleList;
-
-	private List<String> selectedTests = new ArrayList<String>();
-	private String server="TEST_SERVER";
-	private Set<String> loggerLevel;
-	private String role="MANAGER";
-	private boolean createNewUser=false;
+	//  pre configured logging level regarding to the roles
+	private Map<String, Set<String>> preConfiguredLoggerOptions;
+	
+	// input
 	private String newUserEmail="";
 	private String newUserPassword="";
-	
-	// preconfigured logging level
-	private Map<String, Set<String>> preConfiguredLoggerOptions;
-
-	// temp
-	private String oauth_token;
-	private String oauth_verifier;
-	private boolean deny;
-	private String callbackMassage;
+	private String messageLog;
+	private boolean createNewUser = false;	
 
 	
 	public TestRunnerBean() {
-		init();
 	}
-
-	public void init() {
-		if (!FacesContext.getCurrentInstance().isPostback()) {
+	
+	
+	@PostConstruct
+	public void init(){
+		
 			tests = new HashMap<String, String>();
 			tests.put(String
 					.valueOf(AuthorizationBuilder.TRACKER_ACTIVITY_MODULE_ID),
@@ -105,19 +100,19 @@ public class TestRunnerBean implements Serializable {
 			loggerList.put("LOG_ACTIVITY","Log Activities" );
 			loggerList.put( "LOG_PROTOCOL_MESSAGE","Log Protocol Messages" );
 			loggerList.put( "LOG_MESSAGE","Log Messages" );	
-			
+
 			roleList = new HashMap<String, String>();
 			roleList.put("MANAGER", "Manager");
 			roleList.put("TESTUSER", "Test user");
 			roleList.put("DEVELOPER", "Developer");
-			
+
 			// pre configure logger options for the different roles
-			
+
 			preConfiguredLoggerOptions =  new HashMap<String, Set<String>>();
 			Set<String> managerOptions = new HashSet<String>();
 			Set<String> developerOptions = new HashSet<String>();
 			Set<String> testUserOptions = new HashSet<String>();
-			
+
 			managerOptions.add("LOG_ERROR");
 			managerOptions.add("LOG_ACTIVITY");
 			developerOptions.add("LOG_ACTIVITY");
@@ -132,21 +127,18 @@ public class TestRunnerBean implements Serializable {
 			preConfiguredLoggerOptions.put("MANAGER", managerOptions);
 			preConfiguredLoggerOptions.put("DEVELOPER", developerOptions);
 			preConfiguredLoggerOptions.put("TESTUSER", testUserOptions);
-			
-			loggerLevel = preConfiguredLoggerOptions.get(role);
-			
-		}
+			sessionDataBean.setLoggerLevel(preConfiguredLoggerOptions.get(sessionDataBean.getRole()));
 
 	}
 	
 	public void updateLoggerLevel(AjaxBehaviorEvent e){
-		setLoggerLevel(preConfiguredLoggerOptions.get(role));
+		sessionDataBean.setLoggerLevel(preConfiguredLoggerOptions.get(sessionDataBean.getRole()));
 	}
 	
-	@RequestMapping("/latency")
-	public String getlatency(@RequestParam String server, Model model) {
-		return "";
-	}
+//	@RequestMapping("/latency")
+//	public String getlatency(@RequestParam String server, Model model) {
+//		return "";
+//	}
 
 	/**
 	 * Authorize on a host
@@ -154,13 +146,12 @@ public class TestRunnerBean implements Serializable {
 	 * @return
 	 */
 	public String authorize() {
-		cloudClient = new CloudClient();
 		try {
 			
 			// TODO: add createNewUser Parameter when ServerSide is repaired
 			
 			// redirect the user to the login page to authorize
-			String url = cloudClient.authorize(server, false ,newUserEmail, newUserPassword, loggerLevel);
+			String url = cloudClient.authorize(sessionDataBean.getServer(), false ,newUserEmail, newUserPassword, sessionDataBean.getLoggerLevel());
 			FacesContext.getCurrentInstance().getExternalContext()
 					.redirect(url);
 			return null;
@@ -171,30 +162,29 @@ public class TestRunnerBean implements Serializable {
 		}
 	}
 
-	/**
-	 * Authorize verifier token
-	 * 
-	 * @return
-	 */
-	public String authorizeVerifierToken() {
-		// we need the verifier token!
-		if (!FacesContext.getCurrentInstance().isPostback()) {
-			if (!isDeny() && oauth_verifier != null) {
-				try {
-					oauthdata = cloudClient
-							.authorizeWithVerifierToken(oauth_verifier);
-					messageLog = cloudClient.getMessageLog();
-				} catch (Exception e) {
-					// System.out.println("Error: Authorize verifier token error");
-					return "error.jsf";
-				}
-			} else {
-				// System.out.println("Error: denied or no Verifiertoken");
-				return "error.jsf";
-			}
-		}
-		return null;
-	}
+//	/**
+//	 * Authorize verifier token
+//	 * 
+//	 * @return
+//	 */
+//	public String authorizeVerifierToken() {
+//		// we need the verifier token!
+//		if (!FacesContext.getCurrentInstance().isPostback()) {
+//			if (!isDeny() && oauth_verifier != null) {
+//				try {
+//					sessionDataBean.setOauthdata(cloudClient.authorizeWithVerifierToken(oauth_verifier));
+//					messageLog = cloudClient.getMessageLog();
+//				} catch (Exception e) {
+//					// System.out.println("Error: Authorize verifier token error");
+//					return "error.jsf";
+//				}
+//			} else {
+//				// System.out.println("Error: denied or no Verifiertoken");
+//				return "error.jsf";
+//			}
+//		}
+//		return null;
+//	}
 
 	/**
 	 * Run tests after authorization process.
@@ -203,8 +193,8 @@ public class TestRunnerBean implements Serializable {
 	 */
 	public String runTest() {
 		try {
-			if (!selectedTests.isEmpty()) {
-				cloudClient.runTests(selectedTests, oauthdata);
+			if (!sessionDataBean.getSelectedTests().isEmpty()) {
+				cloudClient.runTests(sessionDataBean.getSelectedTests(), sessionDataBean.getOauthdata());
 			}
 			messageLog = cloudClient.getMessageLog();
 		} catch (Exception e) {
@@ -223,53 +213,25 @@ public class TestRunnerBean implements Serializable {
 		return messageLog;
 	}
 
-	public List<String> getSelectedTests() {
-		return selectedTests;
-	}
 
-	public void setSelectedTests(List<String> selectedTests) {
-		this.selectedTests = selectedTests;
-	}
 
-	public String getOauth_token() {
-		return oauth_token;
-	}
+//	public String getOauth_verifier() {
+//		return oauth_verifier;
+//	}
+//
+//	public void setOauth_verifier(String oauth_verifier) {
+//		this.oauth_verifier = oauth_verifier;
+//	}
+//
+//	public boolean isDeny() {
+//		return deny;
+//	}
+//
+//	public void setDeny(boolean deny) {
+//		this.deny = deny;
+//	}
 
-	public void setOauth_token(String oauth_token) {
-		this.oauth_token = oauth_token;
-	}
 
-	public String getOauth_verifier() {
-		return oauth_verifier;
-	}
-
-	public void setOauth_verifier(String oauth_verifier) {
-		this.oauth_verifier = oauth_verifier;
-	}
-
-	public boolean isDeny() {
-		return deny;
-	}
-
-	public void setDeny(boolean deny) {
-		this.deny = deny;
-	}
-
-	public String getCallbackMassage() {
-		return callbackMassage;
-	}
-
-	public void setCallbackMassage(String callbackMassage) {
-		this.callbackMassage = callbackMassage;
-	}
-
-	public OAuthData getOauthdata() {
-		return oauthdata;
-	}
-
-	public void setOauthdata(OAuthData oauthdata) {
-		this.oauthdata = oauthdata;
-	}
 	public Map<String, String> getServerList() {
 		return serverList;
 	}
@@ -280,41 +242,11 @@ public class TestRunnerBean implements Serializable {
 		return roleList;
 	}
 
-	public Set<String> getLoggerLevel() {
-		return loggerLevel;
-	}
-
-	public void setLoggerLevel(Set<String> loggerLevel) {
-		this.loggerLevel = loggerLevel;
-	}
 
 	public Map<String, String> getLoggerList() {
 		return loggerList;
 	}
 	
-	public String getServer() {
-		return server;
-	}
-
-	public void setServer(String server) {
-		this.server = server;
-	}
-
-	public String getRole() {
-		return role;
-	}
-
-	public void setRole(String role) {
-		this.role = role;
-	}
-
-	public boolean isCreateNewUser() {
-		return createNewUser;
-	}
-
-	public void setCreateNewUser(boolean createNewUser) {
-		this.createNewUser = createNewUser;
-	}
 
 	public String getNewUserEmail() {
 		return newUserEmail;
@@ -331,6 +263,30 @@ public class TestRunnerBean implements Serializable {
 	public void setNewUserPassword(String newUserPassword) {
 		this.newUserPassword = newUserPassword;
 	}
+
+	public SessionDataBean getSessionDataBean() {
+		return sessionDataBean;
+	}
 	
+	public void setSessionDataBean(SessionDataBean sessionDataBean) {
+		this.sessionDataBean = sessionDataBean;
+	}
+
+	public boolean isCreateNewUser() {
+		return createNewUser;
+	}
+
+	public void setCreateNewUser(boolean createNewUser) {
+		this.createNewUser = createNewUser;
+	}
+
+//	public String getOauth_token() {
+//		return oauth_token;
+//	}
+//
+//	public void setOauth_token(String oauth_token) {
+//		this.oauth_token = oauth_token;
+//	}
+//	
 
 }
