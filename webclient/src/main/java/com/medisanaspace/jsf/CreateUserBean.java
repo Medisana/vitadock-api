@@ -55,7 +55,7 @@ public class CreateUserBean implements Serializable {
 			moduleList.put("GLUCODOCK_GLUCOSE_MODULE","Gluckodock");
 			moduleList.put("TARGETSCALE_MODULE","Targetscale");
 			moduleList.put("THERMODOCK_MODULE","Thermodock");
-			moduleList.put("TRACKER_PHASE_MODULE","Tracker Phase");
+			//moduleList.put("TRACKER_PHASE_MODULE","Tracker Phase");
 
 			
 			loggerList = new HashMap<String, String>();

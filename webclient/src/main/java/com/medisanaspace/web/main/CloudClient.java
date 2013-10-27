@@ -17,6 +17,11 @@ import com.medisanaspace.printer.AbstractPrinter;
 import com.medisanaspace.printer.AbstractPrinter.LoggerAction;
 import com.medisanaspace.printer.WebPrinter;
 import com.medisanaspace.web.datatask.ActivitydockTestData;
+import com.medisanaspace.web.datatask.CardiodockTestData;
+import com.medisanaspace.web.datatask.GluckodockTestData;
+import com.medisanaspace.web.datatask.TargetscaleTestData;
+import com.medisanaspace.web.datatask.ThermodockTestData;
+import com.medisanaspace.web.datatask.TrackerActivityAndTrackerSleepTestData;
 import com.medisanaspace.web.library.AuthorizationBuilder;
 import com.medisanaspace.web.testconfig.AuthorizationModule;
 import com.medisanaspace.web.testconfig.OAuthData;
@@ -90,12 +95,12 @@ public class CloudClient implements Serializable{
 		tests.put(String.valueOf(AuthorizationBuilder.USER_SETTINGS_MODULE_ID), new UserSettingsTestTask(numberOfEntries));
 	
 		// random data fixtures
-//		modulesToAddRandomData.put("TRACKER_ACTIVITY_MODULE",);
+		modulesToAddRandomData.put("TRACKER_ACTIVITY_MODULE", new TrackerActivityAndTrackerSleepTestData(100));
 		modulesToAddRandomData.put("ACTIVITY_MODULE",new ActivitydockTestData(100));
-//		modulesToAddRandomData.put("CARDIODOCK_MODULE","Cardiodock");
-//		modulesToAddRandomData.put("GLUCODOCK_GLUCOSE_MODULE","Gluckodock");
-//		modulesToAddRandomData.put("TARGETSCALE_MODULE","Targetscale");
-//		modulesToAddRandomData.put("THERMODOCK_MODULE","Thermodock");
+		modulesToAddRandomData.put("CARDIODOCK_MODULE",new CardiodockTestData(100));
+		modulesToAddRandomData.put("GLUCODOCK_GLUCOSE_MODULE",new GluckodockTestData(100));
+		modulesToAddRandomData.put("TARGETSCALE_MODULE", new TargetscaleTestData(100));
+		modulesToAddRandomData.put("THERMODOCK_MODULE",new ThermodockTestData(100));
 //		modulesToAddRandomData.put("TRACKER_PHASE_MODULE","Tracker Phase");
 
 		
