@@ -57,7 +57,6 @@ public class CreateUserBean implements Serializable {
 			moduleList.put("THERMODOCK_MODULE","Thermodock");
 			//moduleList.put("TRACKER_PHASE_MODULE","Tracker Phase");
 
-			
 			loggerList = new HashMap<String, String>();
 			loggerList.put("LOG_ERROR", "Log Errors" );
 			loggerList.put( "LOG_JSON_DATA","Log JSON data" );
@@ -67,7 +66,11 @@ public class CreateUserBean implements Serializable {
 			sessionDataBean.getLoggerLevel().addAll(loggerList.keySet());
 		
 	}
-
+	/**
+	 * Method createUser triggers the creation of a user on the server.
+	 * 
+	 * @return
+	 */
 	public String createUser(){
 		try {
 			String url = cloudClient.authorize(server, true ,newUserEmail, newUserPassword, sessionDataBean.getLoggerLevel());
@@ -119,14 +122,6 @@ public class CreateUserBean implements Serializable {
 		return moduleList;
 	}
 
-//	public Set<String> getModules() {
-//		return selectedModules;
-//	}
-//
-//	public void setModules(Set<String> modules) {
-//		this.selectedModules = modules;
-//	}
-
 
 
 	public SessionDataBean getSessionDataBean() {
@@ -135,6 +130,14 @@ public class CreateUserBean implements Serializable {
 
 	public void setSessionDataBean(SessionDataBean sessionDataBean) {
 		this.sessionDataBean = sessionDataBean;
+	}
+
+	public Map<String, String> getLoggerList() {
+		return loggerList;
+	}
+
+	public void setLoggerList(Map<String, String> loggerList) {
+		this.loggerList = loggerList;
 	}
 
 

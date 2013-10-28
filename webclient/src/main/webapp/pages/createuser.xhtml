@@ -40,30 +40,30 @@
 				</h:panelGrid>		
 				
 				<p:panel id="logger_options_panel" header="Output Options" toggleable="true" closable="false"
-					collapsed="true" toggleSpeed="500" closeSpeed="500" widgetVar="panel">  
+					collapsed="false" toggleSpeed="500" closeSpeed="500" >  
   					<h:outputText value="Select your output:" />
-					<p:selectManyCheckbox  value="#{testRunnerBean.sessionDataBean.loggerLevel}" id="loggerBox" layout="pageDirection"  >
-						<f:selectItems value="#{testRunnerBean.loggerList.entrySet()}"
+					<p:selectManyCheckbox  value="#{createUserBean.sessionDataBean.loggerLevel}" id="loggerBox" layout="pageDirection"  >
+						<f:selectItems value="#{createUserBean.loggerList.entrySet()}"
 							var="entry" itemValue="#{entry.key}" itemLabel="#{entry.value}" />
 					</p:selectManyCheckbox>
 	    		</p:panel>
 	    		
-	    		<h:outputText value="Create random data for the user:" />
+	    		<h:outputText value="Create 100 random data sets for my user: " />
 	    		<p:selectBooleanCheckbox value="#{createUserBean.sessionDataBean.addRandomData}" >
 				       <p:ajax update=":form:modulePanel"  />
 				</p:selectBooleanCheckbox>
 
 	    		
-	    		<p:panel id="modulePanel" header="Module" toggleable="true" closable="false" visible="#{createUserBean.sessionDataBean.addRandomData}"
-					collapsed="true" toggleSpeed="500" closeSpeed="500" widgetVar="panel">  
-  					<h:outputText value="Select the Modules:" />
+	    		<p:panel id="modulePanel" header="Modules" toggleable="false" closable="false" visible="#{createUserBean.sessionDataBean.addRandomData}"
+					collapsed="false" toggleSpeed="500" closeSpeed="500" >  
+  					<h:outputText value="Select the modules you want to fill with random data:" />
 					<p:selectManyCheckbox  value="#{createUserBean.sessionDataBean.selectedModulesToAddRandomData}" id="moduleBox"
 						layout="pageDirection"  >
 						<f:selectItems value="#{createUserBean.moduleList.entrySet()}"
-							var="entry" itemValue="#{entry.key}" itemLabel="#{entry.value}" />
+							var="listentry" itemValue="#{listentry.key}" itemLabel="#{listentry.value}" />
 					</p:selectManyCheckbox>
 	    		</p:panel>
-				
+				<br />
 				<p:commandButton value="Submit" action="#{createUserBean.createUser}"
 					ajax="false" />
 					
