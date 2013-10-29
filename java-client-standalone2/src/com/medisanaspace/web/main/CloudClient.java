@@ -56,15 +56,15 @@ public class CloudClient {
 		// Collection of tests
 		TestRunner testRunner = new TestRunner(newConfiguration);
 		ArrayList<AbstractTestTask> tests = new ArrayList<AbstractTestTask>();
-		tests.add(new TrackerActivityAndTrackerSleepTestTask(numberOfEntries));
+		//tests.add(new TrackerActivityAndTrackerSleepTestTask(numberOfEntries));
 		tests.add(new ActivitydockTestTask(numberOfEntries));
-		tests.add(new CardiodockTestTask(numberOfEntries));
-		tests.add(new GluckodockTestTask(numberOfEntries));
-		tests.add(new TargetscaleTestTask(numberOfEntries));
-		tests.add(new ThermodockTestTask(numberOfEntries));
-		tests.add(new TrackerPhaseTestTask(numberOfEntries));
-		tests.add(new TrackerSleepTestTask(numberOfEntries));
-		tests.add(new UserSettingsTestTask(numberOfEntries));
+//		tests.add(new CardiodockTestTask(numberOfEntries));
+//		tests.add(new GluckodockTestTask(numberOfEntries));
+//		tests.add(new TargetscaleTestTask(numberOfEntries));
+//		tests.add(new ThermodockTestTask(numberOfEntries));
+//		tests.add(new TrackerPhaseTestTask(numberOfEntries));
+//		tests.add(new TrackerSleepTestTask(numberOfEntries));
+//		tests.add(new UserSettingsTestTask(numberOfEntries));
 		
 		testRunner.setTestTasks(tests);
 		testRunner.runTests();

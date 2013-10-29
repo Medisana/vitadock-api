@@ -36,7 +36,7 @@ public final class MapUtil {
 				new Map.Entry[map.size()]);
 
 		Arrays.sort(array, new Comparator<Map.Entry<K, V>>() {
-			@Override
+			
 			public int compare(final Map.Entry<K, V> e1,
 					final Map.Entry<K, V> e2) {
 				return e1.getKey().compareTo(e2.getKey());

@@ -154,7 +154,7 @@ public class TestRunner {
 	 * @throws Exception */
 	protected HashMap<String, String> getDeviceTokenAndDeviceSecret()
 			throws Exception {
-		HashMap<String, String> tokenAndSecret = new HashMap<>();
+		HashMap<String, String> tokenAndSecret = new HashMap<String, String>();
 		// --- Register Device ---
 		/*
 		 * For mobile applications (desktop, smartphone etc.) only. This
@@ -231,7 +231,7 @@ public class TestRunner {
 		String str = null;
 		BufferedReader bufferReader = null;
 		HttpResponse response = null;
-		HashMap<String, String> tokenAndSecret = new HashMap<>();
+		HashMap<String, String> tokenAndSecret = new HashMap<String, String>();
 
 		CloudClient.printer
 				.logMessage("Get unauthorized access token and secret\n");
@@ -292,7 +292,7 @@ public class TestRunner {
 		HttpPost httppost = null;
 		BufferedReader bufferReader = null;
 		HttpResponse response = null;
-		HashMap<String, String> tokenAndSecret = new HashMap<>();
+		HashMap<String, String> tokenAndSecret = new HashMap<String, String>();
 		// --- Check Verifier Token ---
 
 		CloudClient.printer.logMessage("Check verifier token\n");

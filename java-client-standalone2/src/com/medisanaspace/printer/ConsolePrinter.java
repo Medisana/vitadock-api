@@ -23,7 +23,6 @@ public  class ConsolePrinter implements PrinterInterface {
 	 * @param startMessage String
 	 * @see com.medisanaspace.printer.PrinterInterface#startLog(String)
 	 */
-	@Override
 	public void startLog(String startMessage) {
 		if (loggerStatus.equals(LoggerStatus.LOG_ALL))
 			System.out.println("Start logging: "+ startMessage +"\n -----------");
@@ -34,7 +33,7 @@ public  class ConsolePrinter implements PrinterInterface {
 	 * @param endMessage String
 	 * @see com.medisanaspace.printer.PrinterInterface#endLog(String)
 	 */
-	@Override
+
 	public void endLog(String endMessage) {
 		if (loggerStatus.equals(LoggerStatus.LOG_ALL))
 			System.out.println("End of log: "+ endMessage +"\n -----------");
@@ -45,7 +44,7 @@ public  class ConsolePrinter implements PrinterInterface {
 	 * @param s String
 	 * @see com.medisanaspace.printer.PrinterInterface#startDataSet(String)
 	 */
-	@Override
+
 	public void startDataSet(String s) {
 		// not needed in the console printer
 	}
@@ -55,7 +54,6 @@ public  class ConsolePrinter implements PrinterInterface {
 	 * @param message String
 	 * @see com.medisanaspace.printer.PrinterInterface#logMessage(String)
 	 */
-	@Override
 	public void logMessage(String message){
 	if (loggerStatus.equals(LoggerStatus.LOG_ALL))
 		System.out.println(message);
@@ -66,7 +64,6 @@ public  class ConsolePrinter implements PrinterInterface {
 	 * @param data String
 	 * @see com.medisanaspace.printer.PrinterInterface#logData(String)
 	 */
-	@Override
 	public void logData(String data) {
 		if (loggerStatus.equals(LoggerStatus.LOG_ALL))
 			System.out.println("    Response: " + data + "\n--------------");
@@ -78,7 +75,6 @@ public  class ConsolePrinter implements PrinterInterface {
 	 * @param e String
 	 * @see com.medisanaspace.printer.PrinterInterface#logError(String)
 	 */
-	@Override
 	public void logError(String e) {
 		if (!loggerStatus.equals(LoggerStatus.LOG_DISABLED))
 			System.out.println(" ------------ \n An Error occured: "+ e +"\n -------------");
@@ -103,7 +99,6 @@ public  class ConsolePrinter implements PrinterInterface {
 	 * @param httppost HttpRequestBase
 	 * @see com.medisanaspace.printer.PrinterInterface#logPost(HttpRequestBase)
 	 */
-	@Override
 	public void logPost(final HttpRequestBase httppost) {
 		if (loggerStatus.equals(LoggerStatus.LOG_ALL)){		
 			System.out.println("Request " + httppost.getMethod() + " URL:"

@@ -25,7 +25,6 @@ public class CustomDateObjectFactory implements ObjectFactory {
 	 * @return Object
 	 * @see flexjson.ObjectFactory#instantiate(ObjectBinder, Object, Type, Class)
 	 */
-	@Override
 	public Object instantiate(ObjectBinder context, Object value,
 			Type targetType, Class targetClass) {
 
