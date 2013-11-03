@@ -141,6 +141,7 @@ public class ConsolePrinter extends AbstractPrinter {
 		}
 	}
 
+	@Override
 	public void logProtocolMessages(final String s) {
 		if (loggerActionSet.contains(LoggerAction.LOG_PROTOCOL_MESSAGE)) {
 			System.out.println(s);

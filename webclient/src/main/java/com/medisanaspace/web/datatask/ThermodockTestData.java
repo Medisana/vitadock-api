@@ -1,10 +1,8 @@
 package com.medisanaspace.web.datatask;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
-import com.medisanaspace.library.StringUtil;
 import com.medisanaspace.model.Thermodock;
 import com.medisanaspace.model.fixture.ThermodockFixture;
 import com.medisanaspace.web.library.AuthorizationBuilder;

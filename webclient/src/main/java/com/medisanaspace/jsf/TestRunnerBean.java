@@ -1,6 +1,7 @@
 package com.medisanaspace.jsf;
 
 import java.io.Serializable;
+import java.nio.channels.SeekableByteChannel;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -14,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
-import com.medisanaspace.web.library.AuthorizationBuilder;
+import com.medisanaspace.web.library.WebConstants;
 import com.medisanaspace.web.main.CloudClient;
 
 @Controller
@@ -63,48 +64,38 @@ public class TestRunnerBean implements Serializable {
 	public void init(){
 		
 			tests = new HashMap<String, String>();
-			tests.put(String
-					.valueOf(AuthorizationBuilder.TRACKER_ACTIVITY_MODULE_ID),
+			tests.put(WebConstants.TRACKER_ACTIVITY_MODULE,
 					"Tracker Activity and Tracker Sleep Test");
-			tests.put(String.valueOf(AuthorizationBuilder.ACTIVITY_MODULE_ID),
+			tests.put(WebConstants.ACTIVITYDOCK_MODULE,
 					"Activitydock Test");
-			tests.put(
-					String.valueOf(AuthorizationBuilder.CARDIODOCK_MODULE_ID),
+			tests.put(WebConstants.CARDIODOCK_MODULE,
 					"Cardiodock Test");
-			tests.put(String
-					.valueOf(AuthorizationBuilder.GLUCODOCK_GLUCOSE_MODULE_ID),
+			tests.put(WebConstants.GLUCODOCK_GLUCOSE_MODULE,
 					"Gluckodock Test");
-			tests.put(
-					String.valueOf(AuthorizationBuilder.TARGETSCALE_MODULE_ID),
+			tests.put(WebConstants.TARGETSCALE_MODULE,
 					"Targetscale Test");
-			tests.put(
-					String.valueOf(AuthorizationBuilder.THERMODOCK_MODULE_ID),
+			tests.put(WebConstants.THERMODOCK_MODULE,
 					"Thermodock Test");
-			tests.put(String
-					.valueOf(AuthorizationBuilder.TRACKER_PHASE_MODULE_ID),
-					"TrackerPhase Test");
-			tests.put(String
-					.valueOf(AuthorizationBuilder.TRACKER_SLEEP_MODULE_ID),
-					"TrackerSleep Test");
-			tests.put(String
-					.valueOf(AuthorizationBuilder.USER_SETTINGS_MODULE_ID),
-					"UserSettings Test");
+//			tests.put(String
+//					.valueOf(AuthorizationBuilder.TRACKER_PHASE_MODULE_ID),
+//					"TrackerPhase Test");
+			tests.put(WebConstants.USER_SETTINGS_MODULE,"UserSettings Test");
 			
 			serverList = new HashMap<String, String>();
-			serverList.put("TEST_SERVER", "Test Server");
-			serverList.put("PRODUCTION_SERVER", "Production Server");
+			serverList.put(WebConstants.TEST_SERVER, "Test Server");
+			serverList.put(WebConstants.PRODUCTION_SERVER, "Production Server");
 			
 			loggerList = new HashMap<String, String>();
-			loggerList.put("LOG_ERROR", "Log Errors" );
-			loggerList.put( "LOG_JSON_DATA","Log JSON data" );
-			loggerList.put("LOG_ACTIVITY","Log Activities" );
-			loggerList.put( "LOG_PROTOCOL_MESSAGE","Log Protocol Messages" );
-			loggerList.put( "LOG_MESSAGE","Log Messages" );	
+			loggerList.put(WebConstants.LOG_ERROR, "Log Errors" );
+			loggerList.put(WebConstants.LOG_JSON_DATA,"Log JSON data" );
+			loggerList.put(WebConstants.LOG_ACTIVITY,"Log Activities" );
+			loggerList.put(WebConstants.LOG_PROTOCOL_MESSAGE,"Log Protocol Messages" );
+			loggerList.put(WebConstants.LOG_MESSAGE,"Log Messages");	
 
 			roleList = new HashMap<String, String>();
-			roleList.put("MANAGER", "Manager");
-			roleList.put("TESTUSER", "Test user");
-			roleList.put("DEVELOPER", "Developer");
+			roleList.put(WebConstants.MANAGER, "Manager");
+			roleList.put(WebConstants.TESTUSER, "Test user");
+			roleList.put(WebConstants.DEVELOPER, "Developer");
 
 			// pre configure logger options for the different roles
 
@@ -113,20 +104,20 @@ public class TestRunnerBean implements Serializable {
 			Set<String> developerOptions = new HashSet<String>();
 			Set<String> testUserOptions = new HashSet<String>();
 
-			managerOptions.add("LOG_ERROR");
-			managerOptions.add("LOG_ACTIVITY");
-			developerOptions.add("LOG_ACTIVITY");
-			developerOptions.add("LOG_ERROR");
-			developerOptions.add("LOG_JSON_DATA");
-			developerOptions.add("LOG_PROTOCOL_MESSAGE");
-			developerOptions.add("LOG_MESSAGE");
-			testUserOptions.add("LOG_ERROR");
-			testUserOptions.add("LOG_ACTIVITY");
-			testUserOptions.add("LOG_MESSAGE");
+			managerOptions.add(WebConstants.LOG_ERROR);
+			managerOptions.add(WebConstants.LOG_ACTIVITY);
+			developerOptions.add(WebConstants.LOG_ACTIVITY);
+			developerOptions.add(WebConstants.LOG_ERROR);
+			developerOptions.add(WebConstants.LOG_JSON_DATA);
+			developerOptions.add(WebConstants.LOG_PROTOCOL_MESSAGE);
+			developerOptions.add(WebConstants.LOG_MESSAGE);
+			testUserOptions.add(WebConstants.LOG_ERROR);
+			testUserOptions.add(WebConstants.LOG_ACTIVITY);
+			testUserOptions.add(WebConstants.LOG_MESSAGE);
 
-			preConfiguredLoggerOptions.put("MANAGER", managerOptions);
-			preConfiguredLoggerOptions.put("DEVELOPER", developerOptions);
-			preConfiguredLoggerOptions.put("TESTUSER", testUserOptions);
+			preConfiguredLoggerOptions.put(WebConstants.MANAGER, managerOptions);
+			preConfiguredLoggerOptions.put(WebConstants.DEVELOPER, developerOptions);
+			preConfiguredLoggerOptions.put(WebConstants.TESTUSER, testUserOptions);
 			sessionDataBean.setLoggerLevel(preConfiguredLoggerOptions.get(sessionDataBean.getRole()));
 
 	}
@@ -158,33 +149,13 @@ public class TestRunnerBean implements Serializable {
 		} catch (Exception e) {
 			// refer to error page here, user does not need to know specifics
 			System.out.println("error");
+			System.out.println(e.getMessage());
+			System.out.println(e.getStackTrace());
 			return "error.jsf";
 		}
 	}
 
-//	/**
-//	 * Authorize verifier token
-//	 * 
-//	 * @return
-//	 */
-//	public String authorizeVerifierToken() {
-//		// we need the verifier token!
-//		if (!FacesContext.getCurrentInstance().isPostback()) {
-//			if (!isDeny() && oauth_verifier != null) {
-//				try {
-//					sessionDataBean.setOauthdata(cloudClient.authorizeWithVerifierToken(oauth_verifier));
-//					messageLog = cloudClient.getMessageLog();
-//				} catch (Exception e) {
-//					// System.out.println("Error: Authorize verifier token error");
-//					return "error.jsf";
-//				}
-//			} else {
-//				// System.out.println("Error: denied or no Verifiertoken");
-//				return "error.jsf";
-//			}
-//		}
-//		return null;
-//	}
+
 
 	/**
 	 * Run tests after authorization process.
@@ -194,11 +165,13 @@ public class TestRunnerBean implements Serializable {
 	public String runTest() {
 		try {
 			if (!sessionDataBean.getSelectedTests().isEmpty()) {
-				cloudClient.runTests(sessionDataBean.getSelectedTests(), sessionDataBean.getOauthdata());
+				cloudClient.runTests(sessionDataBean.getSelectedTests(),1, sessionDataBean.getOauthdata(), sessionDataBean.getServer(), WebConstants.WEB_PRINTER, sessionDataBean.getLoggerLevel());
 			}
 			messageLog = cloudClient.getMessageLog();
 		} catch (Exception e) {
 			System.out.println("Error: Tests do not run correctly");
+			System.out.println(e.getMessage());
+			System.out.println(e.getStackTrace());
 			return "error.jsf";
 		}
 		return null;
@@ -212,25 +185,6 @@ public class TestRunnerBean implements Serializable {
 	public String getMessageLog() {
 		return messageLog;
 	}
-
-
-
-//	public String getOauth_verifier() {
-//		return oauth_verifier;
-//	}
-//
-//	public void setOauth_verifier(String oauth_verifier) {
-//		this.oauth_verifier = oauth_verifier;
-//	}
-//
-//	public boolean isDeny() {
-//		return deny;
-//	}
-//
-//	public void setDeny(boolean deny) {
-//		this.deny = deny;
-//	}
-
 
 	public Map<String, String> getServerList() {
 		return serverList;
@@ -280,13 +234,5 @@ public class TestRunnerBean implements Serializable {
 		this.createNewUser = createNewUser;
 	}
 
-//	public String getOauth_token() {
-//		return oauth_token;
-//	}
-//
-//	public void setOauth_token(String oauth_token) {
-//		this.oauth_token = oauth_token;
-//	}
-//	
 
 }

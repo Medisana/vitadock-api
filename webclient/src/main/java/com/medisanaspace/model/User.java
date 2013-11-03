@@ -1,4 +1,4 @@
-package com.medisanaspace.web.testtask;
+package com.medisanaspace.model;
 
 /**
  */

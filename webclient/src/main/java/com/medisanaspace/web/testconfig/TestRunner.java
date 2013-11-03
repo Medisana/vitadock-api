@@ -1,7 +1,5 @@
 package com.medisanaspace.web.testconfig;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -54,7 +52,6 @@ public class TestRunner {
 			task.setOauthData(testRunnerConfig.getOauthData());
 			task.setPrinter(testRunnerConfig.getPrinter());
 			executor.execute(task);
-
 		}
 
 		executor.shutdown();
@@ -84,17 +81,17 @@ public class TestRunner {
 	// }
 	// return string;
 	// }
-	private static String readLine() {
-		String string = "";
-		try {
-			InputStreamReader converter = new InputStreamReader(System.in);
-			BufferedReader in = new BufferedReader(converter);
-			string = in.readLine();
-		} catch (Exception e) {
-			System.out.println("Error! Exception: " + e);
-		}
-		return string;
-	}
+//	private static String readLine() {
+//		String string = "";
+//		try {
+//			InputStreamReader converter = new InputStreamReader(System.in);
+//			BufferedReader in = new BufferedReader(converter);
+//			string = in.readLine();
+//		} catch (Exception e) {
+//			System.out.println("Error! Exception: " + e);
+//		}
+//		return string;
+//	}
 
 	/**
 	 * Method setTestTasks.

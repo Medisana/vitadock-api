@@ -29,6 +29,8 @@ public class TrackerSleepTestTask extends AbstractTestTask {
 					numberOfEntries).getTrackerSleep());
 		}
 		printer.startDataSet("Trackersleep test");
+		printer.logActivity("Counting data before the test.");	
+		
 		String responseTrackerSleep = saveJSONData(
 				this.oauthData.getDeviceToken(),
 				this.oauthData.getDeviceSecret(),

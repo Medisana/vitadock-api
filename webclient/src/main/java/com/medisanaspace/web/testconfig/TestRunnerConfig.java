@@ -1,7 +1,7 @@
 package com.medisanaspace.web.testconfig;
 
+import com.medisanaspace.model.User;
 import com.medisanaspace.printer.AbstractPrinter;
-import com.medisanaspace.web.testtask.User;
 
 /**
  * Configuration object for the TestRunner. Application Token, application

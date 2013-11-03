@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
+import com.medisanaspace.web.library.WebConstants;
 import com.medisanaspace.web.main.CloudClient;
 
 @Controller
@@ -33,7 +34,7 @@ public class CreateUserBean implements Serializable {
 	private Map<String, String> loggerList;
 	private Map<String, String> moduleList;
 	
-	private String server="TEST_SERVER";
+	private String server=WebConstants.TEST_SERVER;
 	private String newUserEmail="";
 	private String newUserPassword="";
 
@@ -45,24 +46,24 @@ public class CreateUserBean implements Serializable {
 	public void init() {
 		
 			serverList = new HashMap<String, String>();
-			serverList.put("TEST_SERVER", "Test Server");
-			serverList.put("PRODUCTION_SERVER", "Production Server");
+			serverList.put(WebConstants.TEST_SERVER, "Test Server");
+			serverList.put(WebConstants.PRODUCTION_SERVER, "Production Server");
 			
 			moduleList = new HashMap<String, String>();
-			moduleList.put("TRACKER_ACTIVITY_MODULE","Tracker Activity and Tracker Sleep");
-			moduleList.put("ACTIVITY_MODULE","Activitydock");
-			moduleList.put("CARDIODOCK_MODULE","Cardiodock");
-			moduleList.put("GLUCODOCK_GLUCOSE_MODULE","Gluckodock");
-			moduleList.put("TARGETSCALE_MODULE","Targetscale");
-			moduleList.put("THERMODOCK_MODULE","Thermodock");
+			moduleList.put(WebConstants.TRACKER_ACTIVITY_MODULE,"Tracker Activity and Tracker Sleep");
+			moduleList.put(WebConstants.ACTIVITYDOCK_MODULE,"Activitydock");
+			moduleList.put(WebConstants.CARDIODOCK_MODULE,"Cardiodock");
+			moduleList.put(WebConstants.GLUCODOCK_GLUCOSE_MODULE,"Gluckodock");
+			moduleList.put(WebConstants.TARGETSCALE_MODULE,"Targetscale");
+			moduleList.put(WebConstants.THERMODOCK_MODULE,"Thermodock");
 			//moduleList.put("TRACKER_PHASE_MODULE","Tracker Phase");
 
 			loggerList = new HashMap<String, String>();
-			loggerList.put("LOG_ERROR", "Log Errors" );
-			loggerList.put( "LOG_JSON_DATA","Log JSON data" );
-			loggerList.put("LOG_ACTIVITY","Log Activities" );
-			loggerList.put( "LOG_PROTOCOL_MESSAGE","Log Protocol Messages" );
-			loggerList.put( "LOG_MESSAGE","Log Messages" );
+			loggerList.put(WebConstants.LOG_ERROR, "Log Errors" );
+			loggerList.put(WebConstants.LOG_JSON_DATA,"Log JSON data" );
+			loggerList.put(WebConstants.LOG_ACTIVITY,"Log Activities" );
+			loggerList.put(WebConstants.LOG_PROTOCOL_MESSAGE,"Log Protocol Messages" );
+			loggerList.put(WebConstants.LOG_MESSAGE,"Log Messages" );
 			sessionDataBean.getLoggerLevel().addAll(loggerList.keySet());
 		
 	}

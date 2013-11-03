@@ -39,16 +39,20 @@ public class CardiodockTestTask extends AbstractTestTask {
 						numberOfEntries, cardiodockList.get(i - 1))
 						.getCardiodock());
 			}
-		}
+		}		
 		
-		// write data to the server
+		printer.logActivity("Counting data on the server before the test.");
+		int preTestcountCardiodock = countData(oauthData.getDeviceToken(), oauthData.getDeviceSecret(),
+					AuthorizationBuilder.CARDIODOCK_MODULE_ID, oauthData.getAccessToken(),
+					oauthData.getAccessSecret());
+		
+		printer.logActivity("Saving the JSON data on the server.");
 		String responseCardiodock = saveJSONData(oauthData.getDeviceToken(),
 				oauthData.getDeviceSecret(), Cardiodock.toJsonArray(cardiodockList),
 				AuthorizationBuilder.CARDIODOCK_MODULE_ID, oauthData.getAccessToken(),
 				oauthData.getAccessSecret());
 		
 		// retrieve the ids from the response
-
 		Collection<String> idCardiodockList = StringUtil
 				.fromJsonArrayToStrings(responseCardiodock);
 		
@@ -56,9 +60,14 @@ public class CardiodockTestTask extends AbstractTestTask {
 		int countCardiodock = countData(oauthData.getDeviceToken(), oauthData.getDeviceSecret(),
 				AuthorizationBuilder.CARDIODOCK_MODULE_ID, oauthData.getAccessToken(),
 				oauthData.getAccessSecret());
+		if(countCardiodock-preTestcountCardiodock!= numberOfEntries){
+			printer.logError("Data count after writing to the server is wrong: "+countCardiodock);
+			throw new Exception("Wrong data count after writing to the server!");
+		}
 		this.printer.logMessage("Data count: "+countCardiodock);
 		
-		// delete the data from the server
+		
+		printer.logActivity("Deleting the Cardiodock JSON data on the server.");
 		deleteJSONData(oauthData.getDeviceToken(), oauthData.getDeviceSecret(),
 				AuthorizationBuilder.CARDIODOCK_MODULE_ID, oauthData.getAccessToken(),
 				oauthData.getAccessSecret(), idCardiodockList);
@@ -69,7 +78,10 @@ public class CardiodockTestTask extends AbstractTestTask {
 		responseCardiodock = syncData(oauthData.getDeviceToken(), oauthData.getDeviceSecret(),
 				AuthorizationBuilder.CARDIODOCK_MODULE_ID, oauthData.getAccessToken(),
 				oauthData.getAccessSecret());
-
+		idCardiodockList = StringUtil.fromJsonArrayToStrings(responseCardiodock);
+		if(idCardiodockList.size()!=preTestcountCardiodock){
+			throw new Exception("Not all Cardiodock data deleted from the server");
+		}
 	}
 
 }

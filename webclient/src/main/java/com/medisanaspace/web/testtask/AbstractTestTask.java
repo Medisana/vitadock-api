@@ -40,7 +40,7 @@ public abstract class AbstractTestTask implements Runnable{
 	protected OAuthData oauthData;
 	protected ServerConfig serverConfig;
 	protected AbstractPrinter printer;
-	protected final int numberOfEntries;
+	protected int numberOfEntries;
 	
 	public AbstractTestTask(int numberOfEntries) {
 		this.numberOfEntries = numberOfEntries;
@@ -405,6 +405,14 @@ public abstract class AbstractTestTask implements Runnable{
 	 */
 	public ArrayList<String> getLatency() {
 		return latency;
+	}
+
+	public int getNumberOfEntries() {
+		return numberOfEntries;
+	}
+
+	public void setNumberOfEntries(int numberOfEntries) {
+		this.numberOfEntries = numberOfEntries;
 	}
 
 }

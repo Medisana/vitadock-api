@@ -44,6 +44,8 @@ public class CallbackBean {
 					setMessageLog(cloudClient.getMessageLog());
 				} catch (Exception e) {
 					// System.out.println("Error: Authorize verifier token error");
+					System.out.println(e.getMessage());
+					System.out.println(e.getStackTrace());
 					return "error.jsf";
 				}
 			} else {
@@ -63,11 +65,13 @@ public class CallbackBean {
 	public String runTest() {
 		try {
 			if (!sessionDataBean.getSelectedTests().isEmpty()) {
-				cloudClient.runTests(sessionDataBean.getSelectedTests(), sessionDataBean.getOauthdata());
+				cloudClient.runTests(sessionDataBean.getSelectedTests(),1, sessionDataBean.getOauthdata());
 			}
 			messageLog = cloudClient.getMessageLog();
 		} catch (Exception e) {
 			System.out.println("Error: Tests do not run correctly");
+			System.out.println(e.getMessage());
+			System.out.println(e.getStackTrace());
 			return "error.jsf";
 		}
 		return null;
@@ -85,7 +89,8 @@ public class CallbackBean {
 			}
 			messageLog = cloudClient.getMessageLog();
 		} catch (Exception e) {
-			System.out.println("Error: Tests do not run correctly");
+			System.out.println("Error: Error when addin random data.");
+			System.out.println(e.getMessage());
 			return "error.jsf";
 		}
 		return null;

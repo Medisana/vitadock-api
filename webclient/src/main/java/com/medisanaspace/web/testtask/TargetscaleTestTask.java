@@ -37,20 +37,35 @@ public class TargetscaleTestTask extends AbstractTestTask {
 						.getTargetscale());
 			}
 		}
+		printer.logActivity("Counting data before the test.");	
+		int preTestcountTargetscale = countData(this.oauthData.getDeviceToken(),
+				this.oauthData.getDeviceSecret(),
+				AuthorizationBuilder.TARGETSCALE_MODULE_ID,
+				this.oauthData.getAccessToken(),
+				this.oauthData.getAccessSecret());
+		
+		printer.logActivity("Saving "+numberOfEntries+" Targetscale data on the server.");
+		
 		String responseTargetscale = saveJSONData(oauthData.getDeviceToken(),
 				this.oauthData.getDeviceSecret(),
 				Targetscale.toJsonArray(targetscaleList),
 				AuthorizationBuilder.TARGETSCALE_MODULE_ID,
 				this.oauthData.getAccessToken(),
 				this.oauthData.getAccessSecret());
+		
 		Collection<String> idTargetscaleList = StringUtil
 				.fromJsonArrayToStrings(responseTargetscale);
+		
 		int countTargetscale = countData(this.oauthData.getDeviceToken(),
 				this.oauthData.getDeviceSecret(),
 				AuthorizationBuilder.TARGETSCALE_MODULE_ID,
 				this.oauthData.getAccessToken(),
 				this.oauthData.getAccessSecret());
-
+		
+		if(countTargetscale-preTestcountTargetscale!=numberOfEntries){
+			printer.logError("Data count after writing to the server is wrong: "+countTargetscale);
+			throw new Exception("Wrong data count after writing to the server!");
+		}
 		this.printer.logMessage("Data count: " + countTargetscale);
 
 		deleteJSONData(this.oauthData.getDeviceToken(),
@@ -58,11 +73,18 @@ public class TargetscaleTestTask extends AbstractTestTask {
 				AuthorizationBuilder.TARGETSCALE_MODULE_ID,
 				this.oauthData.getAccessToken(),
 				this.oauthData.getAccessSecret(), idTargetscaleList);
+		
 		responseTargetscale = syncData(this.oauthData.getDeviceToken(),
 				this.oauthData.getDeviceSecret(),
 				AuthorizationBuilder.TARGETSCALE_MODULE_ID,
 				this.oauthData.getAccessToken(),
 				this.oauthData.getAccessSecret());
+		
+		idTargetscaleList = StringUtil.fromJsonArrayToStrings(responseTargetscale);
+		if(idTargetscaleList.size()!=preTestcountTargetscale){
+			printer.logError("Wrong data count after writing to the server: "+countTargetscale);
+			throw new Exception("Targetscale data are not successfully saved to the server!");
+		}
 	}
 
 }

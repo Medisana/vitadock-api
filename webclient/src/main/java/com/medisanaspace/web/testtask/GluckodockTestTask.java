@@ -36,6 +36,17 @@ public class GluckodockTestTask extends AbstractTestTask {
 		String accessSecret = oauthData.getAccessSecret();
 		
 		printer.startDataSet("Gluckodock test");
+		printer.logActivity("Counting data before the test.");	
+		// count data
+		int preTestcountGlucodockglucose = countData(deviceToken, deviceSecret,
+				AuthorizationBuilder.GLUCODOCK_GLUCOSE_MODULE_ID, accessToken,
+				accessSecret);
+		int preTestcountGlucodockinsulin = countData(deviceToken, deviceSecret,
+				AuthorizationBuilder.GLUCODOCK_INSULIN_MODULE_ID, accessToken,
+				accessSecret);
+		int preTestcountGlucodockmeal = countData(deviceToken, deviceSecret,
+				AuthorizationBuilder.GLUCODOCK_MEAL_MODULE_ID, accessToken,
+				accessSecret);
 		
 		// fill with "maxEntries" random entries
 		int index = 0;
@@ -63,17 +74,19 @@ public class GluckodockTestTask extends AbstractTestTask {
 						numberOfEntries).getGlucodockmeal());
 			}
 		}
-
+		printer.logActivity("Saving Gluckodock glucose data on the server.");
 		String responseGlucodockglucose = saveJSONData(deviceToken,
 				deviceSecret,
 				Glucodockglucose.toJsonArray(glucodockglucoseList),
 				AuthorizationBuilder.GLUCODOCK_GLUCOSE_MODULE_ID, accessToken,
 				accessSecret);
+		printer.logActivity("Saving Gluckodock insulin data on the server.");
 		String responseGlucodockinsulin = saveJSONData(deviceToken,
 				deviceSecret,
 				Glucodockinsulin.toJsonArray(glucodockinsulinList),
 				AuthorizationBuilder.GLUCODOCK_INSULIN_MODULE_ID, accessToken,
 				accessSecret);
+		printer.logActivity("Saving Gluckodock meal data on the server.");
 		String responseGlucodockmeal = saveJSONData(deviceToken, deviceSecret,
 				Glucodockmeal.toJsonArray(glucodockmealList),
 				AuthorizationBuilder.GLUCODOCK_MEAL_MODULE_ID, accessToken,
@@ -97,17 +110,35 @@ public class GluckodockTestTask extends AbstractTestTask {
 		int countGlucodockmeal = countData(deviceToken, deviceSecret,
 				AuthorizationBuilder.GLUCODOCK_MEAL_MODULE_ID, accessToken,
 				accessSecret);
+		
+		if(countGlucodockglucose-preTestcountGlucodockglucose != numberOfEntries){
+			printer.logError("Wrong data count after writing to the server: "+countGlucodockglucose);
+			throw new Exception("Glucodock glucose data are not successfully saved on the server!");
+		}
 
+		if(countGlucodockinsulin-preTestcountGlucodockinsulin != numberOfEntries){
+			printer.logError("Wrong data count after writing to the server: "+countGlucodockinsulin);			
+			throw new Exception("Glucodock insulin data are not successfully saved on the server!");
+		}
+		
+		if(countGlucodockmeal-preTestcountGlucodockmeal != numberOfEntries){
+			printer.logError("Wrong data count after writing to the server: "+countGlucodockmeal);
+			throw new Exception("Glucodock meal data are not successfully saved on the server!");
+		}
+		
 		this.printer.logMessage("Data count: " + countGlucodockglucose + ", "
 				+ countGlucodockinsulin + ", " + countGlucodockmeal);
 
 		// delete the data from the server
+		printer.logActivity("Deleting Gluckodock glucose data from the server.");
 		deleteJSONData(deviceToken, deviceSecret,
 				AuthorizationBuilder.GLUCODOCK_GLUCOSE_MODULE_ID, accessToken,
 				accessSecret, idGlucodockglucoseList);
+		printer.logActivity("Deleting Gluckodock insulin data from the server.");
 		deleteJSONData(deviceToken, deviceSecret,
 				AuthorizationBuilder.GLUCODOCK_INSULIN_MODULE_ID, accessToken,
 				accessSecret, idGlucodockinsulinList);
+		printer.logActivity("Deleting Gluckodock meal data from the server.");
 		deleteJSONData(deviceToken, deviceSecret,
 				AuthorizationBuilder.GLUCODOCK_MEAL_MODULE_ID, accessToken,
 				accessSecret, idGlucodockmealList);
@@ -124,6 +155,28 @@ public class GluckodockTestTask extends AbstractTestTask {
 		responseGlucodockmeal = syncData(deviceToken, deviceSecret,
 				AuthorizationBuilder.GLUCODOCK_MEAL_MODULE_ID, accessToken,
 				accessSecret);
+		
+		idGlucodockglucoseList = StringUtil
+				.fromJsonArrayToStrings(responseGlucodockglucose);
+		idGlucodockinsulinList = StringUtil
+				.fromJsonArrayToStrings(responseGlucodockinsulin);
+		idGlucodockmealList = StringUtil
+				.fromJsonArrayToStrings(responseGlucodockmeal);
+		
+		if(idGlucodockglucoseList.size() == countGlucodockglucose){
+			printer.logError("Wrong data count after deleting the glucose test data from the server: "+idGlucodockglucoseList.size());
+			throw new Exception("Glucodock glucose data are not deleted successfully from the server");
+		}
+		
+		if(idGlucodockinsulinList.size() == countGlucodockinsulin){
+			printer.logError("Wrong data count after deleting the insulin test data from the server: "+idGlucodockinsulinList.size());
+			throw new Exception("Glucodock insulin data are not deleted successfully from the server");
+		}
+		
+		if(idGlucodockmealList.size() == countGlucodockmeal){
+			printer.logError("Wrong data count after deleting the meal test data from the server: "+idGlucodockmealList.size());
+			throw new Exception("Glucodock meal data are not deleted successfully from the server");
+		}
 
 	}
 

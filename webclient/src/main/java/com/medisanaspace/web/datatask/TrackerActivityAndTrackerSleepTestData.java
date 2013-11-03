@@ -1,10 +1,8 @@
 package com.medisanaspace.web.datatask;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
-import com.medisanaspace.library.StringUtil;
 import com.medisanaspace.model.TrackerActivity;
 import com.medisanaspace.model.TrackerSleep;
 import com.medisanaspace.model.fixture.TrackerActivityFixture;

@@ -12,8 +12,8 @@ import com.medisanaspace.model.TrackerActivityEntry;
 /**
  * Generator for random TrackerActivities entries.
  * 
- * @author Clemens Lode, <clemens.lode@medisanaspace.com>
- * @version $Revision: 1.0 $
+ * @author Jan Krause, <jan.krause@medisanaspace.com>
+ * @version $Revision: 1.1 $
  */
 public class TrackerActivityFixture {
 

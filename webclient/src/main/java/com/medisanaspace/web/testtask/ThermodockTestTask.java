@@ -38,6 +38,15 @@ public class ThermodockTestTask extends AbstractTestTask {
 			}
 		}
 		printer.startDataSet("Thermodock test");
+		printer.logActivity("Counting data before the test.");	
+		
+		int preTestcountThermodock = countData(this.oauthData.getDeviceToken(),
+				this.oauthData.getDeviceSecret(),
+				AuthorizationBuilder.THERMODOCK_MODULE_ID,
+				this.oauthData.getAccessToken(),
+				this.oauthData.getAccessSecret());
+		
+		printer.logActivity("Saving "+numberOfEntries+" Thermodock data on the server.");
 		String responseThermodock = saveJSONData(
 				this.oauthData.getDeviceToken(),
 				this.oauthData.getDeviceSecret(),
@@ -56,6 +65,11 @@ public class ThermodockTestTask extends AbstractTestTask {
 				AuthorizationBuilder.THERMODOCK_MODULE_ID,
 				this.oauthData.getAccessToken(),
 				this.oauthData.getAccessSecret());
+		
+		if(countThermodock-preTestcountThermodock!=numberOfEntries){
+			printer.logError("Data count after writing to the server is wrong: "+countThermodock);
+			throw new Exception("Wrong data count after writing to the server!");
+		}
 		this.printer.logMessage("Data count" + countThermodock);
 
 		deleteJSONData(this.oauthData.getDeviceToken(),
@@ -69,6 +83,12 @@ public class ThermodockTestTask extends AbstractTestTask {
 				AuthorizationBuilder.THERMODOCK_MODULE_ID,
 				this.oauthData.getAccessToken(),
 				this.oauthData.getAccessSecret());
+		idThermodockList = StringUtil
+				.fromJsonArrayToStrings(responseThermodock);
+		if(idThermodockList.size()!= preTestcountThermodock){
+			printer.logError("Wrong data count after writing to the server: "+idThermodockList.size());
+			throw new Exception("Thermodock data are not successfully saved to the server!");
+		}
 	}
 
 }

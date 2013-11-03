@@ -10,9 +10,9 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import com.medisanaspace.library.RandomHelper;
+import com.medisanaspace.model.User;
 import com.medisanaspace.web.library.AuthorizationBuilder;
 import com.medisanaspace.web.main.CloudClient;
-import com.medisanaspace.web.testtask.User;
 
 public class AuthorizationModule {
 	private static final String AUTHORIZATION_STRING = "Authorization";
