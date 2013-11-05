@@ -77,8 +77,10 @@ public class CallbackBean {
 				// go to next test, if there is one!
 				if(sessionDataBean.getSelectedTests().size()-1 > sessionDataBean.getTestRunIndex()){
 					sessionDataBean.setTestRunIndex(sessionDataBean.getTestRunIndex()+1);
+					sessionDataBean.setTestProgress(100/sessionDataBean.getSelectedTests().size()*sessionDataBean.getTestRunIndex() );
 				}else{
 					sessionDataBean.setTestRunIndex(0);
+					sessionDataBean.setTestProgress(0);
 				}
 			}
 		} catch (Exception e) {
@@ -87,7 +89,7 @@ public class CallbackBean {
 			System.out.println(e.getStackTrace());
 			return "error.jsf";
 		}
-		return null;
+		return "";
 	}
 	
 	/**

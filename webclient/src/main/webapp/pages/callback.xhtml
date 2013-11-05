@@ -11,7 +11,7 @@
 		<f:metadata>
 		      <f:event type="preRenderView" listener="#{callbackBean.authorizeVerifierToken()}"  required="#{!facesContext.postback}" />
 		      <f:viewParam id="oauth_verifier" name="oauth_verifier" value="#{callbackBean.oauth_verifier}"  />
-		      <f:viewParam id="oauth_token" name="oauth_token" value="#{callbackBean.oauth_token}" required="#{!facesContext.postback}" />
+		  <!-- <f:viewParam id="oauth_token" name="oauth_token" value="#{callbackBean.oauth_token}" required="#{!facesContext.postback}" />  -->    
 		      <f:viewParam id="deny" name="deny" value="#{callbackBean.deny}"/>
 		</f:metadata>
 
@@ -21,14 +21,17 @@
 	      	</f:facet>
 	  		<p />
 
-			<h:form>
-			    <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+			<h:form id="callback_form">
+			    <h:panelGrid id="callback_panel" columns="2" style="margin-bottom:10px" cellpadding="5">
 					Callback Page
 				
 					<h:outputText id="messageLog" value="#{callbackBean.messageLog}"  escape="false"/>
 					<h:outputLabel for="runTestButton" value="Run next Tests:" />  
-					<p:commandButton id="runTestButton" value="Next >>" action="#{callbackBean.runTest()}" ajax="true" update="messageLog"  />
+					<p:commandButton id="runTestButton" value="Next >>" action="#{callbackBean.runTest()}" ajax="true" update=":callback_form:callback_panel"  />
+					<p:progressBar  value="#{sessionDataBean.testProgress}" />
 					<h:messages />
+					<h:outputText value="#{sessionDataBean.getTestRunIndex()} / #{sessionDataBean.getSelectedTests().size()}" />
+					
 					
 			    </h:panelGrid>
 			</h:form>

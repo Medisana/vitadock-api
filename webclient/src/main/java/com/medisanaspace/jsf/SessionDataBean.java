@@ -27,7 +27,8 @@ public class SessionDataBean implements Serializable {
 	private String role = "MANAGER";
 	private boolean addRandomData=false;
 	private int testRunIndex=-1;
-
+	private int testProgress=0;
+				
 	public OAuthData getOauthdata() {
 		return oauthdata;
 	}
@@ -91,6 +92,14 @@ public class SessionDataBean implements Serializable {
 
 	public void setTestRunIndex(int testRunIndex) {
 		this.testRunIndex = testRunIndex;
+	}
+
+	public int getTestProgress() {
+		return testProgress;
+	}
+
+	public void setTestProgress(int testProgress) {
+		this.testProgress = testProgress;
 	}
 
 
