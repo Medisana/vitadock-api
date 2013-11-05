@@ -212,7 +212,7 @@ public class CloudClient implements Serializable{
 				CloudClient.printer.logMessage(latency+"ms");
 			}
 		}
-
+		CloudClient.printer.endLog("Finished");
 	}
 	
 	public void addRandomData(List<String> moduleList, OAuthData oauthdata){

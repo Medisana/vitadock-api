@@ -62,7 +62,7 @@ public class TestRunner {
 
 		}
 
-		CloudClient.printer.endLog("Finished");
+		
 
 	}
 

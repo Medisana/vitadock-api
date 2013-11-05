@@ -26,6 +26,7 @@ public class SessionDataBean implements Serializable {
 	private Set<String> loggerLevel = new HashSet<String>();
 	private String role = "MANAGER";
 	private boolean addRandomData=false;
+	private int testRunIndex=-1;
 
 	public OAuthData getOauthdata() {
 		return oauthdata;
@@ -82,6 +83,14 @@ public class SessionDataBean implements Serializable {
 
 	public void setAddRandomData(boolean addRandomData) {
 		this.addRandomData = addRandomData;
+	}
+
+	public int getTestRunIndex() {
+		return testRunIndex;
+	}
+
+	public void setTestRunIndex(int testRunIndex) {
+		this.testRunIndex = testRunIndex;
 	}
 
 

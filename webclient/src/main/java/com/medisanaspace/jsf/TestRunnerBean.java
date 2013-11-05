@@ -1,9 +1,10 @@
 package com.medisanaspace.jsf;
 
 import java.io.Serializable;
-import java.nio.channels.SeekableByteChannel;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -145,6 +146,12 @@ public class TestRunnerBean implements Serializable {
 			String url = cloudClient.authorize(sessionDataBean.getServer(), false ,newUserEmail, newUserPassword, sessionDataBean.getLoggerLevel());
 			FacesContext.getCurrentInstance().getExternalContext()
 					.redirect(url);
+			// set index on the first test
+			if (!sessionDataBean.getSelectedTests().isEmpty()) {
+				sessionDataBean.setTestRunIndex(0);
+			}else{
+				sessionDataBean.setTestRunIndex(-1);
+			}
 			return null;
 		} catch (Exception e) {
 			// refer to error page here, user does not need to know specifics
@@ -157,25 +164,34 @@ public class TestRunnerBean implements Serializable {
 
 
 
-	/**
-	 * Run tests after authorization process.
-	 * 
-	 * @return
-	 */
-	public String runTest() {
-		try {
-			if (!sessionDataBean.getSelectedTests().isEmpty()) {
-				cloudClient.runTests(sessionDataBean.getSelectedTests(),1, sessionDataBean.getOauthdata(), sessionDataBean.getServer(), WebConstants.WEB_PRINTER, sessionDataBean.getLoggerLevel());
-			}
-			messageLog = cloudClient.getMessageLog();
-		} catch (Exception e) {
-			System.out.println("Error: Tests do not run correctly");
-			System.out.println(e.getMessage());
-			System.out.println(e.getStackTrace());
-			return "error.jsf";
-		}
-		return null;
-	}
+//	/**
+//	 * Run tests after authorization process.
+//	 * 
+//	 * @return
+//	 */
+//	public String runTest() {
+//		try {
+//			if (!sessionDataBean.getSelectedTests().isEmpty()) {
+//				List<String> nextTest = new ArrayList<String>();
+//				nextTest.add(sessionDataBean.getSelectedTests().get(sessionDataBean.getTestRunIndex()));
+//				cloudClient.runTests(nextTest,1, sessionDataBean.getOauthdata(), sessionDataBean.getServer(), 
+//						WebConstants.WEB_PRINTER, sessionDataBean.getLoggerLevel());
+//				messageLog = cloudClient.getMessageLog();
+//				// go to next test, if there is one!
+//				if(sessionDataBean.getSelectedTests().size()-1 <= sessionDataBean.getTestRunIndex()){
+//					sessionDataBean.setTestRunIndex(sessionDataBean.getTestRunIndex()+1);
+//				}else{
+//					sessionDataBean.setTestRunIndex(0);
+//				}
+//			}
+//		} catch (Exception e) {
+//			System.out.println("Error: Tests do not run correctly");
+//			System.out.println(e.getMessage());
+//			System.out.println(e.getStackTrace());
+//			return "error.jsf";
+//		}
+//		return null;
+//	}
 
 	// getter only
 	public Map<String, String> getTests() {

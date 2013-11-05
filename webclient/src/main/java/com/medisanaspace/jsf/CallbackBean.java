@@ -1,11 +1,15 @@
 package com.medisanaspace.jsf;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.faces.context.FacesContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
+import com.medisanaspace.web.library.WebConstants;
 import com.medisanaspace.web.main.CloudClient;
 
 @Controller
@@ -65,9 +69,18 @@ public class CallbackBean {
 	public String runTest() {
 		try {
 			if (!sessionDataBean.getSelectedTests().isEmpty()) {
-				cloudClient.runTests(sessionDataBean.getSelectedTests(),1, sessionDataBean.getOauthdata());
+				List<String> nextTest = new ArrayList<String>();
+				nextTest.add(sessionDataBean.getSelectedTests().get(sessionDataBean.getTestRunIndex()));
+				cloudClient.runTests(nextTest,1, sessionDataBean.getOauthdata(), sessionDataBean.getServer(), 
+						WebConstants.WEB_PRINTER, sessionDataBean.getLoggerLevel());
+				messageLog = cloudClient.getMessageLog();
+				// go to next test, if there is one!
+				if(sessionDataBean.getSelectedTests().size()-1 > sessionDataBean.getTestRunIndex()){
+					sessionDataBean.setTestRunIndex(sessionDataBean.getTestRunIndex()+1);
+				}else{
+					sessionDataBean.setTestRunIndex(0);
+				}
 			}
-			messageLog = cloudClient.getMessageLog();
 		} catch (Exception e) {
 			System.out.println("Error: Tests do not run correctly");
 			System.out.println(e.getMessage());
