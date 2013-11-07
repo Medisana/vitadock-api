@@ -22,18 +22,25 @@
 	  		<p />
 
 			<h:form id="callback_form">
-			    <h:panelGrid id="callback_panel" columns="2" style="margin-bottom:10px" cellpadding="5">
-					Callback Page
-				
-					<h:outputText id="messageLog" value="#{callbackBean.messageLog}"  escape="false"/>
+			    <h:panelGrid id="callback_panel" columns="2" style="margin-bottom:10px" cellpadding="5" rendered="#{not sessionDataBean.addRandomData}">
+					Callback Page			
+					<h:outputText value="#{callbackBean.messageLog}"  escape="false"/>
+
 					<h:outputLabel for="runTestButton" value="Run next Tests:" />  
 					<p:commandButton id="runTestButton" value="Next >>" action="#{callbackBean.runTest()}" ajax="true" update=":callback_form:callback_panel"  />
 					<p:progressBar  value="#{sessionDataBean.testProgress}" />
 					<h:messages />
 					<h:outputText value="#{sessionDataBean.getTestRunIndex()} / #{sessionDataBean.getSelectedTests().size()}" />
-					
-					
 			    </h:panelGrid>
+			    
+			    <h:panelGrid id="callback_addrandomdata_panel" columns="2" style="margin-bottom:10px" cellpadding="5" rendered="#{sessionDataBean.addRandomData}" >
+					Callback Page			
+					<h:outputText  value="#{callbackBean.messageLog}"  escape="false"/>
+					
+					<h:outputLabel for="add_randomdata_button" value="Continue to add data to your account:" />  
+					<p:commandButton id="add_randomdata_button" value="Add data" action="#{callbackBean.addRandomData()}" ajax="true" update=":callback_form:callback_addrandomdata_panel"  />
+					<h:messages />				
+			    </h:panelGrid>			    
 			</h:form>
 			
     	</p:panel>

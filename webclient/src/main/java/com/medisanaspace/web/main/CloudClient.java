@@ -166,7 +166,7 @@ public class CloudClient implements Serializable{
 		if(loggerType.equals(WebConstants.WEB_PRINTER)){
 			CloudClient.printer = new WebPrinter(selectedloggerLevel);
 		}else if(loggerType.equals(WebConstants.MAIL_PRINTER)){
-			CloudClient.printer = new MailNotificationPrinter(selectedloggerLevel); // TODO: new ServerMailer-printer
+			CloudClient.printer = new MailNotificationPrinter(selectedloggerLevel); 
 		}
 		
 		ServerType serverType = servers.get(server);		
@@ -215,11 +215,33 @@ public class CloudClient implements Serializable{
 		CloudClient.printer.endLog("Finished");
 	}
 	
-	public void addRandomData(List<String> moduleList, OAuthData oauthdata){
+	public void addRandomData(List<String> moduleList, OAuthData oauthdata, String server,String loggerType, Set<String> loggerActionStrings){
 		testsToRun.clear();
 		for (String index : moduleList) {
 			testsToRun.add(availableTests.get(index));
 		}
+		
+		EnumSet<LoggerAction> selectedloggerLevel = EnumSet.noneOf(LoggerAction.class);
+		for(String loggerAction: loggerActionStrings){
+			selectedloggerLevel.add(loggerActions.get(loggerAction));
+		}
+		
+		if(loggerType.equals(WebConstants.WEB_PRINTER)){
+			CloudClient.printer = new WebPrinter(selectedloggerLevel);
+		}else if(loggerType.equals(WebConstants.MAIL_PRINTER)){
+			CloudClient.printer = new MailNotificationPrinter(selectedloggerLevel); 
+		}
+		
+		ServerType serverType = servers.get(server);		
+		// user null, because not needed
+		newConfiguration =  new TestRunnerConfig(serverType, null, false, 
+				false, 1, CloudClient.printer);
+
+		
+		TestRunner testRunner = new TestRunner(newConfiguration, oauthdata);
+		testRunner.setTestTasks(testsToRun);
+		testRunner.runTests();
+		
 
 	}
 	

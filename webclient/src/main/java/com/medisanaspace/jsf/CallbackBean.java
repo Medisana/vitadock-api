@@ -15,20 +15,21 @@ import com.medisanaspace.web.main.CloudClient;
 @Controller
 @Scope("request")
 public class CallbackBean {
-	
-	/***********************************
-	 *  Injected Beans
-	 *********************************/
-	
-	@Autowired private CloudClient cloudClient;
-	
-	@Autowired private SessionDataBean sessionDataBean;
 
-	
+	/***********************************
+	 * Injected Beans
+	 *********************************/
+
+	@Autowired
+	private CloudClient cloudClient;
+
+	@Autowired
+	private SessionDataBean sessionDataBean;
+
 	/**********************************
 	 * temporary view attributes and parameters
 	 **********************************/
-	
+
 	private String oauth_token;
 	private String oauth_verifier;
 	private boolean deny;
@@ -44,7 +45,8 @@ public class CallbackBean {
 		if (!FacesContext.getCurrentInstance().isPostback()) {
 			if (!isDeny() && oauth_verifier != null) {
 				try {
-					sessionDataBean.setOauthdata(cloudClient.authorizeWithVerifierToken(oauth_verifier));
+					sessionDataBean.setOauthdata(cloudClient
+							.authorizeWithVerifierToken(oauth_verifier));
 					setMessageLog(cloudClient.getMessageLog());
 				} catch (Exception e) {
 					// System.out.println("Error: Authorize verifier token error");
@@ -59,8 +61,7 @@ public class CallbackBean {
 		}
 		return null;
 	}
-	
-	
+
 	/**
 	 * Run tests after authorization process.
 	 * 
@@ -70,17 +71,24 @@ public class CallbackBean {
 		try {
 			if (!sessionDataBean.getSelectedTests().isEmpty()) {
 				List<String> nextTest = new ArrayList<String>();
-				nextTest.add(sessionDataBean.getSelectedTests().get(sessionDataBean.getTestRunIndex()));
-				cloudClient.runTests(nextTest,1, sessionDataBean.getOauthdata(), sessionDataBean.getServer(), 
-						WebConstants.WEB_PRINTER, sessionDataBean.getLoggerLevel());
+				nextTest.add(sessionDataBean.getSelectedTests().get(
+						sessionDataBean.getTestRunIndex()));
+				cloudClient.runTests(nextTest, 1,
+						sessionDataBean.getOauthdata(),
+						sessionDataBean.getServer(), WebConstants.WEB_PRINTER,
+						sessionDataBean.getLoggerLevel());
 				messageLog = cloudClient.getMessageLog();
 				// go to next test, if there is one!
-				if(sessionDataBean.getSelectedTests().size()-1 > sessionDataBean.getTestRunIndex()){
-					sessionDataBean.setTestRunIndex(sessionDataBean.getTestRunIndex()+1);
-					sessionDataBean.setTestProgress(100/sessionDataBean.getSelectedTests().size()*sessionDataBean.getTestRunIndex() );
-				}else{
+				if (sessionDataBean.getSelectedTests().size() - 1 > sessionDataBean
+						.getTestRunIndex()) {
+					sessionDataBean.setTestRunIndex(sessionDataBean
+							.getTestRunIndex() + 1);
+					sessionDataBean.setTestProgress(100
+							/ sessionDataBean.getSelectedTests().size()
+							* sessionDataBean.getTestRunIndex());
+				} else {
 					sessionDataBean.setTestRunIndex(0);
-					sessionDataBean.setTestProgress(0);
+					sessionDataBean.setTestProgress(100);
 				}
 			}
 		} catch (Exception e) {
@@ -91,7 +99,7 @@ public class CallbackBean {
 		}
 		return "";
 	}
-	
+
 	/**
 	 * Add random generated data to a set of modules
 	 * 
@@ -99,8 +107,13 @@ public class CallbackBean {
 	 */
 	public String addRandomData() {
 		try {
-			if (sessionDataBean.isAddRandomData() && !sessionDataBean.getSelectedModulesToAddRandomData().isEmpty()) {
-				cloudClient.addRandomData(sessionDataBean.getSelectedModulesToAddRandomData(), sessionDataBean.getOauthdata());
+			if (sessionDataBean.isAddRandomData()
+					&& !sessionDataBean.getSelectedModulesToAddRandomData().isEmpty()) {
+				cloudClient.addRandomData(
+						sessionDataBean.getSelectedModulesToAddRandomData(),
+						sessionDataBean.getOauthdata(),
+						sessionDataBean.getServer(), WebConstants.WEB_PRINTER,
+						sessionDataBean.getLoggerLevel());
 			}
 			messageLog = cloudClient.getMessageLog();
 		} catch (Exception e) {
@@ -110,7 +123,7 @@ public class CallbackBean {
 		}
 		return null;
 	}
-	
+
 	public String getOauth_token() {
 		return oauth_token;
 	}

@@ -1,10 +1,8 @@
 package com.medisanaspace.jsf;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -138,8 +136,8 @@ public class TestRunnerBean implements Serializable {
 	 * @return
 	 */
 	public String authorize() {
+		sessionDataBean.setAddRandomData(false);
 		try {
-			
 			// TODO: add createNewUser Parameter when ServerSide is repaired
 			
 			// redirect the user to the login page to authorize

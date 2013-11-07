@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="../templates/layout.xhtml">
+
+	<ui:define name="content">
+			
+		<p:panel id="mainPanel" toggleable="true" toggleSpeed="250">
+			<f:facet name="header">
+
+			</f:facet>
+			<p />
+
+			<h:form id ="form">
+			
+				<h:panelGrid columns="3" style="margin-bottom:10px" cellpadding="5">
+					<h:outputText value="Select the Server:" />
+					<p:selectOneMenu value="#{sessionDataBean.server}">  
+						<f:selectItems value="#{addDataBean.serverList.entrySet()}" 
+						    var="srv" itemValue="#{srv.key}" itemLabel="#{srv.value}"/>  
+			        </p:selectOneMenu>  
+			    	<h:outputText value="Choose the server your user is on: test server'vitacloud.medisanaspace.com' or the production server 'cloud.vitadock.com'" />
+				</h:panelGrid>		
+				
+				<p:panel id="logger_options_panel" header="Output Options" toggleable="true" closable="false"
+					collapsed="false" toggleSpeed="500" closeSpeed="500" >  
+  					<h:outputText value="Select your output:" />
+					<p:selectManyCheckbox  value="#{sessionDataBean.loggerLevel}" id="loggerBox" layout="pageDirection"  >
+						<f:selectItems value="#{addDataBean.loggerList.entrySet()}"
+							var="entry" itemValue="#{entry.key}" itemLabel="#{entry.value}" />
+					</p:selectManyCheckbox>
+	    		</p:panel>
+
+				<h:panelGrid columns="3" style="margin-bottom:10px" cellpadding="5">
+					<p:panel id="modulePanel" header="Modules">  
+	  					<h:outputText value="Select the modules you want to fill with random data:" />
+						<p:selectManyCheckbox  value="#{sessionDataBean.selectedModulesToAddRandomData}" id="moduleBox"
+							layout="pageDirection"  >
+							<f:selectItems value="#{addDataBean.moduleList.entrySet()}"
+								var="listentry" itemValue="#{listentry.key}" itemLabel="#{listentry.value}" />
+						</p:selectManyCheckbox>
+		    		</p:panel>
+					<br />
+					<p:commandButton value="Submit" action="#{addDataBean.addData()}" 
+						ajax="false" />
+				
+				</h:panelGrid>
+				<h:messages />
+
+			</h:form>
+
+		</p:panel>
+	</ui:define>
+</ui:composition>
+</html>
