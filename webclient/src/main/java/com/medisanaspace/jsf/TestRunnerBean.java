@@ -49,10 +49,10 @@ public class TestRunnerBean implements Serializable {
 	private Map<String, Set<String>> preConfiguredLoggerOptions;
 	
 	// input
-	private String newUserEmail="";
-	private String newUserPassword="";
+//	private String newUserEmail="";
+//	private String newUserPassword="";
 	private String messageLog;
-	private boolean createNewUser = false;	
+//	private boolean createNewUser = false;	
 
 	
 	public TestRunnerBean() {
@@ -141,7 +141,7 @@ public class TestRunnerBean implements Serializable {
 			// TODO: add createNewUser Parameter when ServerSide is repaired
 			
 			// redirect the user to the login page to authorize
-			String url = cloudClient.authorize(sessionDataBean.getServer(), false ,newUserEmail, newUserPassword, sessionDataBean.getLoggerLevel());
+			String url = cloudClient.authorize(sessionDataBean.getServer(), false ,"", "", sessionDataBean.getLoggerLevel());
 			FacesContext.getCurrentInstance().getExternalContext()
 					.redirect(url);
 			// set index on the first test
@@ -160,36 +160,6 @@ public class TestRunnerBean implements Serializable {
 		}
 	}
 
-
-
-//	/**
-//	 * Run tests after authorization process.
-//	 * 
-//	 * @return
-//	 */
-//	public String runTest() {
-//		try {
-//			if (!sessionDataBean.getSelectedTests().isEmpty()) {
-//				List<String> nextTest = new ArrayList<String>();
-//				nextTest.add(sessionDataBean.getSelectedTests().get(sessionDataBean.getTestRunIndex()));
-//				cloudClient.runTests(nextTest,1, sessionDataBean.getOauthdata(), sessionDataBean.getServer(), 
-//						WebConstants.WEB_PRINTER, sessionDataBean.getLoggerLevel());
-//				messageLog = cloudClient.getMessageLog();
-//				// go to next test, if there is one!
-//				if(sessionDataBean.getSelectedTests().size()-1 <= sessionDataBean.getTestRunIndex()){
-//					sessionDataBean.setTestRunIndex(sessionDataBean.getTestRunIndex()+1);
-//				}else{
-//					sessionDataBean.setTestRunIndex(0);
-//				}
-//			}
-//		} catch (Exception e) {
-//			System.out.println("Error: Tests do not run correctly");
-//			System.out.println(e.getMessage());
-//			System.out.println(e.getStackTrace());
-//			return "error.jsf";
-//		}
-//		return null;
-//	}
 
 	// getter only
 	public Map<String, String> getTests() {
@@ -215,23 +185,6 @@ public class TestRunnerBean implements Serializable {
 		return loggerList;
 	}
 	
-
-	public String getNewUserEmail() {
-		return newUserEmail;
-	}
-
-	public void setNewUserEmail(String newUserEmail) {
-		this.newUserEmail = newUserEmail;
-	}
-
-	public String getNewUserPassword() {
-		return newUserPassword;
-	}
-
-	public void setNewUserPassword(String newUserPassword) {
-		this.newUserPassword = newUserPassword;
-	}
-
 	public SessionDataBean getSessionDataBean() {
 		return sessionDataBean;
 	}
@@ -239,14 +192,31 @@ public class TestRunnerBean implements Serializable {
 	public void setSessionDataBean(SessionDataBean sessionDataBean) {
 		this.sessionDataBean = sessionDataBean;
 	}
-
-	public boolean isCreateNewUser() {
-		return createNewUser;
-	}
-
-	public void setCreateNewUser(boolean createNewUser) {
-		this.createNewUser = createNewUser;
-	}
+	
+//	public String getNewUserEmail() {
+//		return newUserEmail;
+//	}
+//
+//	public void setNewUserEmail(String newUserEmail) {
+//		this.newUserEmail = newUserEmail;
+//	}
+//
+//	public String getNewUserPassword() {
+//		return newUserPassword;
+//	}
+//
+//	public void setNewUserPassword(String newUserPassword) {
+//		this.newUserPassword = newUserPassword;
+//	}
+//
+//
+//	public boolean isCreateNewUser() {
+//		return createNewUser;
+//	}
+//
+//	public void setCreateNewUser(boolean createNewUser) {
+//		this.createNewUser = createNewUser;
+//	}
 
 
 }
