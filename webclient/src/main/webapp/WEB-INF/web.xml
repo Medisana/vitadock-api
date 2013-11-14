@@ -52,17 +52,17 @@
 		<listener-class>com.sun.faces.config.ConfigureListener
 		</listener-class>
 	</listener>
-	<servlet>
+  <servlet>
 		<servlet-name>dispatcher</servlet-name>
-		<servlet-class>
-			org.springframework.web.servlet.DispatcherServlet
+		<servlet-class> org.springframework.web.servlet.DispatcherServlet
 		</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>dispatcher</servlet-name>
-		<url-pattern>/</url-pattern>
+		<url-pattern>/runtests/*</url-pattern>
 	</servlet-mapping>
+ 	
 	<servlet>
 		<servlet-name>Faces Servlet</servlet-name>
 		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
@@ -72,10 +72,15 @@
 		<servlet-name>Faces Servlet</servlet-name>
 		<url-pattern>*.jsf</url-pattern>
 	</servlet-mapping>
+	 <servlet-mapping>
+	    <servlet-name>Faces Servlet</servlet-name>
+	    <url-pattern>*.xhtml</url-pattern>
+  	</servlet-mapping>
+
 	<session-config>
 		<session-timeout>10</session-timeout>
 	</session-config>
 	<welcome-file-list>
-		<welcome-file>main.jsf</welcome-file>
+		<welcome-file>pages/main.jsf</welcome-file>
 	</welcome-file-list>
 </web-app>
