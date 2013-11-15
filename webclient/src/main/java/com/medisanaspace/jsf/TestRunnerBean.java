@@ -49,10 +49,12 @@ public class TestRunnerBean implements Serializable {
 	private Map<String, Set<String>> preConfiguredLoggerOptions;
 	
 	// input
-//	private String newUserEmail="";
-//	private String newUserPassword="";
+
+	private String applicationToken;
+	private String applicationSecret;
+	
 	private String messageLog;
-//	private boolean createNewUser = false;	
+	private boolean ownTokens = false;	
 
 	
 	public TestRunnerBean() {
@@ -124,11 +126,7 @@ public class TestRunnerBean implements Serializable {
 	public void updateLoggerLevel(AjaxBehaviorEvent e){
 		sessionDataBean.setLoggerLevel(preConfiguredLoggerOptions.get(sessionDataBean.getRole()));
 	}
-	
-//	@RequestMapping("/latency")
-//	public String getlatency(@RequestParam String server, Model model) {
-//		return "";
-//	}
+
 
 	/**
 	 * Authorize on a host
@@ -138,10 +136,16 @@ public class TestRunnerBean implements Serializable {
 	public String authorize() {
 		sessionDataBean.setAddRandomData(false);
 		try {
-			// TODO: add createNewUser Parameter when ServerSide is repaired
+			
+			String token=""; 
+			String secret="";
+			if(this.ownTokens){
+				token=this.applicationToken;
+				secret=this.applicationSecret;
+			}
+			String url = cloudClient.authorize(sessionDataBean.getServer(), false ,"", "", sessionDataBean.getLoggerLevel(),token, secret);
 			
 			// redirect the user to the login page to authorize
-			String url = cloudClient.authorize(sessionDataBean.getServer(), false ,"", "", sessionDataBean.getLoggerLevel());
 			FacesContext.getCurrentInstance().getExternalContext()
 					.redirect(url);
 			// set index on the first test
@@ -192,31 +196,35 @@ public class TestRunnerBean implements Serializable {
 	public void setSessionDataBean(SessionDataBean sessionDataBean) {
 		this.sessionDataBean = sessionDataBean;
 	}
-	
-//	public String getNewUserEmail() {
-//		return newUserEmail;
-//	}
-//
-//	public void setNewUserEmail(String newUserEmail) {
-//		this.newUserEmail = newUserEmail;
-//	}
-//
-//	public String getNewUserPassword() {
-//		return newUserPassword;
-//	}
-//
-//	public void setNewUserPassword(String newUserPassword) {
-//		this.newUserPassword = newUserPassword;
-//	}
-//
-//
-//	public boolean isCreateNewUser() {
-//		return createNewUser;
-//	}
-//
-//	public void setCreateNewUser(boolean createNewUser) {
-//		this.createNewUser = createNewUser;
-//	}
 
+
+	public String getApplicationToken() {
+		return applicationToken;
+	}
+
+
+	public void setApplicationToken(String applicationToken) {
+		this.applicationToken = applicationToken;
+	}
+
+
+	public String getApplicationSecret() {
+		return applicationSecret;
+	}
+
+
+	public void setApplicationSecret(String applicationSecret) {
+		this.applicationSecret = applicationSecret;
+	}
+
+
+	public boolean isOwnTokens() {
+		return ownTokens;
+	}
+
+
+	public void setOwnTokens(boolean ownTokens) {
+		this.ownTokens = ownTokens;
+	}
 
 }

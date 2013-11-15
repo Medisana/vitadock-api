@@ -70,7 +70,7 @@ public class AddDataBean implements Serializable {
 	public String addData(){
 		try {
 			sessionDataBean.setAddRandomData(true);
-			String url = cloudClient.authorize(server, false,null, null, sessionDataBean.getLoggerLevel());
+			String url = cloudClient.authorize(server, false,null, null, sessionDataBean.getLoggerLevel(), "", "");
 			FacesContext.getCurrentInstance().getExternalContext()
 					.redirect(url);
 			return null;

@@ -33,25 +33,25 @@
 						    var="srv" itemValue="#{srv.key}" itemLabel="#{srv.value}"/>  
 			        </p:selectOneMenu>  
 			    	<h:outputText value="Choose if you want to run the test on the test server: 'vitacloud.medisanaspace.com' or the production server 'cloud.vitadock.com'" />
-<!-- 
-					<h:outputText value="Create new user" />
-					<p:selectBooleanCheckbox value="#{testRunnerBean.createNewUser}" >
-				       <p:ajax update=":form:create_user_panel"  />
+
+					<h:outputText value="Use your own application token" />
+					<p:selectBooleanCheckbox value="#{testRunnerBean.ownTokens}" >
+				       <p:ajax update=":form:application_token_panel"  />
 					</p:selectBooleanCheckbox>
-					<h:outputText value="Choose this option to create a new user on the selected server." />
- -->
+					<h:outputText value="Choose this option if you want to use your own application token and secret." />
+
 			    </h:panelGrid>   
 				
-		<!--  	<p:panel id="create_user_panel" header="Enter user details" visible="#{testRunnerBean.createNewUser}">  
+		  	   <p:panel id="application_token_panel" header="Enter token and secret" visible="#{testRunnerBean.ownTokens}">  
   					<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
-	  					<p:outputLabel for="useremail_input" value="User E-Mail:" />  
-	           			<p:inputText id="useremail_input" value="#{testRunnerBean.newUserEmail}" /> 	
+	  					<p:outputLabel for="token_input" value="Application Token:" />  
+	           			<p:inputText id="token_input" value="#{testRunnerBean.applicationToken}" /> 	
 	           			
-	  					<p:outputLabel for="password_input" value="Password:" />  
-	           			<p:password id="password_input" value="#{testRunnerBean.newUserPassword}" /> 
+	  					<p:outputLabel for="secret_input" value="Application Secret:" />  
+	           			<p:password id="secret_input" value="#{testRunnerBean.applicationSecret}" /> 
            			</h:panelGrid>
 	    		</p:panel>
-		-->			
+					
 				
 				<p:panel id="pnl" header="Output Options" toggleable="true" closable="false"
 					collapsed="true" toggleSpeed="500" closeSpeed="500" widgetVar="panel">  

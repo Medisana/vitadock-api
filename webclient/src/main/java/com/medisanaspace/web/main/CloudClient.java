@@ -114,6 +114,8 @@ public class CloudClient implements Serializable{
 		servers.put(WebConstants.LOCALHOST, ServerType.LOCALHOST);
 	}
 
+	
+
 	/**
 	 * First part of the OAuth handshake.
 	 * 
@@ -121,7 +123,7 @@ public class CloudClient implements Serializable{
 	 * @throws Exception
 	 */
 	public String authorize(String server, boolean createNewUser, String userEmail, String userPassword,
-			Set<String> loggerActionStrings) throws Exception {
+			Set<String> loggerActionStrings, String applicationToken, String applicationSecret) throws Exception {
 		
 		EnumSet<LoggerAction> selectedloggerLevel = EnumSet.noneOf(LoggerAction.class);
 		for(String loggerAction: loggerActionStrings){
@@ -133,6 +135,10 @@ public class CloudClient implements Serializable{
 		newConfiguration =  new TestRunnerConfig(serverType, user, createNewUser, 
 				false, 1, CloudClient.printer);
 		
+		if(applicationSecret!="" && applicationToken!=""){
+			newConfiguration.setAPPLICATION_TOKEN(applicationToken);
+			newConfiguration.setAPPLICATION_SECRET(applicationSecret);
+		}
 		authorizationModule = new AuthorizationModule(newConfiguration);
 		return authorizationModule.authorize();
 	}

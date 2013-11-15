@@ -74,7 +74,7 @@ public class CreateUserBean implements Serializable {
 	 */
 	public String createUser(){
 		try {
-			String url = cloudClient.authorize(server, true ,newUserEmail, newUserPassword, sessionDataBean.getLoggerLevel());
+			String url = cloudClient.authorize(server, true ,newUserEmail, newUserPassword, sessionDataBean.getLoggerLevel(), "", "");
 			FacesContext.getCurrentInstance().getExternalContext()
 					.redirect(url);
 			return null;
