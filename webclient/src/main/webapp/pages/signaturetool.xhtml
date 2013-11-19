@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="../templates/layout.xhtml">
+
+	<ui:define name="content">
+			
+		<p:panel id="mainPanel" toggleable="true" toggleSpeed="250">
+	
+
+			<h:form id ="form">
+
+				<h:panelGrid columns="3" style="margin-bottom:10px" cellpadding="5">
+			    	<h:outputText value="Select the Server:" />
+					<p:selectOneMenu value="#{signatureToolBean.server}">  
+						<f:selectItems value="#{signatureToolBean.serverList.entrySet()}" 
+						    var="srv" itemValue="#{srv.key}" itemLabel="#{srv.value}"/>  
+			        </p:selectOneMenu>  
+			    	<h:outputText value="Choose if you want to run the test on the test server: 'vitacloud.medisanaspace.com' or the production server 'cloud.vitadock.com'" />
+
+	
+			        <h:outputText value="Request type: " />
+					<p:selectOneMenu value="#{signatureToolBean.action}" >  
+						<f:selectItems value="#{signatureToolBean.actionList.entrySet()}" 
+						    var="action" itemValue="#{action.key}" itemLabel="#{action.value}"/>
+							<f:ajax render=":form:attribute_panel" />
+			        </p:selectOneMenu>  
+			    	<h:outputText value="Delete/Save data, Load data, syncronize data, count data, unauthorized access, authorized access" />
+			    </h:panelGrid>
+				<h:panelGroup id="attribute_panel">
+			    <h:panelGrid id="application_token_panel" columns="2"  cellpadding="5" >
+			    	<p:outputLabel value="Application Token"/>
+			    	<p:inputText  value="#{signatureToolBean.applicationToken}" size="80" />
+			  	</h:panelGrid>
+			  	 <h:panelGrid id="application_secret_panel" columns="2" cellpadding="5" >
+			    	<p:outputLabel value="Application Secret"/>
+			    	<p:inputText value="#{signatureToolBean.applicationSecret}" size="80" />
+			    </h:panelGrid>
+			    
+			    <h:panelGrid id="unauthorized_access_token_panel" columns="2"  cellpadding="5" rendered="#{signatureToolBean.toRender('unauthorized_access_token_panel')}">
+			    	<p:outputLabel value="Unauthorized Access Token"/>
+			    	<p:inputText value="#{signatureToolBean.unauthorizedAccessToken}" size="80" />
+			    </h:panelGrid>
+			    <h:panelGrid id="unauthorized_access_secret_panel" columns="2"  cellpadding="5" rendered="#{signatureToolBean.toRender('unauthorized_access_secret_panel')}">
+			    	<p:outputLabel value="Unauthorized Access Secret"/>
+			    	<p:inputText value="#{signatureToolBean.unauthorizedAccessSecret}" size="80" />
+			    </h:panelGrid>
+
+			     <h:panelGrid id="access_token_panel" columns="2"  cellpadding="5" rendered="#{signatureToolBean.toRender('access_token_panel')}">
+			    	<p:outputLabel value="Access Token"/>
+			    	<p:inputText value="#{signatureToolBean.accessToken}" size="80" />
+			    </h:panelGrid>
+			     <h:panelGrid id="access_secret_panel" columns="2" cellpadding="5" rendered="#{signatureToolBean.toRender('access_secret_panel')}">
+			    	<p:outputLabel value="Access Secret"/>
+			    	<p:inputText value="#{signatureToolBean.accessSecret}" size="80" />
+			    </h:panelGrid>
+			     <h:panelGrid id="verifier_token_panel" columns="2" cellpadding="5" rendered="#{signatureToolBean.toRender('verifier_token_panel')}">
+			    	<p:outputLabel value="Verifier Token"/>
+			    	<p:inputText value="#{signatureToolBean.verifierToken}" size="80" />
+			    </h:panelGrid>
+			    <h:panelGrid id="datasince_panel"  columns="2"  cellpadding="5" rendered="#{signatureToolBean.toRender('datasince_panel')}">
+				   	<p:outputLabel  value="Data Since"  />
+				   	<p:inputText value="#{signatureToolBean.dataSince}"  />
+				</h:panelGrid>
+			     <h:panelGrid id="module_panel" columns="2" cellpadding="5" rendered="#{signatureToolBean.toRender('module_panel')}">
+			    	<p:outputLabel value="Module"/>
+					<p:selectOneMenu value="#{signatureToolBean.module}">  
+						<f:selectItems value="#{signatureToolBean.moduleList.entrySet()}" 
+						    var="module" itemValue="#{module.key}" itemLabel="#{module.value}"/>  
+			        </p:selectOneMenu>  
+			     </h:panelGrid>
+			    	
+	
+				<h:outputLabel id="log_label" value="#{signatureToolBean.messageLog}" escape="false"/>
+				<p:separator />
+				<p:commandButton value="Calculate" action="#{signatureToolBean.calculate}"
+					ajax="true" update="log_label"/>
+				<h:messages />
+				</h:panelGroup>
+			</h:form>
+
+		</p:panel>
+	</ui:define>
+</ui:composition>
+</html>

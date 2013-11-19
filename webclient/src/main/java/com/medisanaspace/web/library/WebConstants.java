@@ -27,6 +27,14 @@ public class WebConstants {
 	public static final String MANAGER= "MANAGER"; 
 	public static final String TESTUSER= "TESTUSER"; 
 	public static final String DEVELOPER= "DEVELOPER";
+
+	public static final String DELTE_ACTION = "DELETE_ACTION";
+	public static final String SAVE_ACTION = "SAVE_ACTION";
+	public static final String COUNT_DATA_ACTION = "COUNT_DATA_ACTION";
+	public static final String LOAD_DATA_ACTION = "LOAD_DATA_ACTION";
+	public static final String RETRIEVE_UNAUTHORIZED_ACCESS_TOKEN = "RETRIEVE_UNAUTHORIZED_ACCESS_TOKEN";
+	public static final String RETRIEVE_ACCESS_TOKEN = "RETRIEVE_ACCESS_TOKEN";
+	
 	
 	public static final String MAIL_PRINTER = "MAIL_PRINTER";
 	public static final String WEB_PRINTER = "WEB_PRINTER";

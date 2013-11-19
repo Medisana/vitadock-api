@@ -419,14 +419,14 @@ public final class AuthorizationBuilder {
 				signatureMap, parameterString);
 
 		CloudClient.printer.logMessage("    Base Parameter String: "
-				+ baseParameterString + "\n");
+				+ baseParameterString );
 
 		String baseSignatureString = SignatureHelper
 				.calculateBaseSignatureString(GET_STRING, requestUrl,
 						baseParameterString);
 
 		CloudClient.printer.logMessage("    Base Signature String: "
-				+ baseSignatureString + "\n");
+				+ baseSignatureString );
 
 		String signature = SignatureHelper.calculateSignature(
 				baseSignatureString, applicationSecret, accessSecret);

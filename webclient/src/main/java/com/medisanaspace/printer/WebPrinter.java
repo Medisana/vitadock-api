@@ -4,6 +4,7 @@ import java.util.EnumSet;
 
 import org.apache.http.Header;
 import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.params.HttpParams;
 
 /**
  * Concrete Console Printer.
@@ -70,7 +71,7 @@ public  class WebPrinter extends AbstractPrinter{
 	@Override
 	public void logMessage(String message){
 	if (loggerActionSet.contains(LoggerAction.LOG_MESSAGE))
-		messages+=message+"<br />";
+		messages+=message+"<br /> <br />";
 	}
 
 	/**
@@ -119,7 +120,7 @@ public  class WebPrinter extends AbstractPrinter{
 	@Override
 	public void logPost(final HttpRequestBase httppost) {
 		if (loggerActionSet.contains(LoggerAction.LOG_PROTOCOL_MESSAGE)){		
-			messages+="Request " + httppost.getMethod() + " URL:"
+			messages+="Request " + httppost.getMethod() + "<br /> URL:"
 					+ httppost.getURI()+"<br />";
 			for (Header header : httppost.getAllHeaders()) {
 				messages+="    " + header.getName() + " : "
