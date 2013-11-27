@@ -77,8 +77,9 @@ public final class TestRunnerConfig {
 			serverConfig.setEXTERNAL_LOGIN_URL("vitacloud.medisanaspace.com");
 			serverConfig
 					.setEXTERNAL_DATA_URL("vitacloud.medisanaspace.com/data");
-			APPLICATION_TOKEN = "NjyM7rkSvEGUDzbnzUsfY1PCLsdLkUBkFRJquiRoor9UdoPJLskW6bWGhXWoyzFf";
-			APPLICATION_SECRET = "h9UBgiRJ0vgCVNvu7jovpycENZSMmSdy1BpepizVrJtUsBuwmKya3ZMeurXKbw9R";
+			//local callback
+			APPLICATION_TOKEN = "8DtxMWMDfWWh2e5TgxB9wfP0kenvDwtMM6MBFiK0pa6CSs1T8FcLpwzSRn1P0q4w";
+			APPLICATION_SECRET = "Zb8zyVslrKBPqVySVNYAC8vsXjRJM9V3UwoTab7dvnA57EPevtT7nT6y5ySjzufx";
 			//APPLICATION_TOKEN = "5bS2TiPfe6oRo5ihqwgDwwTmyGWZFyqvKGAmjUDayw1xS4vyVB9KJU9EC9lebxwV";
 			//APPLICATION_SECRET = "F4MffyvaMAXJCMghbAjbry2wk66FgbKK9iTfh5WzntoaM1aYyev3ujyT1LSZbpfh";
 			break;
@@ -86,9 +87,9 @@ public final class TestRunnerConfig {
 			serverConfig.setEXTERNAL_AUTH_URL("cloud.vitadock.com/auth");
 			serverConfig.setEXTERNAL_LOGIN_URL("cloud.vitadock.com");
 			serverConfig.setEXTERNAL_DATA_URL("cloud.vitadock.com/data");
-
-			APPLICATION_TOKEN = "wqR6Tu245t1VVPViJTJGvcf2AkW3G06niYsn655AG3umZS3s6E6fAXvSkiEhrYTm";
-			APPLICATION_SECRET = "WSc3hplyunPa4SgLncJFKthZWZTdsJy4uZFXEgJ308GCnZq3eY1xGeJVJWUePGhp";
+			// local callback
+			APPLICATION_TOKEN = "DBdmbEoKtt7K31PpGodoEA7nMfM1X4MtX7yiKxNw8pKfCKEhM7zrr3WTej6yvVEJ";
+			APPLICATION_SECRET = "NErqF1gdhSf9vY9pUAtSA3VvUCgVdD54Ey7jsjbrJGLiApf7w5WXqEJuVn7KX9Gx";
 			break;
 		case LOCALHOST:
 			serverConfig.setEXTERNAL_AUTH_URL("localhost/auth");

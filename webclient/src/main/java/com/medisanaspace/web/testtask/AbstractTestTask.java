@@ -19,53 +19,56 @@ import com.medisanaspace.web.testconfig.OAuthData;
 import com.medisanaspace.web.testconfig.ServerConfig;
 
 /**
- * Abstract TestTask to derive tests from.
- * A TestTask needs the OAuthdata, ServerConfig and 
- * a printer from the TestRunner.
+ * Abstract TestTask to derive tests from. A TestTask needs the OAuthdata,
+ * ServerConfig and a printer from the TestRunner.
  * 
- * From every request, that is made to the server, the latency is
- * measured and saved in the latency List.
+ * From every request, that is made to the server, the latency is measured and
+ * saved in the latency List.
  * 
  * @author Jan Krause (c) Medisana Space Technologies GmbH, 2013
  * 
  * 
  * @version $Revision: 1.0 $
  */
-public abstract class AbstractTestTask implements Runnable{
+public abstract class AbstractTestTask implements Runnable {
 
 	private static final String ENCODING = "UTF-8";
 	protected static final String AUTHORIZATION_STRING = "Authorization";
+	protected static final String APPLICATION_JSON_HEADER = "application/json";
 
 	protected ArrayList<String> latency = new ArrayList<String>();
 	protected OAuthData oauthData;
 	protected ServerConfig serverConfig;
 	protected AbstractPrinter printer;
 	protected int numberOfEntries;
-	
+
 	public AbstractTestTask(int numberOfEntries) {
 		this.numberOfEntries = numberOfEntries;
 	}
 
 	/**
-	 * Called by ExecutorService. Calls executeTask() and catches it's exceptions.
+	 * Called by ExecutorService. Calls executeTask() and catches it's
+	 * exceptions.
+	 * 
 	 * @see java.lang.Runnable#run()
 	 */
 	@Override
-	public void run(){
-		try{
+	public void run() {
+		try {
 			latency.clear();
 			executeTask();
-		}catch(Exception e){
+		} catch (Exception e) {
 			CloudClient.printer.logError("Error in Test: "
 					+ this.getClass().toString(), e);
 		}
 	}
-	
+
 	/**
 	 * Main method of the task. Override with your test.
+	 * 
 	 * @throws Exception
 	 */
-	protected void executeTask() throws Exception{
+	protected void executeTask() throws Exception {
 	}
 
 	/**
@@ -80,10 +83,11 @@ public abstract class AbstractTestTask implements Runnable{
 	 * @param accessToken
 	 *            The access token
 	 * @param accessSecret
-	 *            The access secret	
-	 * @return the number of entries for this module * @throws Exception
-	 *             if there was an error communicating with the server or
-	 *             constructing the request. */
+	 *            The access secret
+	 * @return the number of entries for this module * @throws Exception if
+	 *         there was an error communicating with the server or constructing
+	 *         the request.
+	 */
 	protected int countData(final String token, final String secret,
 			final int moduleId, final String accessToken,
 			final String accessSecret) throws Exception {
@@ -97,11 +101,12 @@ public abstract class AbstractTestTask implements Runnable{
 				serverConfig, moduleId));
 		httpget.setHeader(AUTHORIZATION_STRING, authorization);
 		DefaultHttpClient httpClient = new DefaultHttpClient();
-		
+
 		CloudClient.printer.logPost(httpget);
-		
+
 		long curr = System.currentTimeMillis();
 		HttpResponse response = httpClient.execute(httpget);
+
 		int datacount = Integer.parseInt(IOUtils.toString(response.getEntity()
 				.getContent(), ENCODING));
 		latency.add(String.valueOf(System.currentTimeMillis() - curr));
@@ -123,12 +128,12 @@ public abstract class AbstractTestTask implements Runnable{
 	 *            The access token
 	 * @param accessSecret
 	 *            The access secret
-	
-	
+	 * 
+	 * 
 	 * @return the server response (a JSON string with the generated ids if the
-	 *         process was successful). * @throws Exception
-	 *             if there was an error communicating with the server or
-	 *             constructing the request. */
+	 *         process was successful). * @throws Exception if there was an
+	 *         error communicating with the server or constructing the request.
+	 */
 	protected String saveJSONData(final String token, final String secret,
 			final String jsonString, final int moduleId,
 			final String accessToken, final String accessSecret)
@@ -142,21 +147,27 @@ public abstract class AbstractTestTask implements Runnable{
 				AuthorizationBuilder.createRequestArrayUrl(serverConfig,
 						moduleId));
 		httppost.setHeader(AUTHORIZATION_STRING, authorization);
+		httppost.setHeader("Accept", "application/json");
 		httppost.setHeader("Content-Type", "application/json;charset=utf-8");
 		DefaultHttpClient httpClient = new DefaultHttpClient();
 		httppost.setEntity(new StringEntity(jsonString, ENCODING));
 
 		CloudClient.printer.logPost(httppost);
-		
+
 		long curr = System.currentTimeMillis();
 		HttpResponse response = httpClient.execute(httppost);
-		String responseString = IOUtils.toString(response.getEntity()
-				.getContent(), ENCODING);
-		latency.add(String.valueOf(System.currentTimeMillis() - curr));
-		CloudClient.printer.logJSONData(responseString);
-
-		return responseString;
-
+		int code = response.getStatusLine().getStatusCode();
+		if (code == 200) {
+			String responseString = IOUtils.toString(response.getEntity()
+					.getContent(), ENCODING);
+			latency.add(String.valueOf(System.currentTimeMillis() - curr));
+			CloudClient.printer.logJSONData(responseString);
+			return responseString;
+		} else {
+			Exception e = new Exception("Error 500 when saving data from Module: "
+					+ moduleId);
+			throw e;
+		}
 	}
 
 	/**
@@ -174,10 +185,11 @@ public abstract class AbstractTestTask implements Runnable{
 	 *            The access secret
 	 * @param idList
 	 *            A collection of ids to be deleted on the server
-	
+	 * 
 	 * @throws Exception
 	 *             if there was an error communicating with the server or
-	 *             constructing the request. */
+	 *             constructing the request.
+	 */
 	protected void deleteJSONData(final String token, final String secret,
 			final int moduleId, final String accessToken,
 			final String accessSecret, final Collection<String> idList)
@@ -195,6 +207,7 @@ public abstract class AbstractTestTask implements Runnable{
 						moduleId));
 		httppost.setHeader(AUTHORIZATION_STRING, authorization);
 		httppost.setHeader("Content-Type", "application/json");
+		// httppost.setHeader("Accept", APPLICATION_JSON_HEADER);
 
 		DefaultHttpClient httpClient = new DefaultHttpClient();
 
@@ -207,7 +220,7 @@ public abstract class AbstractTestTask implements Runnable{
 				.getContent(), ENCODING);
 
 		CloudClient.printer.logJSONData(responseString);
-		
+
 		latency.add(String.valueOf(System.currentTimeMillis() - curr));
 	}
 
@@ -224,16 +237,17 @@ public abstract class AbstractTestTask implements Runnable{
 	 *            The access token
 	 * @param accessSecret
 	 *            The access secret
-	 * @return the JSON data from the server (or an error message). 
+	 * @return the JSON data from the server (or an error message).
 	 * 
 	 * @throws Exception
 	 *             if there was an error communicating with the server or
-	 *             constructing the request. */
+	 *             constructing the request.
+	 */
 	protected String loadData(final String token, final String secret,
 			final int moduleId, final String accessToken,
 			final String accessSecret) throws Exception {
-		int start = 1;
-		int max = 10;
+		int start = 0;
+		int max = 100;
 		String dateSince = "0";
 		DefaultHttpClient httpClient = new DefaultHttpClient();
 
@@ -245,14 +259,15 @@ public abstract class AbstractTestTask implements Runnable{
 				moduleId, start, max, dateSince);
 		HttpGet httpget = new HttpGet(requestUrl);
 		httpget.setHeader(AUTHORIZATION_STRING, authorization);
-
+		httpget.setHeader("Accept", APPLICATION_JSON_HEADER);
 		CloudClient.printer.logPost(httpget);
 		long curr = System.currentTimeMillis();
 		HttpResponse response = httpClient.execute(httpget);
 
-		String data= IOUtils.toString(response.getEntity().getContent(), ENCODING);
+		String data = IOUtils.toString(response.getEntity().getContent(),
+				ENCODING);
 		latency.add(String.valueOf(System.currentTimeMillis() - curr));
-		
+
 		return data;
 	}
 
@@ -269,15 +284,16 @@ public abstract class AbstractTestTask implements Runnable{
 	 * @param accessToken
 	 *            The access token
 	 * @param accessSecret
-	 *            The access secret	
-	 * @return the JSON data from the server (or an error message). * @throws Exception
-	 *             if there was an error communicating with the server or
-	 *             constructing the request. */
+	 *            The access secret
+	 * @return the JSON data from the server (or an error message). * @throws
+	 *         Exception if there was an error communicating with the server or
+	 *         constructing the request.
+	 */
 	protected String syncData(final String token, final String secret,
 			final int moduleId, final String accessToken,
 			final String accessSecret) throws Exception {
 		int start = -1;
-		int max = 1;
+		int max = 100;
 		String dateSince = "0";
 		DefaultHttpClient httpClient = new DefaultHttpClient();
 
@@ -289,19 +305,18 @@ public abstract class AbstractTestTask implements Runnable{
 				moduleId, start, max, dateSince);
 		HttpGet httpget = new HttpGet(requestUrl);
 		httpget.setHeader(AUTHORIZATION_STRING, authorization);
-		
+		httpget.setHeader("Accept", this.APPLICATION_JSON_HEADER);
 		CloudClient.printer.logPost(httpget);
-		
+
 		long curr = System.currentTimeMillis();
 		HttpResponse response = httpClient.execute(httpget);
-
 
 		InputStream testStream = response.getEntity().getContent();
 		byte[] bytes = IOUtils.toByteArray(testStream);
 		String responseString = new String(bytes, ENCODING);
 		latency.add(String.valueOf(System.currentTimeMillis() - curr));
-//
-//		CloudClient.printer.logData(responseString);
+		//
+		// CloudClient.printer.logData(responseString);
 
 		return responseString;
 	}
@@ -319,10 +334,11 @@ public abstract class AbstractTestTask implements Runnable{
 	 * @param accessToken
 	 *            The access token
 	 * @param accessSecret
-	 *            The access secret	
-	 * @return the number of deleted entries. * @throws Exception
-	 *             if there was an error communicating with the server or
-	 *             constructing the request. */
+	 *            The access secret
+	 * @return the number of deleted entries. * @throws Exception if there was
+	 *         an error communicating with the server or constructing the
+	 *         request.
+	 */
 	protected int deleteAllDataFromModule(final String token,
 			final String secret, final int moduleId, final String accessToken,
 			final String accessSecret) throws Exception {
@@ -353,6 +369,7 @@ public abstract class AbstractTestTask implements Runnable{
 
 	/**
 	 * Method getOauthData.
+	 * 
 	 * @return OAuthData
 	 */
 	public OAuthData getOauthData() {
@@ -361,7 +378,9 @@ public abstract class AbstractTestTask implements Runnable{
 
 	/**
 	 * Method setOauthData.
-	 * @param oauthData OAuthData
+	 * 
+	 * @param oauthData
+	 *            OAuthData
 	 */
 	public void setOauthData(OAuthData oauthData) {
 		this.oauthData = oauthData;
@@ -369,6 +388,7 @@ public abstract class AbstractTestTask implements Runnable{
 
 	/**
 	 * Method getServerConfig.
+	 * 
 	 * @return ServerConfig
 	 */
 	public ServerConfig getServerConfig() {
@@ -377,7 +397,9 @@ public abstract class AbstractTestTask implements Runnable{
 
 	/**
 	 * Method setServerConfig.
-	 * @param serverConfig ServerConfig
+	 * 
+	 * @param serverConfig
+	 *            ServerConfig
 	 */
 	public void setServerConfig(ServerConfig serverConfig) {
 		this.serverConfig = serverConfig;
@@ -385,6 +407,7 @@ public abstract class AbstractTestTask implements Runnable{
 
 	/**
 	 * Method getPrinter.
+	 * 
 	 * @return PrinterInterface
 	 */
 	public AbstractPrinter getPrinter() {
@@ -393,7 +416,9 @@ public abstract class AbstractTestTask implements Runnable{
 
 	/**
 	 * Method setPrinter.
-	 * @param printer PrinterInterface
+	 * 
+	 * @param printer
+	 *            PrinterInterface
 	 */
 	public void setPrinter(AbstractPrinter printer) {
 		this.printer = printer;
@@ -401,6 +426,7 @@ public abstract class AbstractTestTask implements Runnable{
 
 	/**
 	 * Retrieve the latency array
+	 * 
 	 * @return ArrayList<String>
 	 */
 	public ArrayList<String> getLatency() {

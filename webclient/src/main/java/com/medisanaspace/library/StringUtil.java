@@ -4,7 +4,9 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import flexjson.JSONDeserializer;
 import flexjson.JSONSerializer;
@@ -69,9 +71,21 @@ public final class StringUtil {
 	 * @param json String
 	 * @return Collection<String>
 	 */
-	public static Collection<String> fromJsonArrayToStrings(final String json) {
-		return new JSONDeserializer<List<String>>().use(null, ArrayList.class)
+	public static ArrayList<String> fromJsonArrayToStrings(final String json) {
+		return new JSONDeserializer<ArrayList<String>>().use(null, ArrayList.class)
 				.use("values", String.class).deserialize(json);
+	}
+	
+	public static Collection<Map<String, String>> fromJsonArrayToMap(final String json) {
+	List<Map<String, String>> jsonList;
+//		jsonList = new JSONDeserializer<List<Map<String, String>>>().use(null, ArrayList.class).deserializeInto(json, jsonList);
+		jsonList = new JSONDeserializer<List<Map<String, String>>>().
+				use(null, ArrayList.class).use("values", HashMap.class).deserialize(json);
+				
+				
+//		HashMap<String, String> jsonMap = new HashMap<String, String>();
+//		new JSONDeserializer<Map<String, String>>().deserializeInto(json, jsonMap);
+		return jsonList;
 	}
 
 }
