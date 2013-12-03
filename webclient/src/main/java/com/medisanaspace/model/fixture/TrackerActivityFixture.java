@@ -155,7 +155,7 @@ public class TrackerActivityFixture {
 		ArrayList<ProfilePoint> profileList;
 		Random r = new Random();
 		profileList = lists.get(r.nextInt(lists.size()));
-	
+
 		int i = 24; // start at 6 o'clock
 		// 15 min ^= 1 timeslot => 24*15 timeslots
 		while (i <= 96) {
@@ -181,8 +181,8 @@ public class TrackerActivityFixture {
 				 activityEntry.setDistance(steps*0.0007f); // 70cm ^= foot length
 				 activityEntry.setStartTime(acticityTime*15); // time in minutes
 				 activityEntry.setDuration(intervallSize*15); // duration in minutes
-				 activityEntry.setCalories(0); //TODO
-				 activityEntry.setRunningSteps(0); //TODO
+				 activityEntry.setCalories(Math.round(steps*0.04f)); //TODO: 0.04 kcal per step
+				 activityEntry.setRunningSteps(0); 				//TODO
 				 
 				this.expectedTrackerActivityEntries.add(activityEntry);
 				i= currentPoint.getTo()+1;
@@ -191,17 +191,17 @@ public class TrackerActivityFixture {
 				// random low event 10% probability for an activity occurring
 				if( r.nextInt(100)<=10 ){
 					TrackerActivityEntry  activityEntry = new TrackerActivityEntry();
-				
+
 					 int intervallSize = r.nextInt(3)+1; // minimal 1
 					 int steps = r.nextInt(300)+1;// minimal 1 step
-					 
+
 					 activityEntry.setSteps(steps);
 					 activityEntry.setDistance(steps*0.0007f); // 70cm ^= foot length
 					 activityEntry.setStartTime(i*15); // time in minutes
 					 activityEntry.setDuration(intervallSize*15); // duration in minutes
-					 activityEntry.setCalories(0); //TODO
+					 activityEntry.setCalories(Math.round(steps*0.04f)); //TODO
 					 activityEntry.setRunningSteps(0); //TODO
-					 
+
 					 this.expectedTrackerActivityEntries.add(activityEntry);
 					 i+=intervallSize;
 				}

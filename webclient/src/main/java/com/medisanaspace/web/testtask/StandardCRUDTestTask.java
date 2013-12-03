@@ -9,12 +9,22 @@ import java.util.Map;
 import com.medisanaspace.library.StringUtil;
 
 /**
+ * Tests standard methods:
+ * - count
+ * - save
+ * - load
+ * - delete
  */
 public class StandardCRUDTestTask extends AbstractTestTask {
 	
 	protected int moduleID;
 	protected String fixtureJSONString;
-	
+	/**
+	 * 
+	 * @param numberOfEntries
+	 * @param moduleid
+	 * @param fixtureJSONString are test date in JSON format. They will be written to the server.
+	 */
 	public StandardCRUDTestTask(int numberOfEntries, int moduleid, String fixtureJSONString) {
 		super(numberOfEntries);
 		this.moduleID = moduleid;
@@ -37,6 +47,7 @@ public class StandardCRUDTestTask extends AbstractTestTask {
 		printer.logMessage("There are now "+preTestcount+" datasets on the server.");
 		
 		printer.logActivity("Saving: "+numberOfEntries+" data on the server.");
+		printer.logJSONData(fixtureJSONString);
 		String response = saveJSONData(
 				this.oauthData.getDeviceToken(),
 				this.oauthData.getDeviceSecret(),

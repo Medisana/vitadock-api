@@ -157,6 +157,7 @@ public abstract class AbstractTestTask implements Runnable {
 		long curr = System.currentTimeMillis();
 		HttpResponse response = httpClient.execute(httppost);
 		int code = response.getStatusLine().getStatusCode();
+		String phrase = response.getStatusLine().getReasonPhrase();
 		if (code == 200) {
 			String responseString = IOUtils.toString(response.getEntity()
 					.getContent(), ENCODING);
@@ -164,7 +165,7 @@ public abstract class AbstractTestTask implements Runnable {
 			CloudClient.printer.logJSONData(responseString);
 			return responseString;
 		} else {
-			Exception e = new Exception("Error 500 when saving data from Module: "
+			Exception e = new Exception("Error "+code+": "+phrase+"; when saving data from Module: "
 					+ moduleId);
 			throw e;
 		}

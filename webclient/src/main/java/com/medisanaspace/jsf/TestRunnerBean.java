@@ -77,10 +77,11 @@ public class TestRunnerBean implements Serializable {
 					"Targetscale Test");
 			tests.put(WebConstants.THERMODOCK_MODULE,
 					"Thermodock Test");
-//			tests.put(String
-//					.valueOf(AuthorizationBuilder.TRACKER_PHASE_MODULE_ID),
-//					"TrackerPhase Test");
-			tests.put(WebConstants.USER_SETTINGS_MODULE,"UserSettings Test");
+			tests.put(String
+					.valueOf(WebConstants.TRACKER_PHASE_MODULE),
+					"TrackerPhase Test");
+			tests.put(WebConstants.USER_SETTINGS_MODULE,"User Settings Test");
+			tests.put(WebConstants.TRACKER_STATS_MODULE, "Tracker Stats Test");
 			
 			serverList = new HashMap<String, String>();
 			serverList.put(WebConstants.TEST_SERVER, "Test Server");

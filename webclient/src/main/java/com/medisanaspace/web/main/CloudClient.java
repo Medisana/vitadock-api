@@ -38,6 +38,7 @@ import com.medisanaspace.web.testtask.TargetscaleTestTask;
 import com.medisanaspace.web.testtask.ThermodockTestTask;
 import com.medisanaspace.web.testtask.TrackerActivityAndTrackerSleepTestTask;
 import com.medisanaspace.web.testtask.TrackerPhaseTestTask;
+import com.medisanaspace.web.testtask.TrackerStatsTestTask;
 import com.medisanaspace.web.testtask.UserSettingsTestTask;
 
 /**
@@ -92,7 +93,7 @@ public class CloudClient implements Serializable{
 		availableTests.put(WebConstants.THERMODOCK_MODULE,new ThermodockTestTask(numberOfEntries));
 		availableTests.put(WebConstants.TRACKER_PHASE_MODULE,new TrackerPhaseTestTask(numberOfEntries));
 		availableTests.put(WebConstants.USER_SETTINGS_MODULE, new UserSettingsTestTask(numberOfEntries));
-	
+		availableTests.put(WebConstants.TRACKER_STATS_MODULE, new TrackerStatsTestTask(numberOfEntries));	
 		// random data fixtures
 		int numberOfRandomData = 100;
 		modulesToAddRandomData.put(WebConstants.TRACKER_ACTIVITY_MODULE, new TrackerActivityAndTrackerSleepTestData(numberOfRandomData));

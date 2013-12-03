@@ -12,6 +12,7 @@ public class WebConstants {
 	public static final String THERMODOCK_MODULE = "THERMODOCK_MODULE";
 	public static final String TRACKER_PHASE_MODULE = "TRACKER_PHASE_MODULE";
 	public static final String USER_SETTINGS_MODULE = "USER_SETTINGS_MODULE";
+	public static final String TRACKER_STATS_MODULE = "TRACKER_STATS_MODULE";
 
 	
 	public static final String LOG_ERROR = "LOG_ERROR";

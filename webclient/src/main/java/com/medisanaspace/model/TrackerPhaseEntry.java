@@ -7,45 +7,33 @@ import com.medisanaspace.model.base.Entity;
  */
 public class TrackerPhaseEntry extends Entity {
 
-	private TrackerPhase trackerPhaseId;
+//	private TrackerPhase trackerPhaseId;
 	private Integer startTime;
 	private Integer duration;
 	private Float calories;
 	private Integer steps;
 	private Integer runningSteps;
 	private Float distance;
+	private Float sleepQuality;
+	private String type;
 
-	/**
-	 * Method getTrackerPhaseId.
-	 * @return TrackerPhase
-	 */
-	public TrackerPhase getTrackerPhaseId() {
-		return trackerPhaseId;
-	}
+//	/**
+//	 * Method getTrackerPhaseId.
+//	 * @return TrackerPhase
+//	 */
+//	public TrackerPhase getTrackerPhaseId() {
+//		return trackerPhaseId;
+//	}
+//
+//	/**
+//	 * Method setTrackerPhaseId.
+//	 * @param trackerPhaseId TrackerPhase
+//	 */
+//	public void setTrackerPhaseId(TrackerPhase trackerPhaseId) {
+//		this.trackerPhaseId = trackerPhaseId;
+//	}
 
-	/**
-	 * Method setTrackerPhaseId.
-	 * @param trackerPhaseId TrackerPhase
-	 */
-	public void setTrackerPhaseId(TrackerPhase trackerPhaseId) {
-		this.trackerPhaseId = trackerPhaseId;
-	}
 
-	/**
-	 * Method getStartTime.
-	 * @return Integer
-	 */
-	public Integer getStartTime() {
-		return startTime;
-	}
-
-	/**
-	 * Method setStartTime.
-	 * @param startTime Integer
-	 */
-	public void setStartTime(Integer startTime) {
-		this.startTime = startTime;
-	}
 
 	/**
 	 * Method getDuration.
@@ -125,5 +113,29 @@ public class TrackerPhaseEntry extends Entity {
 	 */
 	public void setDistance(Float distance) {
 		this.distance = distance;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public Float getSleep_quality() {
+		return sleepQuality;
+	}
+
+	public void setSleep_quality(Float sleep_quality) {
+		this.sleepQuality = sleep_quality;
+	}
+
+	public Integer getStart_time() {
+		return startTime;
+	}
+
+	public void setStart_time(Integer start_time) {
+		this.startTime = start_time;
 	}
 }

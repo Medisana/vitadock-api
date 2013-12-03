@@ -21,7 +21,9 @@ public class UserSettings extends Versionable {
 	private float stride;
 	private int goalSteps;
 	private float bodyWeight;
-
+	//goal_calories and goal_sleep
+	private int goalCalories;
+	private int goalSleep;
 	/**
 	 * Method generateRandomEntry.
 	 * @return UserSettings
@@ -36,7 +38,8 @@ public class UserSettings extends Versionable {
 		userSettings.setGoalSteps(RandomHelper.generateInt(500, 2000));
 		userSettings.setMeasurementDate(new Date());
 		userSettings.setBodyWeight(RandomHelper.generateFloat(50.0f, 199.0f));
-
+		userSettings.setGoalCalories(2000);
+		userSettings.setGoalSleep(480);
 		return userSettings;
 	}
 
@@ -192,5 +195,21 @@ public class UserSettings extends Versionable {
 	 */
 	public void setBodyWeight(float bodyWeight) {
 		this.bodyWeight = bodyWeight;
+	}
+
+	public int getGoalCalories() {
+		return goalCalories;
+	}
+
+	public void setGoalCalories(int goalCalories) {
+		this.goalCalories = goalCalories;
+	}
+
+	public int getGoalSleep() {
+		return goalSleep;
+	}
+
+	public void setGoalSleep(int goalSleep) {
+		this.goalSleep = goalSleep;
 	}
 }

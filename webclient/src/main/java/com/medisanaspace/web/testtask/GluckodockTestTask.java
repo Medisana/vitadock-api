@@ -56,7 +56,7 @@ public class GluckodockTestTask extends AbstractTestTask {
 						numberOfEntries).getGlucodockmeal());
 			}
 		}
-
+		printer.startDataSet("Gluckodock Glucose test");
 		StandardCRUDTestTask crudtest = new StandardCRUDTestTask(
 				numberOfEntries,
 				AuthorizationBuilder.GLUCODOCK_GLUCOSE_MODULE_ID,
@@ -67,6 +67,7 @@ public class GluckodockTestTask extends AbstractTestTask {
 		crudtest.setOauthData(this.getOauthData());
 		crudtest.executeTask();
 
+		printer.startDataSet("Gluckodock Insulin test");
 		crudtest = new StandardCRUDTestTask(numberOfEntries,
 				AuthorizationBuilder.GLUCODOCK_INSULIN_MODULE_ID,
 				Glucodockinsulin.toJsonArray(glucodockinsulinList));
@@ -75,7 +76,8 @@ public class GluckodockTestTask extends AbstractTestTask {
 		crudtest.setServerConfig(this.getServerConfig());
 		crudtest.setOauthData(this.getOauthData());
 		crudtest.executeTask();
-
+		
+		printer.startDataSet("Gluckodock Meal test");
 		crudtest = new StandardCRUDTestTask(numberOfEntries,
 				AuthorizationBuilder.GLUCODOCK_MEAL_MODULE_ID,
 				Glucodockmeal.toJsonArray(glucodockmealList));

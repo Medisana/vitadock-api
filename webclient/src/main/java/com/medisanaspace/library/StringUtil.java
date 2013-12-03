@@ -23,7 +23,29 @@ public final class StringUtil {
 
 	private StringUtil() {
 	}
-
+	
+	/**
+	 *  Cutting a float down to 2 digits only:
+	 *  see: http://stackoverflow.com/questions/5051395/java-float-123-129456-to-123-12-without-rounding
+	 * @param value
+	 * @return
+	 */
+	public static String floatToTwoDigits(float value){
+		String s = String.valueOf(value);
+	    StringBuilder sbFloat = new StringBuilder(s);
+	    int start = sbFloat.indexOf(".");
+	    if (start < 0) {
+	        return sbFloat.toString();
+	    }
+	    int end = start+3;
+	    if(end>(sbFloat.length()-1)){
+	    	end = sbFloat.length();
+	    }
+	    String twoPlaces = sbFloat.substring(start, end);
+	    sbFloat.replace(start, sbFloat.length(), twoPlaces);
+	    return sbFloat.toString();
+	}
+	
 	/**
 	 * Method isNotNullOrEmpty.
 	 * @param string String
