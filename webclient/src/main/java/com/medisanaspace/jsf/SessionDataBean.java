@@ -25,9 +25,12 @@ public class SessionDataBean implements Serializable {
 	private String server = "TEST_SERVER";
 	private Set<String> loggerLevel = new HashSet<String>();
 	private String role = "MANAGER";
-	private boolean addRandomData=false;
+	private int numberOfEntries = 0; // number of data sets to be generated
+    // view related
+	private boolean addRandomData=false;	
 	private int testRunIndex=-1;
 	private int testProgress=0;
+
 				
 	public OAuthData getOauthdata() {
 		return oauthdata;
@@ -100,6 +103,14 @@ public class SessionDataBean implements Serializable {
 
 	public void setTestProgress(int testProgress) {
 		this.testProgress = testProgress;
+	}
+
+	public int getNumberOfEntries() {
+		return numberOfEntries;
+	}
+
+	public void setNumberOfEntries(int numberOfEntries) {
+		this.numberOfEntries = numberOfEntries;
 	}
 
 

@@ -35,7 +35,7 @@ public class AddDataBean implements Serializable {
 	private Map<String, String> moduleList;
 	
 	private String server=WebConstants.TEST_SERVER;
-
+	private int numberOfEntries=0;
 
 	
 	public AddDataBean() {
@@ -70,6 +70,7 @@ public class AddDataBean implements Serializable {
 	public String addData(){
 		try {
 			sessionDataBean.setAddRandomData(true);
+			sessionDataBean.setNumberOfEntries(numberOfEntries);
 			String url = cloudClient.authorize(server, false,null, null, sessionDataBean.getLoggerLevel(), "", "");
 			FacesContext.getCurrentInstance().getExternalContext()
 					.redirect(url);
@@ -120,6 +121,14 @@ public class AddDataBean implements Serializable {
 
 	public void setLoggerList(Map<String, String> loggerList) {
 		this.loggerList = loggerList;
+	}
+
+	public int getNumberOfEntries() {
+		return numberOfEntries;
+	}
+
+	public void setNumberOfEntries(int numberOfEntries) {
+		this.numberOfEntries = numberOfEntries;
 	}
 
 

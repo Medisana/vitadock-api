@@ -109,7 +109,7 @@ public abstract class AbstractTestTask implements Runnable {
 
 		int datacount = Integer.parseInt(IOUtils.toString(response.getEntity()
 				.getContent(), ENCODING));
-		latency.add(String.valueOf(System.currentTimeMillis() - curr));
+		latency.add("Data count: "+String.valueOf(System.currentTimeMillis() - curr));
 		return datacount;
 	}
 
@@ -161,7 +161,7 @@ public abstract class AbstractTestTask implements Runnable {
 		if (code == 200) {
 			String responseString = IOUtils.toString(response.getEntity()
 					.getContent(), ENCODING);
-			latency.add(String.valueOf(System.currentTimeMillis() - curr));
+			latency.add("Saving data: "+String.valueOf(System.currentTimeMillis() - curr));
 			CloudClient.printer.logJSONData(responseString);
 			return responseString;
 		} else {
@@ -222,7 +222,7 @@ public abstract class AbstractTestTask implements Runnable {
 
 		CloudClient.printer.logJSONData(responseString);
 
-		latency.add(String.valueOf(System.currentTimeMillis() - curr));
+		latency.add("Deleting data: "+String.valueOf(System.currentTimeMillis() - curr));
 	}
 
 	/**
@@ -267,7 +267,7 @@ public abstract class AbstractTestTask implements Runnable {
 
 		String data = IOUtils.toString(response.getEntity().getContent(),
 				ENCODING);
-		latency.add(String.valueOf(System.currentTimeMillis() - curr));
+		latency.add("Loading data: "+String.valueOf(System.currentTimeMillis() - curr));
 
 		return data;
 	}
@@ -315,7 +315,7 @@ public abstract class AbstractTestTask implements Runnable {
 		InputStream testStream = response.getEntity().getContent();
 		byte[] bytes = IOUtils.toByteArray(testStream);
 		String responseString = new String(bytes, ENCODING);
-		latency.add(String.valueOf(System.currentTimeMillis() - curr));
+		latency.add("Synchronizing data: "+String.valueOf(System.currentTimeMillis() - curr));
 		//
 		// CloudClient.printer.logData(responseString);
 
@@ -358,7 +358,7 @@ public abstract class AbstractTestTask implements Runnable {
 		HttpResponse response = httpClient.execute(httppost);
 		String responseString = IOUtils.toString(response.getEntity()
 				.getContent(), ENCODING);
-		latency.add(String.valueOf(System.currentTimeMillis() - curr));
+		latency.add("Deleting all data from module: "+String.valueOf(System.currentTimeMillis() - curr));
 		int number = 0;
 		try {
 			number = Integer.parseInt(responseString);

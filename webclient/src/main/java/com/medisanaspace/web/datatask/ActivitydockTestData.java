@@ -9,6 +9,7 @@ import com.medisanaspace.web.library.AuthorizationBuilder;
 import com.medisanaspace.web.testtask.AbstractTestTask;
 
 /**
+ * 
  */
 public class ActivitydockTestData extends AbstractTestTask {
 
@@ -23,7 +24,7 @@ public class ActivitydockTestData extends AbstractTestTask {
 	 */
 	@Override
 	protected void executeTask() throws Exception {
-		printer.startDataSet("Fill Activitydoc with "+numberOfEntries+" random entries");
+		printer.startDataSet("Fill Activitydock with "+numberOfEntries+" random entries");
 		final List<Activitydock> activityList = new ArrayList<Activitydock>();
 
 		for (int i = 0; i < numberOfEntries; i++) {

@@ -37,7 +37,7 @@ public class TrackerActivityAndTrackerSleepTestData extends AbstractTestTask {
 			trackerActivityList.add(currentActivity);
 			trackerSleepList.add(new TrackerSleepFixture(currentActivity).getTrackerSleep());
 		}
-		 
+		
 		printer.logActivity("Writing "+numberOfEntries+" Trackeractivity test data");
 		// save new data
 		String responseTrackerActivity	= saveJSONData(

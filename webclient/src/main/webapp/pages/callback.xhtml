@@ -23,7 +23,7 @@
 
 			<h:form id="callback_form">
 			    <h:panelGrid id="callback_panel" columns="2" style="margin-bottom:10px" cellpadding="5" rendered="#{not sessionDataBean.addRandomData}">
-					Callback Page			
+					Server response			
 					<h:outputText value="#{callbackBean.messageLog}"  escape="false"/>
 
 					<h:outputLabel for="runTestButton" value="Run next Tests:" />  
@@ -34,7 +34,7 @@
 			    </h:panelGrid>
 			    
 			    <h:panelGrid id="callback_addrandomdata_panel" columns="2" style="margin-bottom:10px" cellpadding="5" rendered="#{sessionDataBean.addRandomData}" >
-					Callback Page			
+					Server response			
 					<h:outputText  value="#{callbackBean.messageLog}"  escape="false"/>
 					
 					<h:outputLabel for="add_randomdata_button" value="Continue to add data to your account:" />  

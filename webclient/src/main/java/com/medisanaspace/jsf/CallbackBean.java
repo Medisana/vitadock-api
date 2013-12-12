@@ -113,7 +113,8 @@ public class CallbackBean {
 						sessionDataBean.getSelectedModulesToAddRandomData(),
 						sessionDataBean.getOauthdata(),
 						sessionDataBean.getServer(), WebConstants.WEB_PRINTER,
-						sessionDataBean.getLoggerLevel());
+						sessionDataBean.getLoggerLevel(),
+						sessionDataBean.getNumberOfEntries());
 			}
 			messageLog = cloudClient.getMessageLog();
 		} catch (Exception e) {

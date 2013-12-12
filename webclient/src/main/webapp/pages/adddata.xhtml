@@ -15,7 +15,9 @@
 			<p />
 
 			<h:form id ="form">
-			
+				<p:outputLabel value="On this page you can add randomly generated test data to your account."/>
+				<br />
+				
 				<h:panelGrid columns="3" style="margin-bottom:10px" cellpadding="5">
 					<h:outputText value="Select the Server:" />
 					<p:selectOneMenu value="#{sessionDataBean.server}">  
@@ -34,7 +36,8 @@
 					</p:selectManyCheckbox>
 	    		</p:panel>
 
-				<h:panelGrid columns="3" style="margin-bottom:10px" cellpadding="5">
+				<h:panelGrid columns="1" style="margin-bottom:10px" cellpadding="5">
+					
 					<p:panel id="modulePanel" header="Modules">  
 	  					<h:outputText value="Select the modules you want to fill with random data:" />
 						<p:selectManyCheckbox  value="#{sessionDataBean.selectedModulesToAddRandomData}" id="moduleBox"
@@ -43,7 +46,11 @@
 								var="listentry" itemValue="#{listentry.key}" itemLabel="#{listentry.value}" />
 						</p:selectManyCheckbox>
 		    		</p:panel>
-					<br />
+					<p:panel id="numberEntriesPanel" header="Number of generated Entries">  
+						<h:outputLabel for="numberSpinner" value="Enter the number of datasets you want to add to each module you selected: " />  
+            			<p:spinner id="numberSpinner" value="#{addDataBean.numberOfEntries}" min="1" max="100"/>  
+		    		</p:panel>
+					
 					<p:commandButton value="Submit" action="#{addDataBean.addData()}" 
 						ajax="false" />
 				

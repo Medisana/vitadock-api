@@ -95,7 +95,7 @@ public class CloudClient implements Serializable{
 		availableTests.put(WebConstants.USER_SETTINGS_MODULE, new UserSettingsTestTask(numberOfEntries));
 		availableTests.put(WebConstants.TRACKER_STATS_MODULE, new TrackerStatsTestTask(numberOfEntries));	
 		// random data fixtures
-		int numberOfRandomData = 100;
+		int numberOfRandomData = 10;
 		modulesToAddRandomData.put(WebConstants.TRACKER_ACTIVITY_MODULE, new TrackerActivityAndTrackerSleepTestData(numberOfRandomData));
 		modulesToAddRandomData.put(WebConstants.ACTIVITYDOCK_MODULE,new ActivitydockTestData(numberOfRandomData));
 		modulesToAddRandomData.put(WebConstants.CARDIODOCK_MODULE,new CardiodockTestData(numberOfRandomData));
@@ -192,7 +192,6 @@ public class CloudClient implements Serializable{
 	 */
 	public void runTests(List<String> testList, int numberOfTestdataEntries,OAuthData oauthdata) {
 
-		// maybe configuration of server etc. here
 		// get selected tests to run
 		testsToRun.clear();
 		for (String index : testList) {
@@ -222,10 +221,12 @@ public class CloudClient implements Serializable{
 		CloudClient.printer.endLog("Finished");
 	}
 	
-	public void addRandomData(List<String> moduleList, OAuthData oauthdata, String server,String loggerType, Set<String> loggerActionStrings){
+	public void addRandomData(List<String> moduleList, OAuthData oauthdata, String server,String loggerType, Set<String> loggerActionStrings, int numberOfEntries){
 		testsToRun.clear();
 		for (String index : moduleList) {
-			testsToRun.add(availableTests.get(index));
+			AbstractTestTask dataTask = modulesToAddRandomData.get(index);
+			dataTask.setNumberOfEntries(numberOfEntries);
+			testsToRun.add(dataTask);
 		}
 		
 		EnumSet<LoggerAction> selectedloggerLevel = EnumSet.noneOf(LoggerAction.class);
@@ -243,7 +244,6 @@ public class CloudClient implements Serializable{
 		// user null, because not needed
 		newConfiguration =  new TestRunnerConfig(serverType, null, false, 
 				false, 1, CloudClient.printer);
-
 		
 		TestRunner testRunner = new TestRunner(newConfiguration, oauthdata);
 		testRunner.setTestTasks(testsToRun);
