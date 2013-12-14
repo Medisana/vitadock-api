@@ -17,8 +17,11 @@ Available soon:
 Please see the wiki for a full documentation of the API.
 
 For current status and API updates, please subscribe to our google groups:
+
 https://groups.google.com/d/forum/vitadock-online
+
 https://groups.google.com/d/forum/vitadock-online-api
+
 
 There, we will announce current open issues, planned down times and planned API changes. Feel free to use these new groups to post your general or API questions.
 
