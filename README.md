@@ -16,11 +16,10 @@ Available soon:
  
 Servers:
 
-https://cloud.vitadock.com
-https://generator.vitadock.com (generate sample data)
-
-https://test-cloud.vitadock.com (for testing)
-https://test-generator.vitadock.com (generate sample data for test server)
+- https://cloud.vitadock.com
+- https://generator.vitadock.com (generate sample data)
+- https://test-cloud.vitadock.com (for testing)
+- https://test-generator.vitadock.com (generate sample data for test server)
 
 
 
