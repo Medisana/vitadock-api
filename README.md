@@ -13,6 +13,16 @@ Available soon:
 - Android (sample code)
 - ObjectiveC (sample code)
 - PHP (sample code)
+ 
+Servers:
+
+https://cloud.vitadock.com
+https://generator.vitadock.com (generate sample data)
+
+https://test-cloud.vitadock.com (for testing)
+https://test-generator.vitadock.com (generate sample data for test server)
+
+
 
 Please see the wiki for a full documentation of the API.
 
@@ -29,5 +39,8 @@ In case you have any questions, feel free to contact us at [developer@medisana.z
 
 Best regards,
 
-Clemens Lode
+Clemens Lode,
+
 Software Architect VitaDock® Online
+
+http://de.linkedin.com/pub/clemens-lode
