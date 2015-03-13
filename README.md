@@ -21,9 +21,9 @@ Servers:
 - https://test-cloud.vitadock.com (for testing)
 - https://test-generator.vitadock.com (generate sample data for test server)
 
+Please see the [wiki](https://github.com/Medisana/vitadock-api/wiki) for a full documentation of the API.
 
-
-Please see the wiki for a full documentation of the API.
+-----
 
 For current status and API updates, please subscribe to our google groups:
 
