@@ -1,7 +1,5 @@
-vitadock-api
-============
-
 VitaDock Online API
+============
 
 Projects
 
