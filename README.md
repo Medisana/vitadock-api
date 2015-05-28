@@ -11,7 +11,7 @@ Available soon:
 - Android (sample code)
 - ObjectiveC (sample code)
 - PHP (sample code)
- 
+- Python (sample code)
 Servers:
 
 - https://cloud.vitadock.com
