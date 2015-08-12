@@ -100,9 +100,9 @@ public class TargetscaleFixture {
 		} else {
 			final Float generatedValue = lastTargetscale.getBodyWater()
 					+ RandomHelper.generateFloat(0, 4) - 2f;
-			if (this.expectedBodyWater < 50f) {
+			if (generatedValue < 50f) {
 				this.expectedBodyWater = 50f - RandomHelper.generateFloat(0, 2);
-			} else if (this.expectedBodyWater > 80f) {
+			} else if (generatedValue > 80f) {
 				this.expectedBodyWater = 80f + RandomHelper.generateFloat(0, 2);
 			} else {
 				this.expectedBodyWater = generatedValue;
