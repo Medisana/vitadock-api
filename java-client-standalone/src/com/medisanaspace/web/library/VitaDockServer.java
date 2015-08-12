@@ -23,9 +23,9 @@ public final class VitaDockServer {
 	 * contact us at cloud@vitadock.com to get upgraded to a developer account.
 	 */
 
-	public static final String EXTERNAL_AUTH_URL = "localhost/auth";// "vitacloud.medisanaspace.com/auth";//"cloud.vitadock.com/auth";
-	public static final String EXTERNAL_LOGIN_URL = "localhost";// "vitacloud.medisanaspace.com";//"cloud.vitadock.com";
-	public static final String EXTERNAL_DATA_URL = "localhost/data";// "vitacloud.medisanaspace.com/data";//"cloud.vitadock.com/data";
+	public static final String EXTERNAL_AUTH_URL = "test-cloud.vitadock.com/auth"; //"cloud.vitadock.com/auth";
+	public static final String EXTERNAL_LOGIN_URL = "test-cloud.vitadock.com"; //"cloud.vitadock.com";
+	public static final String EXTERNAL_DATA_URL = "test-cloud.vitadock.com/data"; //"cloud.vitadock.com/data";
 
 	public static final String HTTPS_AUTH_URL = "http://" + EXTERNAL_AUTH_URL;
 	public static final String HTTPS_LOGIN_URL = "http://"
