@@ -27,8 +27,8 @@ public final class VitaDockServer {
 	public static final String EXTERNAL_LOGIN_URL = "test-cloud.vitadock.com"; //"cloud.vitadock.com";
 	public static final String EXTERNAL_DATA_URL = "test-cloud.vitadock.com/data"; //"cloud.vitadock.com/data";
 
-	public static final String HTTPS_AUTH_URL = "http://" + EXTERNAL_AUTH_URL;
-	public static final String HTTPS_LOGIN_URL = "http://"
+	public static final String HTTPS_AUTH_URL = "https://" + EXTERNAL_AUTH_URL;
+	public static final String HTTPS_LOGIN_URL = "https://"
 			+ EXTERNAL_LOGIN_URL;
-	public static final String HTTPS_DATA_URL = "http://" + EXTERNAL_DATA_URL;
+	public static final String HTTPS_DATA_URL = "https://" + EXTERNAL_DATA_URL;
 }
