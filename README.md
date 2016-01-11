@@ -12,6 +12,16 @@ Available soon:
 - ObjectiveC (sample code)
 - PHP (sample code)
 - Python (sample code)
+
+Also check out the projects of our community:
+
+- C# 
+- https://github.com/karstenols
+- https://github.com/karstenols/VitaDock-DNOA-Sample
+- https://groups.google.com/forum/#!topic/vitadock-online-api/KcOMlZNRKLg
+
+
+
 Servers:
 
 - https://cloud.vitadock.com
