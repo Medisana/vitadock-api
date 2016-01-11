@@ -25,9 +25,9 @@ Also check out the projects of our community:
 Servers:
 
 - https://cloud.vitadock.com
-- https://generator.vitadock.com (generate sample data)
+- https://cloud.vitadock.com/webclient (generate sample data)
 - https://test-cloud.vitadock.com (for testing)
-- https://test-generator.vitadock.com (generate sample data for test server)
+- https://test-cloud.vitadock.com/webclient (generate sample data for test server)
 
 Please see the [wiki](https://github.com/Medisana/vitadock-api/wiki) for a full documentation of the API.
 
