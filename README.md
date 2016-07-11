@@ -44,7 +44,7 @@ There, we will announce current open issues, planned down times and planned API 
 
 -----
 
-In case you have any questions, feel free to contact us at [developer@medisana.zendesk.com](mailto:developer@medisana.zendesk.com)!
+In case you have any questions, feel free to contact us at [developer@medisanaspace.com](mailto:developer@medisanaspace.com)!
 
 Please note that we only provide support for access via the API. Currently, we cannot provide support for direct access of individual devices via USB / Bluetooth.
 
