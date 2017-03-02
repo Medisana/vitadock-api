@@ -51,8 +51,6 @@ Please note that we only provide support for access via the API. Currently, we c
 
 Best regards,
 
-Clemens Lode,
+Jan Krause,
 
-Software Architect VitaDock® Online
-
-http://de.linkedin.com/pub/clemens-lode
+Senior Software Developer VitaDock® Online
