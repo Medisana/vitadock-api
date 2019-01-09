@@ -26,8 +26,8 @@ Servers:
 
 - https://cloud.vitadock.com
 - https://cloud.vitadock.com/webclient (generate sample data)
-- https://test-cloud.vitadock.com (for testing)
-- https://test-cloud.vitadock.com/webclient (generate sample data for test server)
+- https://test-cloud.vitadock.online (for testing)
+- https://test-cloud.vitadock.online/webclient (generate sample data for test server)
 
 Please see the [wiki](https://github.com/Medisana/vitadock-api/wiki) for a full documentation of the API.
 
